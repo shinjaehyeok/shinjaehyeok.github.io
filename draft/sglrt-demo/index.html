@@ -30,10 +30,11 @@
   
     
   
-  <meta name="description" content="Postdoctoral Researcher">
+  <meta name="description" content="SGLRT SGLRT is a R package implementation of Sequential Generalized Likelihood Ratio (GLR)-like Tests and confidence seqeunces in Paper.
+Installation Currently, the package is under-construction and you can install the development version from GitHub with:">
 
   
-  <link rel="alternate" hreflang="en-us" href="/authors/">
+  <link rel="alternate" hreflang="en-us" href="/draft/sglrt-demo/">
 
   
 
@@ -253,14 +254,12 @@
   
 
   
-  <link rel="alternate" href="/authors/index.xml" type="application/rss+xml" title="JH&#39;s Blog">
-  
 
   <link rel="manifest" href="/index.webmanifest">
   <link rel="icon" type="image/png" href="/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_32x32_fill_lanczos_center_2.png">
   <link rel="apple-touch-icon" type="image/png" href="/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_192x192_fill_lanczos_center_2.png">
 
-  <link rel="canonical" href="/authors/">
+  <link rel="canonical" href="/draft/sglrt-demo/">
 
   
   
@@ -279,29 +278,35 @@
   <meta property="twitter:creator" content="@Project20s">
   
   <meta property="og:site_name" content="JH&#39;s Blog">
-  <meta property="og:url" content="/authors/">
-  <meta property="og:title" content="Authors | JH&#39;s Blog">
-  <meta property="og:description" content="Postdoctoral Researcher"><meta property="og:image" content="/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_2.png">
+  <meta property="og:url" content="/draft/sglrt-demo/">
+  <meta property="og:title" content="SGLRT Demo | JH&#39;s Blog">
+  <meta property="og:description" content="SGLRT SGLRT is a R package implementation of Sequential Generalized Likelihood Ratio (GLR)-like Tests and confidence seqeunces in Paper.
+Installation Currently, the package is under-construction and you can install the development version from GitHub with:"><meta property="og:image" content="/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_2.png">
   <meta property="twitter:image" content="/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="en-us">
   
     
+      <meta property="article:published_time" content="2020-09-27T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2020-09-27T10:44:06-07:00">
   
 
   
 
 
 
-
   
 
 
   
 
 
+  
 
 
 
-  <title>Authors | JH&#39;s Blog</title>
+
+
+  <title>SGLRT Demo | JH&#39;s Blog</title>
 
 </head>
 
@@ -540,52 +545,419 @@
 
 
 
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
+  <article class="article">
 
   
 
+
+
+
+
+
+
+
+
+
+
+
+  
+
   
   
+  
+<div class="article-container pt-3">
+  <h1>SGLRT Demo</h1>
+
+  
+
   
     
-  
-<div class="universal-wrapper pt-3">
-  <h1>Authors</h1>
+
+
+<div class="article-metadata">
 
   
-
-  
-</div>
-
-
-
-<div class="universal-wrapper">
   
 
-  <ul>
+  
+  <span class="article-date">
     
     
       
-      <li><a href="/author/jaehyeok-shin/">Jaehyeok Shin</a></li>
+          Last updated on
+      
     
-  </ul>
+    Sep 27, 2020
+  </span>
+  
 
   
 
+  
+
+  
+  
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/category/r-package/">R package</a></span>
+  
+
 </div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      <!-- README.md is generated from README.Rmd. Please edit that file -->
+<h1 id="sglrt">SGLRT</h1>
+<!-- badges: start -->
+<!-- badges: end -->
+<p>SGLRT is a R package implementation of Sequential Generalized Likelihood Ratio (GLR)-like Tests and confidence seqeunces in <strong>Paper</strong>.</p>
+<h2 id="installation">Installation</h2>
+<p>Currently, the package is under-construction and you can install the development version from 
+<a href="https://github.com/" target="_blank" rel="noopener">GitHub</a> with:</p>
+<pre><code class="language-r"># install.packages(&quot;devtools&quot;)
+devtools::install_github(&quot;shinjaehyeok/SGLRT_public&quot;)
+</code></pre>
+<!---You can install the released version of SGLRT from [CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("SGLRT")
+```
+-->
+<h2 id="example">Example</h2>
+<p>Let <code>\(X_1, X_2, \dots\)</code> be independent sub Gaussian random variables with para. From the Chernoff-Hoeffiding theorem, we have following inequalities:
+$$
+\mathbb{P}_\mu\left(2n\left(\bar{X}<em>n - \mu\right)^2 \geq \log(2/\alpha)\right) \leq \alpha ~~(\text{sub-Gaussian type}) \<br>
+\mathbb{P}</em>\mu\left(n\mathrm{KL}\left(\bar{X}_n, \mu\right) \geq \log(2/\alpha)\right) \leq \alpha ~~(\text{sub-Bernulli type}),
+$$
+for any fixed <code>\(n \in \mathbb{N}\)</code> and <code>\(\alpha \in (0, 1)\)</code> where <code>\(\mathrm{KL}(\mu_1, \mu_0) := \mu_1 \log\left(\frac{\mu_1}{\mu_0}\right) + (1-\mu_1) \log\left(\frac{1-\mu_1}{1-\mu_0}\right)\)</code>.</p>
+<p>These inequalities can be converted to confidence intervals <code>\(\{\mathrm{CI}_n(\alpha)\}_{n \in \mathbb{N}}\)</code> which capture the underlying mean <code>\(\mu\)</code> with at least <code>\(1-\alpha\)</code> probability:
+$$
+\mathbb{P}_\mu \left( \mu \in \mathrm{CI}_n(\alpha)\right) \geq 1-\alpha,~~\forall \mu \in (0,1),
+$$
+for any <em>fixed</em> <code>\(n \in \mathbb{N}\)</code>.</p>
+<p>In practice, it could be difficult to pick a proper sample size <code>\(n\)</code> before observing the data or we may want to keep tracking the sequence of confidence intervals for some practical reasons. In this case, however, confidence intervals based on the above Chernoff-Hoeffding inequalities do not have the correct coverage. In fact, from the law of iterated logarithm, we can show
+$$
+\mathbb{P}_\mu \left( \mu \in \mathrm{CI}<em>n(\alpha), \forall n \in \mathbb{N}\right) = 0,~~\forall \mu \in (0,1).
+$$
+If a sequence of random intervals <code>\(\{\mathrm{CS}_n(\alpha)\}_{n \in \mathbb{N}}\)</code> satisfies the following inequality:
+$$
+\mathbb{P}</em>\mu \left( \mu \in \mathrm{CS}_n(\alpha), \forall n \in \mathbb{N}\right) \geq 1-\alpha,~~\forall \mu \in (0,1),
+$$
+it is called a  <em>confidence sequence</em> with confidence level <code>\(\alpha\)</code> (e.g, see 
+<a href="https://arxiv.org/abs/1810.08240" target="_blank" rel="noopener">Howard et al., 2018</a> and references therein for a comprehensive summary of related literature.)</p>
+<p>The main objective of <code>SGLRT</code> package is to implement <em>GLR-like</em> confidence sequences <code>\(\{\mathrm{CS}_n(\alpha)\}_{n \in \mathbb{N}}\)</code> in <strong>ADD_CITE</strong> which has the following features:</p>
+<ol>
+<li>
+<p>For given level <code>\(\alpha \in (0, 0.5)\)</code> and target interval <code>\([n_{\min}, n_{\max}]\)</code>, we can compute a threshold <code>\(g_\alpha &gt;0\)</code> such that the following inequality holds:
+$$
+\mathbb{P}<em>\mu\left(\exists n \in [n</em>{\min}, n_{\max}] : 2n\left(\bar{X}_n - \mu\right)^2 \geq g_\alpha  \right) \leq \alpha ~~(\text{sub-Gaussian type}) \<br>
+\mathbb{P}_\mu\left(\exists n \in [n_{\min}, n_{\max}] : n\mathrm{KL}\left(\bar{X}_n, \mu\right) \geq g_\alpha\right) \leq \alpha ~~(\text{sub-Bernulli type}),
+$$
+Of course, we can use the naive threshod <code>\(\log(2 / \alpha) + \log(n_{\max} - n_{\min})\)</code> based on the union bound. However, the threshold <code>\(g_\alpha\)</code> we compute has an exponentailly smaller order: <code>\(g_\alpha = O(\log(2 / \alpha) + \log\log(n_{\max} / n_{\min}))\)</code>.</p>
+</li>
+<li>
+<p>Outside of the target interval <code>\([n_{\min}, n_{\max}]\)</code>, the confidence sequence is well-defined and maintain the valid coverage. That is, we have <code>\(\mathbb{P}_\mu \left( \mu \in \mathrm{CS}_n(\alpha), \forall n \in \mathbb{N}\right) \geq 1-\alpha,~~\forall \mu \in (0,1)\)</code>.</p>
+</li>
+</ol>
+<p>We say a confidence sequence <code>\(\{\mathrm{CS}_n(\alpha)\}_{n \in \mathbb{N}}\)</code> is time-uniformly close to the Chernoff bound on a finite time interval if it satisfies the first feature above. Based on this property, we can use any existing experimentation system which computes the ordinary pointwise valid Chernoff bound or normal confidence bound to calculate a time-uniform confidence sequnece on the target time interval.</p>
+<p>The <code>SGLRT</code> package also implements the <em>discrete mixture</em> confidence sequence Though several tyeps of <em>discrete mixture</em> based confidence sequence have been wel-known in literature, the novel contribution of <code>SGLRT</code> package is to provide a systemic way of design <em>discrete mixture</em> confidence seqeunce which is time-uniformly than the <em>GLR-like</em> one above.</p>
+<h2 id="demo">Demo</h2>
+<p>To demonstrate how to use <code>SGLRT</code> package to compute a time-uniformly valid confidence sequence, let assume we have a stream of independent samples from the Bernoulli distribution with <code>\(\mathbb{P}(X = 1) =  0.5\)</code>.</p>
+<pre><code class="language-r">set.seed(100)
+# Load package
+library(SGLRT)
+
+# Generate 1e+4 samples from a Bernoulli(p) with p = 0.5
+n &lt;- 1e+4
+mu &lt;- 0.5 
+
+n_vec &lt;- seq(1, n)
+x_vec &lt;- rbinom(n, 1, mu) 
+x_bar_vec &lt;- cumsum(x_vec) / n_vec
+
+# Set alpha = 0.025 for 95% CI.
+alpha &lt;- 0.025
+
+# Set target time interval: [1, 1e+4] and [100, 1e+4]
+nmin1 &lt;- 1
+nmax1 &lt;- 1e+4
+nmin2 &lt;- 2e+2
+nmax2 &lt;- 1e+4
+</code></pre>
+<p>Now, let us first compare the poinwise and time-uniform Chernoff bounds in the sub-Gaussian type.</p>
+<pre><code class="language-r"># Compute the pointwise Chernoff bound.
+point_G_bound &lt;- sqrt(log(2/alpha) / (2 * n_vec))
+
+# Compute the time-uniform GLR-like bound.
+G_out1 &lt;- SGLR_CI_additive(alpha, nmax1, nmin1)
+GLR_like_G_bound1 &lt;- sapply(n_vec, G_out1$GLR_like_fn)
+
+G_out2 &lt;- SGLR_CI_additive(alpha, nmax2, nmin2)
+GLR_like_G_bound2 &lt;- sapply(n_vec, G_out2$GLR_like_fn)
+
+# Compute the time-uniform discrete mixture bound.
+dis_mix_G_bound1 &lt;- sapply(n_vec, G_out1$dis_mix_fn)
+dis_mix_G_bound2 &lt;- sapply(n_vec, G_out2$dis_mix_fn)
+</code></pre>
+<p><img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" /></p>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/ab-test/">ab test</a>
+  
+  <a class="badge badge-light" href="/tag/research/">research</a>
+  
+</div>
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=/draft/sglrt-demo/&amp;text=SGLRT%20Demo" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=/draft/sglrt-demo/&amp;t=SGLRT%20Demo" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=SGLRT%20Demo&amp;body=/draft/sglrt-demo/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=/draft/sglrt-demo/&amp;title=SGLRT%20Demo" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=SGLRT%20Demo%20/draft/sglrt-demo/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=/draft/sglrt-demo/&amp;title=SGLRT%20Demo" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+    
+    
+    
+      
+    
+    
+    
+    <div class="media author-card content-widget-hr">
+      
+        
+        <img class="avatar mr-3 avatar-circle" src="/author/jaehyeok-shin/avatar_hu4bfebfed29c68355e919404572255097_130697_270x270_fill_q90_lanczos_center.jpg" alt="Jaehyeok Shin">
+      
+
+      <div class="media-body">
+        <h5 class="card-title"><a href="/">Jaehyeok Shin</a></h5>
+        <h6 class="card-subtitle">Postdoctoral Researcher</h6>
+        <p class="card-text">My research interest lies in understanding the sequential and adaptive nature of data analysis.</p>
+        <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/Project20s" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=9vx2IdMAAAAJ" target="_blank" rel="noopener">
+        <i class="ai ai-google-scholar"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.linkedin.com/in/jh-shin/" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+      </div>
+    </div>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</article>
 
       
 
