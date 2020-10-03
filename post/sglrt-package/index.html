@@ -34,7 +34,7 @@
 Installation You can install the SGLRT package from GitHub with:">
 
   
-  <link rel="alternate" hreflang="en-us" href="/post/sglrt-package/">
+  <link rel="alternate" hreflang="en-us" href="https://shinjaehyeok.github.io/post/sglrt-package/">
 
   
 
@@ -259,7 +259,7 @@ Installation You can install the SGLRT package from GitHub with:">
   <link rel="icon" type="image/png" href="/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_32x32_fill_lanczos_center_2.png">
   <link rel="apple-touch-icon" type="image/png" href="/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_192x192_fill_lanczos_center_2.png">
 
-  <link rel="canonical" href="/post/sglrt-package/">
+  <link rel="canonical" href="https://shinjaehyeok.github.io/post/sglrt-package/">
 
   
   
@@ -278,11 +278,11 @@ Installation You can install the SGLRT package from GitHub with:">
   <meta property="twitter:creator" content="@Project20s">
   
   <meta property="og:site_name" content="JH&#39;s Blog">
-  <meta property="og:url" content="/post/sglrt-package/">
+  <meta property="og:url" content="https://shinjaehyeok.github.io/post/sglrt-package/">
   <meta property="og:title" content="SGLRT package  | JH&#39;s Blog">
   <meta property="og:description" content="SGLRT SGLRT is a R package implementation of Sequential Generalized Likelihood Ratio (GLR)-like Tests and confidence sequences in Paper.
-Installation You can install the SGLRT package from GitHub with:"><meta property="og:image" content="/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_2.png">
-  <meta property="twitter:image" content="/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="en-us">
+Installation You can install the SGLRT package from GitHub with:"><meta property="og:image" content="https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_2.png">
+  <meta property="twitter:image" content="https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="en-us">
   
     
       <meta property="article:published_time" content="2020-09-27T00:00:00&#43;00:00">
@@ -311,7 +311,7 @@ Installation You can install the SGLRT package from GitHub with:"><meta property
   "@type": "BlogPosting",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "/post/sglrt-package/"
+    "@id": "https://shinjaehyeok.github.io/post/sglrt-package/"
   },
   "headline": "SGLRT package ",
   
@@ -328,7 +328,7 @@ Installation You can install the SGLRT package from GitHub with:"><meta property
     "name": "JH's Blog",
     "logo": {
       "@type": "ImageObject",
-      "url": "/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_192x192_fill_lanczos_center_2.png"
+      "url": "https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_192x192_fill_lanczos_center_2.png"
     }
   },
   "description": "SGLRT SGLRT is a R package implementation of Sequential Generalized Likelihood Ratio (GLR)-like Tests and confidence sequences in Paper.\nInstallation You can install the SGLRT package from GitHub with:"
@@ -639,7 +639,7 @@ Installation You can install the SGLRT package from GitHub with:"><meta property
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    6 min read
+    15 min read
   </span>
   
 
@@ -679,6 +679,8 @@ Installation You can install the SGLRT package from GitHub with:"><meta property
 
 
 
+
+
   <div class="article-container">
 
     <div class="article-style">
@@ -704,13 +706,15 @@ install.packages("SGLRT")
 <h2>How to reproduce all plots and simulation results in <strong>paper</strong>.</h2>
 <p>To reproduce plots, you need to install <code>latex2exp</code> package which parses and converts LaTeX math formulas to R’s plotmath expressions. It is is not installed, you can run the following command to install is.</p>
 <pre class="r"><code>install.packages(&quot;latex2exp&quot;)</code></pre>
-<div id="compare-boundaries-for-sequential-glr-tests.-fig.-3-in-section-iii-a" class="section level3">
-<h3>1. Compare boundaries for sequential GLR tests. <em>(Fig. 3 in Section III-A)</em></h3>
+<div id="compare-boundaries-for-sequential-glr-tests." class="section level3">
+<h3>1. Compare boundaries for sequential GLR tests.</h3>
+<div id="fig.-3-in-section-iii-a" class="section level5">
+<h5>(Fig. 3 in Section III-A)</h5>
 <p>For a given exponential family distribution, let <span class="math inline">\(\mathrm{GLR}_n (&gt; \mu_1, \leq\mu_0)\)</span> be the GLR statistic based <span class="math inline">\(n\)</span> i.i.d. observations for the one-sided testing problem:
 <span class="math display">\[
 H_0 : \mu \leq \mu_0~~\text{vs}~~H_1 : \mu &gt;\mu_1,
 \]</span>
-for some <span class="math inline">\(\mu_0 &lt; \mu_0\)</span> in the space of mean parameters. For any constant <span class="math inline">\(g &gt; 0\)</span>, Lorden 1973 proved the following upper bound on the boundary-crossing probability:<sup><a href="#myfootnote1">1</a></sup>
+for some <span class="math inline">\(\mu_0 &lt; \mu_0\)</span> in the space of mean parameters. <a name="myfootnote1_return">For any constant <span class="math inline">\(g &gt; 0\)</span>, Lorden 1973 proved the following upper bound on the boundary-crossing probability:</a><sup><a href="#myfootnote1">1</a></sup>
 <span class="math display">\[
 \sup_{\mu \leq \mu_0}\mathbb{P}_{\mu} \left(n \geq 1:   \log\mathrm{GLR}_n(&gt;\mu_1,\leq\mu_0) \geq g\right)
 \leq \begin{cases} e^{-g} &amp;\mbox{if } \mathrm{KL}(\mu_1,\mu_0) \geq g \\
@@ -757,13 +761,16 @@ for (i in seq_along(alpha[1:3])){
 legend(&quot;topleft&quot;, TeX(c(paste0(&quot;Lorden&#39;s ($\\alpha = &quot;, alpha[1:3],&quot;$)&quot;), paste0(&quot;Ours ($\\alpha = &quot;, alpha[1:3],&quot;$)&quot;))), col = c(rep(1,3), rep(2,3)), lty = rep(1:3,2))</code></pre>
 <p><img src="/post/2020-09-27-sglrt-package.en_files/figure-html/Fig.3-1.png" width="672" /></p>
 </div>
-<div id="ratio-of-cis-width-to-clt-fig.-5-in-section-iv-c" class="section level3">
-<h3>2. Ratio of CI’s width to CLT <em>(Fig. 5 in Section IV-C)</em></h3>
+</div>
+<div id="ratio-of-cis-width-to-clt" class="section level3">
+<h3>2. Ratio of CI’s width to CLT</h3>
+<div id="fig.-5-in-section-iv-c" class="section level5">
+<h5>(Fig. 5 in Section IV-C)</h5>
 <p>For each <span class="math inline">\(n\)</span>, let <span class="math inline">\(\mathrm{CI}_n(\alpha)\)</span> be a random set based on first <span class="math inline">\(n\)</span> observations <span class="math inline">\(X_1, \dots, X_n\)</span> from a distribution with mean <span class="math inline">\(\mu\)</span>. If the sequence of random sets <span class="math inline">\(\{\mathrm{CI}_n(\alpha)\}_{n \in \mathbb{N}}\)</span> satisfies the following inequality:
 <span class="math display">\[
 \mathbb{P}_\mu \left( \mu \in \mathrm{CI}_n(\alpha), \forall n \in \mathbb{N}\right) \geq 1-\alpha,~~\forall \mu \in (0,1),
 \]</span>
-it is called a <em>confidence sequence</em> with confidence level <span class="math inline">\(\alpha\)</span> (e.g, see <a href="https://arxiv.org/abs/1810.08240">Howard et al., 2018</a><sup><a href="#myfootnote2">2</a></sup> and references therein for a comprehensive summary of related literature.)</p>
+it is called a <em>confidence sequence</em> with confidence level <span class="math inline">\(\alpha\)</span> (<a name="myfootnote2_return"></a>e.g, see <a href="https://arxiv.org/abs/1810.08240">Howard et al., 2018</a><sup><a href="#myfootnote2">2</a></sup> and references therein for a comprehensive summary of related literature.)</p>
 <p>Based on the upper bound on the boundary crossing probability above, in our paper, we presented two novel confidence sequences called <em>GLR-like</em> and <em>discrete mixture</em> based confidence sequences. For sub-Gaussian distributions with parameter <span class="math inline">\(\sigma\)</span>, The GLR-like confidence sequence is given by
 <span class="math display">\[
     \mathrm{CI}_n^{\mathrm{G}} := \begin{cases}  \left(\bar{X}_n - \sigma\sqrt{\frac{g_\alpha}{n_{\min}}}\left[  \sqrt{2}  + \frac{1}{\sqrt{2}}\left(\frac{n_{\min}}{n}-1\right)\right], \infty\right) &amp;\mbox{if } n \in [n_0,n_{\min}) \\
@@ -772,7 +779,7 @@ it is called a <em>confidence sequence</em> with confidence level <span class="m
   \end{cases},
 \]</span>
 for any given level <span class="math inline">\(\alpha \in (0, 1)\)</span> and target time interval <span class="math inline">\([n_{\min}, n_{\max}]\)</span> on which the confidence sequence is time-uniformly close to the Chrenoff bound. Unlike the GLR-like one, the discrete mixture based confidence sequence <span class="math inline">\(\{\mathrm{CI}_n^{\mathrm{DM}}\}\)</span> does not have an explicit form and see the paper for the detailed explanation how to compute <span class="math inline">\(\mathrm{CI}_n^{\mathrm{DM}}\)</span> for given sample mean <span class="math inline">\(\bar{X}_n\)</span> and confidence level <span class="math inline">\(\alpha\)</span>. By the construction, we have <span class="math inline">\(\mathrm{CI}_n^{\mathrm{G}} \subset \mathrm{CI}_n^{\mathrm{DM}}\)</span>.</p>
-<p>In Section IV-C of the paper, we compare these bounds with the stitching and normal mixture bounds in <a href="https://arxiv.org/abs/1810.08240">Howard et al., 2018</a><sup><a href="#myfootnote2">2</a></sup> where each confidence intervals for stitching <span class="math inline">\(\mathrm{CI}_{n}^{\mathrm{ST}}\)</span> and normal mixture method <span class="math inline">\(\mathrm{CI}_n^{\mathrm{NM}}\)</span> is given by
+<p>In Section IV-C of the paper, we compare these bounds with the stitching and normal mixture bounds in <a href="https://arxiv.org/abs/1810.08240">Howard et al., 2018</a> where each confidence intervals for stitching <span class="math inline">\(\mathrm{CI}_{n}^{\mathrm{ST}}\)</span> and normal mixture method <span class="math inline">\(\mathrm{CI}_n^{\mathrm{NM}}\)</span> is given by
 <span class="math display">\[
 \begin{aligned}
     \mathrm{CI}_{n}^{\mathrm{ST}} &amp;:= \left(\bar{X}_n-  \frac{1.7}{\sqrt{n}}\sqrt{\log\log(2n) + 0.72 \log\left(\frac{5.2}{\alpha}\right)}, \infty \right) \\
@@ -889,10 +896,1047 @@ legend(&quot;topright&quot;, bounds_name,
 <p><img src="/post/2020-09-27-sglrt-package.en_files/figure-html/Fig.5-1.png" width="672" /></p>
 </div>
 </div>
+<div id="efficiency-of-glr-like-and-discrete-mixture-tests" class="section level3">
+<h3>3. Efficiency of GLR-like and discrete mixture tests</h3>
+<div id="table-i-vi-in-appendix-d" class="section level5">
+<h5>(Table I-VI in Appendix D)</h5>
+<p>The following Rcode reproduces Table I-VI in Appendix D in which we compared performances of sequential <code>GLR-like</code> and <code>Discrete mixture</code> tests to standard fixed sample size based tests for Gaussian and Bernoulli observations. In this document, we repeated the simulation only <code>100</code> times to save the computation time but, in the paper, the simulation result based on <code>2000</code> times repeatation is presented.</p>
+<pre class="r"><code># Type 1 and Type 2 error control simulation
+library(SGLRT)
+
+# Define functions for tests based on a fixed sample size.
+
+# Compute power of Z-test
+G_pwr &lt;- function(n, mu_target, mu_0, alpha){
+  thres_exact &lt;- qnorm(alpha, mu_0, sd = 1/sqrt(n), lower.tail = FALSE)
+  pwr &lt;- pnorm(thres_exact, mu_target, sd = 1/sqrt(n), lower.tail = FALSE)
+  return(pwr)
+}
+
+# Z-test function (reject the null if the returned value is positive)
+z_test &lt;- function(x_bar, n, mu_0, alpha){
+  z_alpha &lt;- qnorm(1-alpha)
+  x_bar - mu_0 - z_alpha / sqrt(n)
+}
+
+# Compute power of binomial test
+binom_pwr &lt;- function(n, mu_target, mu_0, alpha){
+  n &lt;- floor(n)
+  thres_exact &lt;- qbinom(alpha, n, mu_0, lower.tail = FALSE)
+  pwr &lt;- pbinom(thres_exact, n, mu_target, lower.tail = FALSE)
+  return(pwr)
+}
+
+# Exact binomial test (reject the null if the returned value is positive)
+binom_test &lt;- function(x_bar, n, mu_0, alpha){
+  thres_exact &lt;- qbinom(alpha, n, mu_0, lower.tail = FALSE)
+  return(x_bar * n - thres_exact)
+}
+
+# Sequential tests
+
+# GLR-like and discrete mixture test for sub-Gaussian
+seq_G_test_generator &lt;- function(alpha, nmax, nmin){
+  G_out &lt;- SGLR_CI(alpha, nmax, nmin)
+  return(G_out)
+} 
+
+# GLR-like and discrete mixture test for sub-Bernoulli
+ber_fn_list &lt;- generate_sub_ber_fn()
+seq_ber_test_generator &lt;- function(alpha, nmax, nmin){
+  ber_out &lt;- SGLR_CI(alpha,
+                     nmax, 
+                     nmin,
+                     breg = ber_fn_list$breg,
+                     breg_pos_inv = ber_fn_list$breg_pos_inv,
+                     breg_neg_inv = ber_fn_list$breg_neg_inv,
+                     breg_derv = ber_fn_list$breg_derv,
+                     mu_lower = ber_fn_list$mu_lower,
+                     mu_upper = ber_fn_list$mu_upper,
+                     grid_by = ber_fn_list$grid_by)
+  return(ber_out)
+} 
+
+# Sample generators
+# Gaussian samples
+G_sample &lt;- function(n, mu_true){
+  rnorm(n, mean = mu_true)
+}
+
+# Bernoulli samples
+ber_sample &lt;- function(n, mu_true){
+  rbinom(n, 1, prob = mu_true)
+}
+
+# R function to simulate sequential test and fixed sample size test.
+test_simul &lt;- function(mu_target,
+                       mu_true = mu_target,
+                       mu_0 = 0.5,
+                       alpha = 0.05,
+                       beta = 0.8, 
+                       B = 1000,
+                       print_progress = TRUE,
+                       print_result = FALSE,
+                       sample_generator = G_sample,
+                       power_fn = G_pwr,
+                       fixed_test_fn = z_test,
+                       seq_test_fn = seq_G_test_generator){
+  
+  # Calculate sample size to achieve the target power by the fixed sample size test
+  if (mu_target &gt; mu_0){
+    sample_size &lt;- stats::uniroot(function(n){
+      power_fn(n, mu_target, mu_0, alpha) - beta
+    },
+    c(10, 1e+4))$root
+    n_exact &lt;- ceiling(sample_size) 
+  } else if (mu_target == mu_0){
+    n_exact &lt;- 1e+3
+  } else {
+    stop(&quot;This simulation is designed for mu_target &gt;= mu_0 case. Need to use larger mu_target&quot;)
+  }
+  
+  # Set terminal time of sequential test. 
+  n &lt;- 2 * n_exact
+  
+  # Set target time interval
+  nmax &lt;- n
+  nmin &lt;- round(max(10, n_exact / 10))
+  
+  # Range of experimentation
+  n_vec &lt;- seq(1, n)
+  
+  # Define test functions
+  test_list &lt;- list(exact = NULL,
+                    GLR_like = NULL,
+                    dis_mix = NULL
+  )
+  
+  # Exact test
+  test_list$exact &lt;- function(x_bar, n){
+    exact_out &lt;-  fixed_test_fn(x_bar, n, mu_0, alpha)
+    return(exact_out)
+  }
+  
+  
+  # Sequential tests
+  G_out &lt;- seq_test_fn(alpha, nmax, nmin)
+  
+  
+  GLR_test &lt;- G_out$log_GLR_like_stat_generator(mu_0, is_pos = TRUE)
+  test_list$GLR_like &lt;- GLR_test$stat_fn
+  
+  dis_mix_test &lt;- G_out$log_dis_mart_generator(mu_0, is_pos = TRUE)
+  test_list$dis_mix &lt;- dis_mix_test$stat_fn
+  
+  
+  # Type 1 error or power simulation
+  is_reject &lt;- function(test_value){
+    num_reject &lt;- sum(test_value &gt; 0)
+    return(ifelse(num_reject &gt; 0, 1 ,0))
+  }
+  
+  reject &lt;- list(exact_hacking = numeric(B),
+                 GLR_like = numeric(B),
+                 dis_mix = numeric(B),
+                 exact_test = numeric(B))
+  
+  sample_size_list &lt;- list(exact_hacking = numeric(B),
+                           GLR_like = numeric(B),
+                           dis_mix = numeric(B),
+                           exact_test = numeric(B))
+  i &lt;- 0
+  if (print_progress)  pb &lt;- txtProgressBar(min = 0, max = B, style = 3)
+  while (i &lt; B){
+    i &lt;- i + 1
+    x_vec &lt;- sample_generator(n, mu_true)
+    x_bar_vec &lt;- cumsum(x_vec) / n_vec
+    test_value_list &lt;- list(exact_hacking = NULL,
+                            GLR_like = NULL,
+                            dis_mix = NULL,
+                            exact_test = NULL
+    )
+    for (j in seq_along(test_list)){
+      test_value_list[[j]] &lt;- mapply(test_list[[j]], x_bar_vec, n_vec)      
+    }
+    test_value_list$exact_test &lt;-  test_value_list$exact_hacking[n_exact]
+    
+    for (k in seq_along(test_value_list)){
+      if (k == length(test_value_list)) next
+      reject_n &lt;- which(test_value_list[[k]] &gt;= 0)
+      stopped_n &lt;- ifelse(length(reject_n) == 0, n, min(reject_n)) 
+      sample_size_list[[k]][i] &lt;- stopped_n
+      reject[[k]][i] &lt;- is_reject(test_value_list[[k]])
+    }
+    sample_size_list$exact_test[i] &lt;- n_exact
+    reject$exact_test[i] &lt;- is_reject(test_value_list$exact_test)
+    if (print_progress) setTxtProgressBar(pb, i)
+  }
+  if (print_progress)  close(pb)
+  
+  reject_rate &lt;- sapply(reject, mean)
+  sample_size &lt;- sapply(sample_size_list, mean)
+  early_stop_ratio &lt;- sapply(seq(1, length(sample_size_list)), 
+                             function(k) mean(sample_size_list[[k]] &lt;= n_exact))
+  out &lt;- list(reject_rate = reject_rate,
+              sample_size = sample_size,
+              reject_list = reject,
+              sample_size_list = sample_size_list,
+              early_stop_ratio = early_stop_ratio,
+              mu_target = mu_target,
+              mu_true = mu_true,
+              mu_0 = mu_0,
+              alpha = alpha,
+              beta = beta)
+  
+  if (print_result){
+    print(reject_rate)
+    print(sample_size)
+    print(early_stop_ratio)
+    hist(sample_size_list$dis_mix, xlim = c(1, n))
+    abline(v = n_exact)
+  }
+  return(out)
+}
+
+# Function to summurize the simulation result
+summ_simul &lt;- function(result_name,
+                       simul_out,
+                       mu_true_vec){
+  out &lt;-   data.frame(mu_true = mu_true_vec, 
+                      exact_hacking = numeric(length(mu_true_vec)),
+                      GLR_like = numeric(length(mu_true_vec)),
+                      dis_mix = numeric(length(mu_true_vec)),
+                      exact_test = numeric(length(mu_true_vec)))
+  for (i in seq_along(mu_true_vec)){
+    out[i, -1] &lt;- simul_out[[i]][[result_name]]
+  }
+  return(out)
+}</code></pre>
+</div>
+<div id="gaussian-case" class="section level4">
+<h4>3-1. Gaussian case</h4>
+<p>In the Gaussian setting, we compared sequential <code>GLL-like</code> and <code>Discrete mixture</code> tests to the <code>Z-test</code>. We set the null hypothesis as the mean of the Gaussian distribution is less than or equal to <code>0</code>, and the alternative hypothesis as the true mean is greater than <code>0.1</code>. The <code>Z-test</code> was performed based on a fixed sample size to make the test control both type-1 and type-2 errors by <code>0.1</code>. In the following three tables, results of all three testing procedures are summarized. In the first table, we show that, for each underlying true mean, how frequently each testing procedure rejects the null hypothesis. Here the column <code>Z-test (p-hacking)</code> represents the naive usage of <code>Z-test</code> as a sequential procedure in which we stop and reject the null whenever p-value of the <code>Z-test</code> goes below the level <code>0.1</code>. This is an example of p-hacking which inflates the type-1 error significantly larger than the target level. From the first table, we can check that the <code>Z-test</code> with continuous monitoring of p-values yields a large type 1 error (<code>0.43</code>) even under a null distribution (<code>mean = -0.5</code>) which is a way from the boundary of the null. In contrast, for all other testing procedures, type 1 errors are controlled under the null distributions.</p>
+<p>For alternative distributions (<code>mean &gt; 0.1</code>), the <code>Z-test</code> has larger powers than the prespecified bound (<code>0.9</code>) as expected. Note that the <code>discrete mixture</code> based sequential test achieves almost the same power compared to the <code>Z-test</code>. However, as we can check from the second and third tables, under the alternative distributions, the <code>discrete mixture</code> test detects the signal faster than the <code>Z-test</code> both on average and with high probability. The <code>GLR-like</code> test yields a weaker power at the boundary of the alternative space but it achieves higher powers and smaller sample size as the underlying true means being farther away from the boundary.</p>
+<p>However, <code>GLR-like</code> and <code>discrete mixture</code> tests do not always perform better than the <code>Z-test</code>. If the underlying true mean lies between boundaries of null and alternative spaces, both test have weaker power and requires more samples to detect the signal compared to the <code>Z-test</code>. Therefore, we recommend to set the boundary of the alternative conservatively in practice.</p>
+<pre class="r"><code># Gaussian simulation
+set.seed(1)
+f_simul &lt;- function(mu) {
+  out &lt;- test_simul(mu_target = 0.1,
+                    mu_true = mu,
+                    mu_0 = 0,
+                    alpha = 0.1,
+                    beta = 0.9,
+                    B = 100,
+                    print_progress = FALSE,
+                    print_result = FALSE)
+  return(out)
+}
+
+mu_true_vec &lt;- seq(-0.05, 0.2, by = 0.05)
+simul_G_out &lt;- lapply(mu_true_vec, f_simul)
+
+reject_rate_G &lt;- summ_simul(&quot;reject_rate&quot;, 
+                          simul_G_out,
+                          mu_true_vec)
+sample_size_G &lt;- summ_simul(&quot;sample_size&quot;,
+                          simul_G_out,
+                          mu_true_vec)
+early_stop_ratio_G &lt;- summ_simul(&quot;early_stop_ratio&quot;,
+                               simul_G_out,
+                               mu_true_vec)</code></pre>
+<!-- html table generated in R 4.0.2 by xtable 1.8-4 package -->
+<!-- Fri Oct  2 20:15:21 2020 -->
+<table border="1">
+<caption align="bottom">
+Estimated probabilities of rejecting the null hypothesis. (Gaussian)
+</caption>
+<tr>
+<th>
+</th>
+<th>
+mu_true
+</th>
+<th>
+exact_hacking
+</th>
+<th>
+GLR_like
+</th>
+<th>
+dis_mix
+</th>
+<th>
+exact_test
+</th>
+</tr>
+<tr>
+<td align="right">
+1
+</td>
+<td align="right">
+-0.05
+</td>
+<td align="right">
+0.48
+</td>
+<td align="right">
+0.00
+</td>
+<td align="right">
+0.05
+</td>
+<td align="right">
+0.01
+</td>
+</tr>
+<tr>
+<td align="right">
+2
+</td>
+<td align="right">
+0.00
+</td>
+<td align="right">
+0.60
+</td>
+<td align="right">
+0.02
+</td>
+<td align="right">
+0.07
+</td>
+<td align="right">
+0.08
+</td>
+</tr>
+<tr>
+<td align="right">
+3
+</td>
+<td align="right">
+0.05
+</td>
+<td align="right">
+0.91
+</td>
+<td align="right">
+0.11
+</td>
+<td align="right">
+0.44
+</td>
+<td align="right">
+0.52
+</td>
+</tr>
+<tr>
+<td align="right">
+4
+</td>
+<td align="right">
+0.10
+</td>
+<td align="right">
+1.00
+</td>
+<td align="right">
+0.69
+</td>
+<td align="right">
+0.88
+</td>
+<td align="right">
+0.86
+</td>
+</tr>
+<tr>
+<td align="right">
+5
+</td>
+<td align="right">
+0.15
+</td>
+<td align="right">
+1.00
+</td>
+<td align="right">
+0.99
+</td>
+<td align="right">
+1.00
+</td>
+<td align="right">
+1.00
+</td>
+</tr>
+<tr>
+<td align="right">
+6
+</td>
+<td align="right">
+0.20
+</td>
+<td align="right">
+1.00
+</td>
+<td align="right">
+1.00
+</td>
+<td align="right">
+1.00
+</td>
+<td align="right">
+1.00
+</td>
+</tr>
+</table>
+<!-- html table generated in R 4.0.2 by xtable 1.8-4 package -->
+<!-- Fri Oct  2 20:15:21 2020 -->
+<table border="1">
+<caption align="bottom">
+Estimated average sample sizes of testing procedures. (Gaussian)
+</caption>
+<tr>
+<th>
+</th>
+<th>
+mu_true
+</th>
+<th>
+GLR_like
+</th>
+<th>
+dis_mix
+</th>
+<th>
+exact_test
+</th>
+</tr>
+<tr>
+<td align="right">
+1
+</td>
+<td align="right">
+-0.05
+</td>
+<td align="right">
+1314.00
+</td>
+<td align="right">
+1252.01
+</td>
+<td align="right">
+657.00
+</td>
+</tr>
+<tr>
+<td align="right">
+2
+</td>
+<td align="right">
+0.00
+</td>
+<td align="right">
+1300.92
+</td>
+<td align="right">
+1241.63
+</td>
+<td align="right">
+657.00
+</td>
+</tr>
+<tr>
+<td align="right">
+3
+</td>
+<td align="right">
+0.05
+</td>
+<td align="right">
+1240.67
+</td>
+<td align="right">
+951.47
+</td>
+<td align="right">
+657.00
+</td>
+</tr>
+<tr>
+<td align="right">
+4
+</td>
+<td align="right">
+0.10
+</td>
+<td align="right">
+897.85
+</td>
+<td align="right">
+473.77
+</td>
+<td align="right">
+657.00
+</td>
+</tr>
+<tr>
+<td align="right">
+5
+</td>
+<td align="right">
+0.15
+</td>
+<td align="right">
+506.40
+</td>
+<td align="right">
+240.82
+</td>
+<td align="right">
+657.00
+</td>
+</tr>
+<tr>
+<td align="right">
+6
+</td>
+<td align="right">
+0.20
+</td>
+<td align="right">
+272.49
+</td>
+<td align="right">
+114.01
+</td>
+<td align="right">
+657.00
+</td>
+</tr>
+</table>
+<!-- html table generated in R 4.0.2 by xtable 1.8-4 package -->
+<!-- Fri Oct  2 20:15:21 2020 -->
+<table border="1">
+<caption align="bottom">
+Estimated probabilities of tests being stopped earlier than Z-test.
+</caption>
+<tr>
+<th>
+</th>
+<th>
+mu_true
+</th>
+<th>
+GLR_like
+</th>
+<th>
+dis_mix
+</th>
+</tr>
+<tr>
+<td align="right">
+1
+</td>
+<td align="right">
+-0.05
+</td>
+<td align="right">
+0.00
+</td>
+<td align="right">
+0.05
+</td>
+</tr>
+<tr>
+<td align="right">
+2
+</td>
+<td align="right">
+0.00
+</td>
+<td align="right">
+0.01
+</td>
+<td align="right">
+0.06
+</td>
+</tr>
+<tr>
+<td align="right">
+3
+</td>
+<td align="right">
+0.05
+</td>
+<td align="right">
+0.06
+</td>
+<td align="right">
+0.33
+</td>
+</tr>
+<tr>
+<td align="right">
+4
+</td>
+<td align="right">
+0.10
+</td>
+<td align="right">
+0.30
+</td>
+<td align="right">
+0.71
+</td>
+</tr>
+<tr>
+<td align="right">
+5
+</td>
+<td align="right">
+0.15
+</td>
+<td align="right">
+0.71
+</td>
+<td align="right">
+0.96
+</td>
+</tr>
+<tr>
+<td align="right">
+6
+</td>
+<td align="right">
+0.20
+</td>
+<td align="right">
+0.97
+</td>
+<td align="right">
+1.00
+</td>
+</tr>
+</table>
+</div>
+<div id="bernoulli-case" class="section level4">
+<h4>3-2. Bernoulli case</h4>
+<p>In the Bernoulli setting, we compared sequential <code>GLL-like</code> and <code>Discrete mixture</code> tests to the <code>exact binomial</code> test. We set the null hypothesis as the mean of the Bernoulli distribution is less than or equal to <code>0.1</code>, and the alternative hypothesis as the true mean is greater than <code>0.12</code>. The <code>exact binomial</code> test was performed based on a fixed sample size to make the test control both type-1 and type-2 errors by <code>0.1</code>. The following three tables summarize the simulation result. In all three tables, we can check the same pattern we observed from the Gaussian case. In the first table, we show that, for each underlying true mean, how frequently each testing procedure rejects the null hypothesis. Here the column <code>Exact binomial (p-hacking)</code> represents the naive usage of the exact test as a sequential procedure in which we stop and reject the null whenever p-value of the test goes below the level <code>0.1</code>. As we observed before, the p-hacking inflates the type-1 error significantly larger than the target level. From the table, we can check that the <code>exact binomial test</code> with continuous monitoring of p-values yields a large type 1 error (<code>0.23</code>) even under a null distribution (<code>mean = 0.09</code>) which is a way from the boundary of the null. In contrast, for all other testing procedures, type 1 errors are controlled under the null distributions.</p>
+<p>For alternative distributions (<code>mean &gt; 0.12</code>), the <code>exact binomial</code> test has larger powers than the prespecified bound <code>0.9</code> as expected. Again, as same as the Gaussian case, the <code>discrete mixture</code> based sequential test achieves almost the same power compared to the <code>exact binomial</code> test. However, as we can check from the second and third tables, under the alternative distributions, the <code>discrete mixture</code> test uses, on average and with a high probability, smaller numbers of samples to detect the signal than the <code>exact binomial</code> test with a fixed sample size. The <code>GLR-like</code> test yields a weaker power at the boundary of the alternative space but it achieves higher powers and smaller sample size as the underlying true means being farther away from the boundary.</p>
+<p>However, as same as the Gaussian case, <code>GLR-like</code> and <code>discrete mixture</code> tests do not always perform better than the <code>exact binomial</code> test. If the underlying true mean lies between boundaries of null and alternative spaces, both test have weaker power and requires more samples to detect the signal compared to the <code>exact binomial</code>. Therefore, it is recommended to set the boundary of the alternative close to the boundary of the null in practice.</p>
+<pre class="r"><code># Bernoulli simulation
+set.seed(1)
+f_simul &lt;- function(mu) {
+  out &lt;- test_simul(mu_target = 0.12,
+                    mu_true = mu,
+                    mu_0 = 0.1,
+                    alpha = 0.1,
+                    beta = 0.9,
+                    B = 100,
+                    print_progress = FALSE,
+                    print_result = FALSE,
+                    sample_generator = ber_sample,
+                    power_fn = binom_pwr,
+                    fixed_test_fn = binom_test,
+                    seq_test_fn = seq_ber_test_generator)
+  return(out)
+}
+
+mu_true_vec &lt;- seq(0.09, 0.14, by = 0.01)
+simul_ber_out &lt;- lapply(mu_true_vec, f_simul)
+
+reject_rate_ber &lt;- summ_simul(&quot;reject_rate&quot;, 
+                          simul_ber_out,
+                          mu_true_vec)
+sample_size_ber &lt;- summ_simul(&quot;sample_size&quot;,
+                          simul_ber_out,
+                          mu_true_vec)
+early_stop_ratio_ber &lt;- summ_simul(&quot;early_stop_ratio&quot;,
+                               simul_ber_out,
+                               mu_true_vec)</code></pre>
+<!-- html table generated in R 4.0.2 by xtable 1.8-4 package -->
+<!-- Fri Oct  2 20:15:21 2020 -->
+<table border="1">
+<caption align="bottom">
+Estimated probabilities of rejecting the null hypothesis. (Bernoulli)
+</caption>
+<tr>
+<th>
+</th>
+<th>
+mu_true
+</th>
+<th>
+exact_hacking
+</th>
+<th>
+GLR_like
+</th>
+<th>
+dis_mix
+</th>
+<th>
+exact_test
+</th>
+</tr>
+<tr>
+<td align="right">
+1
+</td>
+<td align="right">
+0.09
+</td>
+<td align="right">
+0.39
+</td>
+<td align="right">
+0.00
+</td>
+<td align="right">
+0.01
+</td>
+<td align="right">
+0.02
+</td>
+</tr>
+<tr>
+<td align="right">
+2
+</td>
+<td align="right">
+0.10
+</td>
+<td align="right">
+0.62
+</td>
+<td align="right">
+0.01
+</td>
+<td align="right">
+0.08
+</td>
+<td align="right">
+0.09
+</td>
+</tr>
+<tr>
+<td align="right">
+3
+</td>
+<td align="right">
+0.11
+</td>
+<td align="right">
+0.94
+</td>
+<td align="right">
+0.08
+</td>
+<td align="right">
+0.44
+</td>
+<td align="right">
+0.51
+</td>
+</tr>
+<tr>
+<td align="right">
+4
+</td>
+<td align="right">
+0.12
+</td>
+<td align="right">
+0.99
+</td>
+<td align="right">
+0.63
+</td>
+<td align="right">
+0.90
+</td>
+<td align="right">
+0.88
+</td>
+</tr>
+<tr>
+<td align="right">
+5
+</td>
+<td align="right">
+0.13
+</td>
+<td align="right">
+1.00
+</td>
+<td align="right">
+0.99
+</td>
+<td align="right">
+1.00
+</td>
+<td align="right">
+0.99
+</td>
+</tr>
+<tr>
+<td align="right">
+6
+</td>
+<td align="right">
+0.14
+</td>
+<td align="right">
+1.00
+</td>
+<td align="right">
+1.00
+</td>
+<td align="right">
+1.00
+</td>
+<td align="right">
+1.00
+</td>
+</tr>
+</table>
+<!-- html table generated in R 4.0.2 by xtable 1.8-4 package -->
+<!-- Fri Oct  2 20:15:21 2020 -->
+<table border="1">
+<caption align="bottom">
+Estimated average sample sizes of testing procedures. (Bernoulli)
+</caption>
+<tr>
+<th>
+</th>
+<th>
+mu_true
+</th>
+<th>
+GLR_like
+</th>
+<th>
+dis_mix
+</th>
+<th>
+exact_test
+</th>
+</tr>
+<tr>
+<td align="right">
+1
+</td>
+<td align="right">
+0.09
+</td>
+<td align="right">
+3290.00
+</td>
+<td align="right">
+3257.57
+</td>
+<td align="right">
+1645.00
+</td>
+</tr>
+<tr>
+<td align="right">
+2
+</td>
+<td align="right">
+0.10
+</td>
+<td align="right">
+3267.50
+</td>
+<td align="right">
+3065.64
+</td>
+<td align="right">
+1645.00
+</td>
+</tr>
+<tr>
+<td align="right">
+3
+</td>
+<td align="right">
+0.11
+</td>
+<td align="right">
+3158.03
+</td>
+<td align="right">
+2299.34
+</td>
+<td align="right">
+1645.00
+</td>
+</tr>
+<tr>
+<td align="right">
+4
+</td>
+<td align="right">
+0.12
+</td>
+<td align="right">
+2349.01
+</td>
+<td align="right">
+1157.50
+</td>
+<td align="right">
+1645.00
+</td>
+</tr>
+<tr>
+<td align="right">
+5
+</td>
+<td align="right">
+0.13
+</td>
+<td align="right">
+1299.54
+</td>
+<td align="right">
+610.78
+</td>
+<td align="right">
+1645.00
+</td>
+</tr>
+<tr>
+<td align="right">
+6
+</td>
+<td align="right">
+0.14
+</td>
+<td align="right">
+677.04
+</td>
+<td align="right">
+292.32
+</td>
+<td align="right">
+1645.00
+</td>
+</tr>
+</table>
+<!-- html table generated in R 4.0.2 by xtable 1.8-4 package -->
+<!-- Fri Oct  2 20:15:21 2020 -->
+<table border="1">
+<caption align="bottom">
+Estimated probabilities of tests being stopped earlier than the exact binomial test.
+</caption>
+<tr>
+<th>
+</th>
+<th>
+mu_true
+</th>
+<th>
+GLR_like
+</th>
+<th>
+dis_mix
+</th>
+</tr>
+<tr>
+<td align="right">
+1
+</td>
+<td align="right">
+0.09
+</td>
+<td align="right">
+0.00
+</td>
+<td align="right">
+0.01
+</td>
+</tr>
+<tr>
+<td align="right">
+2
+</td>
+<td align="right">
+0.10
+</td>
+<td align="right">
+0.01
+</td>
+<td align="right">
+0.07
+</td>
+</tr>
+<tr>
+<td align="right">
+3
+</td>
+<td align="right">
+0.11
+</td>
+<td align="right">
+0.04
+</td>
+<td align="right">
+0.34
+</td>
+</tr>
+<tr>
+<td align="right">
+4
+</td>
+<td align="right">
+0.12
+</td>
+<td align="right">
+0.24
+</td>
+<td align="right">
+0.73
+</td>
+</tr>
+<tr>
+<td align="right">
+5
+</td>
+<td align="right">
+0.13
+</td>
+<td align="right">
+0.72
+</td>
+<td align="right">
+0.94
+</td>
+</tr>
+<tr>
+<td align="right">
+6
+</td>
+<td align="right">
+0.14
+</td>
+<td align="right">
+0.98
+</td>
+<td align="right">
+1.00
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
 <div id="reference" class="section level2">
 <h2>Reference</h2>
-<p><a name="myfootnote1">1</a>: G. Lorden, “Open-ended tests for Koopman-Darmois families,”The Annals of Statistics, vol. 1, no. 4, pp. 633–643, 1973.</p>
-<p><a name="myfootnote2">2</a>: S. R. Howard, A. Ramdas, J. McAuliffe, and J. Sekhon, “Uniform, nonparametric, non-asymptotic confidence sequences,”arXiv preprint arXiv:1810.08240, 2018.</p>
+<p><a name="myfootnote1">1</a>: G. Lorden, “Open-ended tests for Koopman-Darmois families,”The Annals of Statistics, vol. 1, no. 4, pp. 633–643, 1973. <sup><a href="#myfootnote1_return">return</a></sup></p>
+<p><a name="myfootnote2">2</a>: S. R. Howard, A. Ramdas, J. McAuliffe, and J. Sekhon, “Uniform, nonparametric, non-asymptotic confidence sequences,”arXiv preprint arXiv:1810.08240, 2018. <sup><a href="#myfootnote2_return">return</a></sup></p>
 </div>
 </div>
 
@@ -926,7 +1970,7 @@ legend(&quot;topright&quot;, bounds_name,
       
       
       <li>
-        <a href="https://twitter.com/intent/tweet?url=/post/sglrt-package/&amp;text=SGLRT%20package%20" target="_blank" rel="noopener" class="share-btn-twitter">
+        <a href="https://twitter.com/intent/tweet?url=https://shinjaehyeok.github.io/post/sglrt-package/&amp;text=SGLRT%20package%20" target="_blank" rel="noopener" class="share-btn-twitter">
           <i class="fab fa-twitter"></i>
         </a>
       </li>
@@ -939,7 +1983,7 @@ legend(&quot;topright&quot;, bounds_name,
       
       
       <li>
-        <a href="https://www.facebook.com/sharer.php?u=/post/sglrt-package/&amp;t=SGLRT%20package%20" target="_blank" rel="noopener" class="share-btn-facebook">
+        <a href="https://www.facebook.com/sharer.php?u=https://shinjaehyeok.github.io/post/sglrt-package/&amp;t=SGLRT%20package%20" target="_blank" rel="noopener" class="share-btn-facebook">
           <i class="fab fa-facebook"></i>
         </a>
       </li>
@@ -952,7 +1996,7 @@ legend(&quot;topright&quot;, bounds_name,
       
       
       <li>
-        <a href="mailto:?subject=SGLRT%20package%20&amp;body=/post/sglrt-package/" target="_blank" rel="noopener" class="share-btn-email">
+        <a href="mailto:?subject=SGLRT%20package%20&amp;body=https://shinjaehyeok.github.io/post/sglrt-package/" target="_blank" rel="noopener" class="share-btn-email">
           <i class="fas fa-envelope"></i>
         </a>
       </li>
@@ -965,7 +2009,7 @@ legend(&quot;topright&quot;, bounds_name,
       
       
       <li>
-        <a href="https://www.linkedin.com/shareArticle?url=/post/sglrt-package/&amp;title=SGLRT%20package%20" target="_blank" rel="noopener" class="share-btn-linkedin">
+        <a href="https://www.linkedin.com/shareArticle?url=https://shinjaehyeok.github.io/post/sglrt-package/&amp;title=SGLRT%20package%20" target="_blank" rel="noopener" class="share-btn-linkedin">
           <i class="fab fa-linkedin-in"></i>
         </a>
       </li>
@@ -978,7 +2022,7 @@ legend(&quot;topright&quot;, bounds_name,
       
       
       <li>
-        <a href="whatsapp://send?text=SGLRT%20package%20%20/post/sglrt-package/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+        <a href="whatsapp://send?text=SGLRT%20package%20%20https://shinjaehyeok.github.io/post/sglrt-package/" target="_blank" rel="noopener" class="share-btn-whatsapp">
           <i class="fab fa-whatsapp"></i>
         </a>
       </li>
@@ -991,7 +2035,7 @@ legend(&quot;topright&quot;, bounds_name,
       
       
       <li>
-        <a href="https://service.weibo.com/share/share.php?url=/post/sglrt-package/&amp;title=SGLRT%20package%20" target="_blank" rel="noopener" class="share-btn-weibo">
+        <a href="https://service.weibo.com/share/share.php?url=https://shinjaehyeok.github.io/post/sglrt-package/&amp;title=SGLRT%20package%20" target="_blank" rel="noopener" class="share-btn-weibo">
           <i class="fab fa-weibo"></i>
         </a>
       </li>
@@ -1032,7 +2076,7 @@ legend(&quot;topright&quot;, bounds_name,
       
 
       <div class="media-body">
-        <h5 class="card-title"><a href="/">Jaehyeok Shin</a></h5>
+        <h5 class="card-title"><a href="https://shinjaehyeok.github.io/">Jaehyeok Shin</a></h5>
         <h6 class="card-subtitle">Postdoctoral Researcher</h6>
         <p class="card-text">My research interest lies in understanding the sequential and adaptive nature of data analysis.</p>
         <ul class="network-icon" aria-hidden="true">
@@ -1151,15 +2195,6 @@ legend(&quot;topright&quot;, bounds_name,
 
 
   
-  
-  <div class="article-widget content-widget-hr">
-    <h3>Related</h3>
-    <ul>
-      
-      <li><a href="/draft/sglrt-demo/">SGLRT Demo</a></li>
-      
-    </ul>
-  </div>
   
 
 
@@ -1289,16 +2324,6 @@ legend(&quot;topright&quot;, bounds_name,
   <div class="container">
     <footer class="site-footer">
   
-  <p class="powered-by">
-    
-      <a href="/privacy/">Privacy Policy</a>
-    
-    
-       &middot; 
-      <a href="/terms/">Terms</a>
-    
-  </p>
-  
 
   <p class="powered-by">
     Copyright 2020 Jaehyeok Shin. All rights reserved.
@@ -1309,6 +2334,18 @@ legend(&quot;topright&quot;, bounds_name,
 
 
 
+
+
+
+
+
+ 
+  <script>
+  $(document).ready(function () {
+    window.initializeCodeFolding("show" === "hide");
+  });
+  </script>
+  <script src="/js/codefolding.js"></script>
 
 
 

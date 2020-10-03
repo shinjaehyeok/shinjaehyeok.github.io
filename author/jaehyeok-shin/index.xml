@@ -2,14 +2,14 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Jaehyeok Shin | JH&#39;s Blog</title>
-    <link>/author/jaehyeok-shin/</link>
-      <atom:link href="/author/jaehyeok-shin/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://shinjaehyeok.github.io/author/jaehyeok-shin/</link>
+      <atom:link href="https://shinjaehyeok.github.io/author/jaehyeok-shin/index.xml" rel="self" type="application/rss+xml" />
     <description>Jaehyeok Shin</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>Copyright 2020 Jaehyeok Shin. All rights reserved.</copyright>
     <image>
-      <url>/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_2.png</url>
+      <url>https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_2.png</url>
       <title>Jaehyeok Shin</title>
-      <link>/author/jaehyeok-shin/</link>
+      <link>https://shinjaehyeok.github.io/author/jaehyeok-shin/</link>
     </image>
     
   </channel>
