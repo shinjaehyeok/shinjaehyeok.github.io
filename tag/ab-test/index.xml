@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>ab test | JH&#39;s Blog</title>
-    <link>https://shinjaehyeok.github.io/tag/ab-test/</link>
-      <atom:link href="https://shinjaehyeok.github.io/tag/ab-test/index.xml" rel="self" type="application/rss+xml" />
+    <link>/tag/ab-test/</link>
+      <atom:link href="/tag/ab-test/index.xml" rel="self" type="application/rss+xml" />
     <description>ab test</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>Copyright 2020 Jaehyeok Shin. All rights reserved.</copyright><lastBuildDate>Sun, 27 Sep 2020 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_2.png</url>
+      <url>/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_2.png</url>
       <title>ab test</title>
-      <link>https://shinjaehyeok.github.io/tag/ab-test/</link>
+      <link>/tag/ab-test/</link>
     </image>
     
     <item>
       <title>SGLRT package </title>
-      <link>https://shinjaehyeok.github.io/post/sglrt-package/</link>
+      <link>/post/sglrt-package/</link>
       <pubDate>Sun, 27 Sep 2020 00:00:00 +0000</pubDate>
-      <guid>https://shinjaehyeok.github.io/post/sglrt-package/</guid>
+      <guid>/post/sglrt-package/</guid>
       <description>
 
 
@@ -92,7 +92,7 @@ for (i in seq_along(alpha[1:3])){
   }
 }
 legend(&amp;quot;topleft&amp;quot;, TeX(c(paste0(&amp;quot;Lorden&amp;#39;s ($\\alpha = &amp;quot;, alpha[1:3],&amp;quot;$)&amp;quot;), paste0(&amp;quot;Ours ($\\alpha = &amp;quot;, alpha[1:3],&amp;quot;$)&amp;quot;))), col = c(rep(1,3), rep(2,3)), lty = rep(1:3,2))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://shinjaehyeok.github.io/post/2020-09-27-sglrt-package.en_files/figure-html/Fig.3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-09-27-sglrt-package.en_files/figure-html/Fig.3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;ratio-of-cis-width-to-clt&#34; class=&#34;section level3&#34;&gt;
@@ -119,7 +119,7 @@ for any given level &lt;span class=&#34;math inline&#34;&gt;\(\alpha \in (0, 1)\
     \mathrm{CI}_{n}^{\mathrm{NM}} &amp;amp;:= \left(\bar{X}_n-  \sqrt{2 \left(1 + \frac{\rho}{n}\right) \log\left(\frac{1}{2\alpha} \sqrt{\frac{n + \rho}{\rho} + 1}\right)}, \infty \right),
 \end{aligned}
 \]&lt;/span&gt;
-where we set &lt;span class=&#34;math inline&#34;&gt;\(\rho = 1260\)&lt;/span&gt; by following the setting in Figure 9 of &lt;a href=&#34;https://arxiv.org/abs/1810.08240&#34;&gt;Howard et al., 2018&lt;/a&gt;&lt;sup&gt;&lt;a href=&#34;#myfootnote2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+where we set &lt;span class=&#34;math inline&#34;&gt;\(\rho = 1260\)&lt;/span&gt; by following the setting in Figure 9 of &lt;a href=&#34;https://arxiv.org/abs/1810.08240&#34;&gt;Howard et al., 2018&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;The following Rcode reproduces the Fig. 5 in Section IV-C in which we compared ratios of widths of confidence intervals above to the pointwise and asymptotically valid normal confidence intervals based on the central limit theorem.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(SGLRT)
 
@@ -226,7 +226,7 @@ legend(&amp;quot;topright&amp;quot;, bounds_name,
        lty = legend_lty,
        col = legend_col,
        bg= &amp;quot;white&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://shinjaehyeok.github.io/post/2020-09-27-sglrt-package.en_files/figure-html/Fig.5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-09-27-sglrt-package.en_files/figure-html/Fig.5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;efficiency-of-glr-like-and-discrete-mixture-tests&#34; class=&#34;section level3&#34;&gt;
@@ -301,136 +301,6 @@ ber_sample &amp;lt;- function(n, mu_true){
   rbinom(n, 1, prob = mu_true)
 }
 
-# R function to simulate sequential test and fixed sample size test.
-test_simul &amp;lt;- function(mu_target,
-                       mu_true = mu_target,
-                       mu_0 = 0.5,
-                       alpha = 0.05,
-                       beta = 0.8, 
-                       B = 1000,
-                       print_progress = TRUE,
-                       print_result = FALSE,
-                       sample_generator = G_sample,
-                       power_fn = G_pwr,
-                       fixed_test_fn = z_test,
-                       seq_test_fn = seq_G_test_generator){
-  
-  # Calculate sample size to achieve the target power by the fixed sample size test
-  if (mu_target &amp;gt; mu_0){
-    sample_size &amp;lt;- stats::uniroot(function(n){
-      power_fn(n, mu_target, mu_0, alpha) - beta
-    },
-    c(10, 1e+4))$root
-    n_exact &amp;lt;- ceiling(sample_size) 
-  } else if (mu_target == mu_0){
-    n_exact &amp;lt;- 1e+3
-  } else {
-    stop(&amp;quot;This simulation is designed for mu_target &amp;gt;= mu_0 case. Need to use larger mu_target&amp;quot;)
-  }
-  
-  # Set terminal time of sequential test. 
-  n &amp;lt;- 2 * n_exact
-  
-  # Set target time interval
-  nmax &amp;lt;- n
-  nmin &amp;lt;- round(max(10, n_exact / 10))
-  
-  # Range of experimentation
-  n_vec &amp;lt;- seq(1, n)
-  
-  # Define test functions
-  test_list &amp;lt;- list(exact = NULL,
-                    GLR_like = NULL,
-                    dis_mix = NULL
-  )
-  
-  # Exact test
-  test_list$exact &amp;lt;- function(x_bar, n){
-    exact_out &amp;lt;-  fixed_test_fn(x_bar, n, mu_0, alpha)
-    return(exact_out)
-  }
-  
-  
-  # Sequential tests
-  G_out &amp;lt;- seq_test_fn(alpha, nmax, nmin)
-  
-  
-  GLR_test &amp;lt;- G_out$log_GLR_like_stat_generator(mu_0, is_pos = TRUE)
-  test_list$GLR_like &amp;lt;- GLR_test$stat_fn
-  
-  dis_mix_test &amp;lt;- G_out$log_dis_mart_generator(mu_0, is_pos = TRUE)
-  test_list$dis_mix &amp;lt;- dis_mix_test$stat_fn
-  
-  
-  # Type 1 error or power simulation
-  is_reject &amp;lt;- function(test_value){
-    num_reject &amp;lt;- sum(test_value &amp;gt; 0)
-    return(ifelse(num_reject &amp;gt; 0, 1 ,0))
-  }
-  
-  reject &amp;lt;- list(exact_hacking = numeric(B),
-                 GLR_like = numeric(B),
-                 dis_mix = numeric(B),
-                 exact_test = numeric(B))
-  
-  sample_size_list &amp;lt;- list(exact_hacking = numeric(B),
-                           GLR_like = numeric(B),
-                           dis_mix = numeric(B),
-                           exact_test = numeric(B))
-  i &amp;lt;- 0
-  if (print_progress)  pb &amp;lt;- txtProgressBar(min = 0, max = B, style = 3)
-  while (i &amp;lt; B){
-    i &amp;lt;- i + 1
-    x_vec &amp;lt;- sample_generator(n, mu_true)
-    x_bar_vec &amp;lt;- cumsum(x_vec) / n_vec
-    test_value_list &amp;lt;- list(exact_hacking = NULL,
-                            GLR_like = NULL,
-                            dis_mix = NULL,
-                            exact_test = NULL
-    )
-    for (j in seq_along(test_list)){
-      test_value_list[[j]] &amp;lt;- mapply(test_list[[j]], x_bar_vec, n_vec)      
-    }
-    test_value_list$exact_test &amp;lt;-  test_value_list$exact_hacking[n_exact]
-    
-    for (k in seq_along(test_value_list)){
-      if (k == length(test_value_list)) next
-      reject_n &amp;lt;- which(test_value_list[[k]] &amp;gt;= 0)
-      stopped_n &amp;lt;- ifelse(length(reject_n) == 0, n, min(reject_n)) 
-      sample_size_list[[k]][i] &amp;lt;- stopped_n
-      reject[[k]][i] &amp;lt;- is_reject(test_value_list[[k]])
-    }
-    sample_size_list$exact_test[i] &amp;lt;- n_exact
-    reject$exact_test[i] &amp;lt;- is_reject(test_value_list$exact_test)
-    if (print_progress) setTxtProgressBar(pb, i)
-  }
-  if (print_progress)  close(pb)
-  
-  reject_rate &amp;lt;- sapply(reject, mean)
-  sample_size &amp;lt;- sapply(sample_size_list, mean)
-  early_stop_ratio &amp;lt;- sapply(seq(1, length(sample_size_list)), 
-                             function(k) mean(sample_size_list[[k]] &amp;lt;= n_exact))
-  out &amp;lt;- list(reject_rate = reject_rate,
-              sample_size = sample_size,
-              reject_list = reject,
-              sample_size_list = sample_size_list,
-              early_stop_ratio = early_stop_ratio,
-              mu_target = mu_target,
-              mu_true = mu_true,
-              mu_0 = mu_0,
-              alpha = alpha,
-              beta = beta)
-  
-  if (print_result){
-    print(reject_rate)
-    print(sample_size)
-    print(early_stop_ratio)
-    hist(sample_size_list$dis_mix, xlim = c(1, n))
-    abline(v = n_exact)
-  }
-  return(out)
-}
-
 # Function to summurize the simulation result
 summ_simul &amp;lt;- function(result_name,
                        simul_out,
@@ -478,7 +348,7 @@ early_stop_ratio_G &amp;lt;- summ_simul(&amp;quot;early_stop_ratio&amp;quot;,
                                simul_G_out,
                                mu_true_vec)&lt;/code&gt;&lt;/pre&gt;
 &lt;!-- html table generated in R 4.0.2 by xtable 1.8-4 package --&gt;
-&lt;!-- Fri Oct  2 20:15:21 2020 --&gt;
+&lt;!-- Sat Oct  3 01:39:20 2020 --&gt;
 &lt;table border=&#34;1&#34;&gt;
 &lt;caption align=&#34;bottom&#34;&gt;
 Estimated probabilities of rejecting the null hypothesis. (Gaussian)
@@ -624,7 +494,7 @@ exact_test
 &lt;/tr&gt;
 &lt;/table&gt;
 &lt;!-- html table generated in R 4.0.2 by xtable 1.8-4 package --&gt;
-&lt;!-- Fri Oct  2 20:15:21 2020 --&gt;
+&lt;!-- Sat Oct  3 01:39:20 2020 --&gt;
 &lt;table border=&#34;1&#34;&gt;
 &lt;caption align=&#34;bottom&#34;&gt;
 Estimated average sample sizes of testing procedures. (Gaussian)
@@ -749,7 +619,7 @@ exact_test
 &lt;/tr&gt;
 &lt;/table&gt;
 &lt;!-- html table generated in R 4.0.2 by xtable 1.8-4 package --&gt;
-&lt;!-- Fri Oct  2 20:15:21 2020 --&gt;
+&lt;!-- Sat Oct  3 01:39:20 2020 --&gt;
 &lt;table border=&#34;1&#34;&gt;
 &lt;caption align=&#34;bottom&#34;&gt;
 Estimated probabilities of tests being stopped earlier than Z-test.
@@ -889,7 +759,7 @@ early_stop_ratio_ber &amp;lt;- summ_simul(&amp;quot;early_stop_ratio&amp;quot;,
                                simul_ber_out,
                                mu_true_vec)&lt;/code&gt;&lt;/pre&gt;
 &lt;!-- html table generated in R 4.0.2 by xtable 1.8-4 package --&gt;
-&lt;!-- Fri Oct  2 20:15:21 2020 --&gt;
+&lt;!-- Sat Oct  3 01:39:20 2020 --&gt;
 &lt;table border=&#34;1&#34;&gt;
 &lt;caption align=&#34;bottom&#34;&gt;
 Estimated probabilities of rejecting the null hypothesis. (Bernoulli)
@@ -1035,7 +905,7 @@ exact_test
 &lt;/tr&gt;
 &lt;/table&gt;
 &lt;!-- html table generated in R 4.0.2 by xtable 1.8-4 package --&gt;
-&lt;!-- Fri Oct  2 20:15:21 2020 --&gt;
+&lt;!-- Sat Oct  3 01:39:20 2020 --&gt;
 &lt;table border=&#34;1&#34;&gt;
 &lt;caption align=&#34;bottom&#34;&gt;
 Estimated average sample sizes of testing procedures. (Bernoulli)
@@ -1160,7 +1030,7 @@ exact_test
 &lt;/tr&gt;
 &lt;/table&gt;
 &lt;!-- html table generated in R 4.0.2 by xtable 1.8-4 package --&gt;
-&lt;!-- Fri Oct  2 20:15:21 2020 --&gt;
+&lt;!-- Sat Oct  3 01:39:20 2020 --&gt;
 &lt;table border=&#34;1&#34;&gt;
 &lt;caption align=&#34;bottom&#34;&gt;
 Estimated probabilities of tests being stopped earlier than the exact binomial test.

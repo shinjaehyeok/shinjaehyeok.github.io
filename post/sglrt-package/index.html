@@ -34,7 +34,7 @@
 Installation You can install the SGLRT package from GitHub with:">
 
   
-  <link rel="alternate" hreflang="en-us" href="https://shinjaehyeok.github.io/post/sglrt-package/">
+  <link rel="alternate" hreflang="en-us" href="/post/sglrt-package/">
 
   
 
@@ -259,7 +259,7 @@ Installation You can install the SGLRT package from GitHub with:">
   <link rel="icon" type="image/png" href="/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_32x32_fill_lanczos_center_2.png">
   <link rel="apple-touch-icon" type="image/png" href="/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_192x192_fill_lanczos_center_2.png">
 
-  <link rel="canonical" href="https://shinjaehyeok.github.io/post/sglrt-package/">
+  <link rel="canonical" href="/post/sglrt-package/">
 
   
   
@@ -278,11 +278,11 @@ Installation You can install the SGLRT package from GitHub with:">
   <meta property="twitter:creator" content="@Project20s">
   
   <meta property="og:site_name" content="JH&#39;s Blog">
-  <meta property="og:url" content="https://shinjaehyeok.github.io/post/sglrt-package/">
+  <meta property="og:url" content="/post/sglrt-package/">
   <meta property="og:title" content="SGLRT package  | JH&#39;s Blog">
   <meta property="og:description" content="SGLRT SGLRT is a R package implementation of Sequential Generalized Likelihood Ratio (GLR)-like Tests and confidence sequences in Paper.
-Installation You can install the SGLRT package from GitHub with:"><meta property="og:image" content="https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_2.png">
-  <meta property="twitter:image" content="https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="en-us">
+Installation You can install the SGLRT package from GitHub with:"><meta property="og:image" content="/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_2.png">
+  <meta property="twitter:image" content="/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="en-us">
   
     
       <meta property="article:published_time" content="2020-09-27T00:00:00&#43;00:00">
@@ -311,7 +311,7 @@ Installation You can install the SGLRT package from GitHub with:"><meta property
   "@type": "BlogPosting",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://shinjaehyeok.github.io/post/sglrt-package/"
+    "@id": "/post/sglrt-package/"
   },
   "headline": "SGLRT package ",
   
@@ -328,7 +328,7 @@ Installation You can install the SGLRT package from GitHub with:"><meta property
     "name": "JH's Blog",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_192x192_fill_lanczos_center_2.png"
+      "url": "/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_192x192_fill_lanczos_center_2.png"
     }
   },
   "description": "SGLRT SGLRT is a R package implementation of Sequential Generalized Likelihood Ratio (GLR)-like Tests and confidence sequences in Paper.\nInstallation You can install the SGLRT package from GitHub with:"
@@ -639,7 +639,7 @@ Installation You can install the SGLRT package from GitHub with:"><meta property
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    15 min read
+    13 min read
   </span>
   
 
@@ -786,7 +786,7 @@ for any given level <span class="math inline">\(\alpha \in (0, 1)\)</span> and t
     \mathrm{CI}_{n}^{\mathrm{NM}} &amp;:= \left(\bar{X}_n-  \sqrt{2 \left(1 + \frac{\rho}{n}\right) \log\left(\frac{1}{2\alpha} \sqrt{\frac{n + \rho}{\rho} + 1}\right)}, \infty \right),
 \end{aligned}
 \]</span>
-where we set <span class="math inline">\(\rho = 1260\)</span> by following the setting in Figure 9 of <a href="https://arxiv.org/abs/1810.08240">Howard et al., 2018</a><sup><a href="#myfootnote2">2</a></sup>.</p>
+where we set <span class="math inline">\(\rho = 1260\)</span> by following the setting in Figure 9 of <a href="https://arxiv.org/abs/1810.08240">Howard et al., 2018</a>.</p>
 <p>The following Rcode reproduces the Fig. 5 in Section IV-C in which we compared ratios of widths of confidence intervals above to the pointwise and asymptotically valid normal confidence intervals based on the central limit theorem.</p>
 <pre class="r"><code>library(SGLRT)
 
@@ -968,136 +968,6 @@ ber_sample &lt;- function(n, mu_true){
   rbinom(n, 1, prob = mu_true)
 }
 
-# R function to simulate sequential test and fixed sample size test.
-test_simul &lt;- function(mu_target,
-                       mu_true = mu_target,
-                       mu_0 = 0.5,
-                       alpha = 0.05,
-                       beta = 0.8, 
-                       B = 1000,
-                       print_progress = TRUE,
-                       print_result = FALSE,
-                       sample_generator = G_sample,
-                       power_fn = G_pwr,
-                       fixed_test_fn = z_test,
-                       seq_test_fn = seq_G_test_generator){
-  
-  # Calculate sample size to achieve the target power by the fixed sample size test
-  if (mu_target &gt; mu_0){
-    sample_size &lt;- stats::uniroot(function(n){
-      power_fn(n, mu_target, mu_0, alpha) - beta
-    },
-    c(10, 1e+4))$root
-    n_exact &lt;- ceiling(sample_size) 
-  } else if (mu_target == mu_0){
-    n_exact &lt;- 1e+3
-  } else {
-    stop(&quot;This simulation is designed for mu_target &gt;= mu_0 case. Need to use larger mu_target&quot;)
-  }
-  
-  # Set terminal time of sequential test. 
-  n &lt;- 2 * n_exact
-  
-  # Set target time interval
-  nmax &lt;- n
-  nmin &lt;- round(max(10, n_exact / 10))
-  
-  # Range of experimentation
-  n_vec &lt;- seq(1, n)
-  
-  # Define test functions
-  test_list &lt;- list(exact = NULL,
-                    GLR_like = NULL,
-                    dis_mix = NULL
-  )
-  
-  # Exact test
-  test_list$exact &lt;- function(x_bar, n){
-    exact_out &lt;-  fixed_test_fn(x_bar, n, mu_0, alpha)
-    return(exact_out)
-  }
-  
-  
-  # Sequential tests
-  G_out &lt;- seq_test_fn(alpha, nmax, nmin)
-  
-  
-  GLR_test &lt;- G_out$log_GLR_like_stat_generator(mu_0, is_pos = TRUE)
-  test_list$GLR_like &lt;- GLR_test$stat_fn
-  
-  dis_mix_test &lt;- G_out$log_dis_mart_generator(mu_0, is_pos = TRUE)
-  test_list$dis_mix &lt;- dis_mix_test$stat_fn
-  
-  
-  # Type 1 error or power simulation
-  is_reject &lt;- function(test_value){
-    num_reject &lt;- sum(test_value &gt; 0)
-    return(ifelse(num_reject &gt; 0, 1 ,0))
-  }
-  
-  reject &lt;- list(exact_hacking = numeric(B),
-                 GLR_like = numeric(B),
-                 dis_mix = numeric(B),
-                 exact_test = numeric(B))
-  
-  sample_size_list &lt;- list(exact_hacking = numeric(B),
-                           GLR_like = numeric(B),
-                           dis_mix = numeric(B),
-                           exact_test = numeric(B))
-  i &lt;- 0
-  if (print_progress)  pb &lt;- txtProgressBar(min = 0, max = B, style = 3)
-  while (i &lt; B){
-    i &lt;- i + 1
-    x_vec &lt;- sample_generator(n, mu_true)
-    x_bar_vec &lt;- cumsum(x_vec) / n_vec
-    test_value_list &lt;- list(exact_hacking = NULL,
-                            GLR_like = NULL,
-                            dis_mix = NULL,
-                            exact_test = NULL
-    )
-    for (j in seq_along(test_list)){
-      test_value_list[[j]] &lt;- mapply(test_list[[j]], x_bar_vec, n_vec)      
-    }
-    test_value_list$exact_test &lt;-  test_value_list$exact_hacking[n_exact]
-    
-    for (k in seq_along(test_value_list)){
-      if (k == length(test_value_list)) next
-      reject_n &lt;- which(test_value_list[[k]] &gt;= 0)
-      stopped_n &lt;- ifelse(length(reject_n) == 0, n, min(reject_n)) 
-      sample_size_list[[k]][i] &lt;- stopped_n
-      reject[[k]][i] &lt;- is_reject(test_value_list[[k]])
-    }
-    sample_size_list$exact_test[i] &lt;- n_exact
-    reject$exact_test[i] &lt;- is_reject(test_value_list$exact_test)
-    if (print_progress) setTxtProgressBar(pb, i)
-  }
-  if (print_progress)  close(pb)
-  
-  reject_rate &lt;- sapply(reject, mean)
-  sample_size &lt;- sapply(sample_size_list, mean)
-  early_stop_ratio &lt;- sapply(seq(1, length(sample_size_list)), 
-                             function(k) mean(sample_size_list[[k]] &lt;= n_exact))
-  out &lt;- list(reject_rate = reject_rate,
-              sample_size = sample_size,
-              reject_list = reject,
-              sample_size_list = sample_size_list,
-              early_stop_ratio = early_stop_ratio,
-              mu_target = mu_target,
-              mu_true = mu_true,
-              mu_0 = mu_0,
-              alpha = alpha,
-              beta = beta)
-  
-  if (print_result){
-    print(reject_rate)
-    print(sample_size)
-    print(early_stop_ratio)
-    hist(sample_size_list$dis_mix, xlim = c(1, n))
-    abline(v = n_exact)
-  }
-  return(out)
-}
-
 # Function to summurize the simulation result
 summ_simul &lt;- function(result_name,
                        simul_out,
@@ -1145,7 +1015,7 @@ early_stop_ratio_G &lt;- summ_simul(&quot;early_stop_ratio&quot;,
                                simul_G_out,
                                mu_true_vec)</code></pre>
 <!-- html table generated in R 4.0.2 by xtable 1.8-4 package -->
-<!-- Fri Oct  2 20:15:21 2020 -->
+<!-- Sat Oct  3 01:39:20 2020 -->
 <table border="1">
 <caption align="bottom">
 Estimated probabilities of rejecting the null hypothesis. (Gaussian)
@@ -1291,7 +1161,7 @@ exact_test
 </tr>
 </table>
 <!-- html table generated in R 4.0.2 by xtable 1.8-4 package -->
-<!-- Fri Oct  2 20:15:21 2020 -->
+<!-- Sat Oct  3 01:39:20 2020 -->
 <table border="1">
 <caption align="bottom">
 Estimated average sample sizes of testing procedures. (Gaussian)
@@ -1416,7 +1286,7 @@ exact_test
 </tr>
 </table>
 <!-- html table generated in R 4.0.2 by xtable 1.8-4 package -->
-<!-- Fri Oct  2 20:15:21 2020 -->
+<!-- Sat Oct  3 01:39:20 2020 -->
 <table border="1">
 <caption align="bottom">
 Estimated probabilities of tests being stopped earlier than Z-test.
@@ -1556,7 +1426,7 @@ early_stop_ratio_ber &lt;- summ_simul(&quot;early_stop_ratio&quot;,
                                simul_ber_out,
                                mu_true_vec)</code></pre>
 <!-- html table generated in R 4.0.2 by xtable 1.8-4 package -->
-<!-- Fri Oct  2 20:15:21 2020 -->
+<!-- Sat Oct  3 01:39:20 2020 -->
 <table border="1">
 <caption align="bottom">
 Estimated probabilities of rejecting the null hypothesis. (Bernoulli)
@@ -1702,7 +1572,7 @@ exact_test
 </tr>
 </table>
 <!-- html table generated in R 4.0.2 by xtable 1.8-4 package -->
-<!-- Fri Oct  2 20:15:21 2020 -->
+<!-- Sat Oct  3 01:39:20 2020 -->
 <table border="1">
 <caption align="bottom">
 Estimated average sample sizes of testing procedures. (Bernoulli)
@@ -1827,7 +1697,7 @@ exact_test
 </tr>
 </table>
 <!-- html table generated in R 4.0.2 by xtable 1.8-4 package -->
-<!-- Fri Oct  2 20:15:21 2020 -->
+<!-- Sat Oct  3 01:39:20 2020 -->
 <table border="1">
 <caption align="bottom">
 Estimated probabilities of tests being stopped earlier than the exact binomial test.
@@ -1970,7 +1840,7 @@ dis_mix
       
       
       <li>
-        <a href="https://twitter.com/intent/tweet?url=https://shinjaehyeok.github.io/post/sglrt-package/&amp;text=SGLRT%20package%20" target="_blank" rel="noopener" class="share-btn-twitter">
+        <a href="https://twitter.com/intent/tweet?url=/post/sglrt-package/&amp;text=SGLRT%20package%20" target="_blank" rel="noopener" class="share-btn-twitter">
           <i class="fab fa-twitter"></i>
         </a>
       </li>
@@ -1983,7 +1853,7 @@ dis_mix
       
       
       <li>
-        <a href="https://www.facebook.com/sharer.php?u=https://shinjaehyeok.github.io/post/sglrt-package/&amp;t=SGLRT%20package%20" target="_blank" rel="noopener" class="share-btn-facebook">
+        <a href="https://www.facebook.com/sharer.php?u=/post/sglrt-package/&amp;t=SGLRT%20package%20" target="_blank" rel="noopener" class="share-btn-facebook">
           <i class="fab fa-facebook"></i>
         </a>
       </li>
@@ -1996,7 +1866,7 @@ dis_mix
       
       
       <li>
-        <a href="mailto:?subject=SGLRT%20package%20&amp;body=https://shinjaehyeok.github.io/post/sglrt-package/" target="_blank" rel="noopener" class="share-btn-email">
+        <a href="mailto:?subject=SGLRT%20package%20&amp;body=/post/sglrt-package/" target="_blank" rel="noopener" class="share-btn-email">
           <i class="fas fa-envelope"></i>
         </a>
       </li>
@@ -2009,7 +1879,7 @@ dis_mix
       
       
       <li>
-        <a href="https://www.linkedin.com/shareArticle?url=https://shinjaehyeok.github.io/post/sglrt-package/&amp;title=SGLRT%20package%20" target="_blank" rel="noopener" class="share-btn-linkedin">
+        <a href="https://www.linkedin.com/shareArticle?url=/post/sglrt-package/&amp;title=SGLRT%20package%20" target="_blank" rel="noopener" class="share-btn-linkedin">
           <i class="fab fa-linkedin-in"></i>
         </a>
       </li>
@@ -2022,7 +1892,7 @@ dis_mix
       
       
       <li>
-        <a href="whatsapp://send?text=SGLRT%20package%20%20https://shinjaehyeok.github.io/post/sglrt-package/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+        <a href="whatsapp://send?text=SGLRT%20package%20%20/post/sglrt-package/" target="_blank" rel="noopener" class="share-btn-whatsapp">
           <i class="fab fa-whatsapp"></i>
         </a>
       </li>
@@ -2035,7 +1905,7 @@ dis_mix
       
       
       <li>
-        <a href="https://service.weibo.com/share/share.php?url=https://shinjaehyeok.github.io/post/sglrt-package/&amp;title=SGLRT%20package%20" target="_blank" rel="noopener" class="share-btn-weibo">
+        <a href="https://service.weibo.com/share/share.php?url=/post/sglrt-package/&amp;title=SGLRT%20package%20" target="_blank" rel="noopener" class="share-btn-weibo">
           <i class="fab fa-weibo"></i>
         </a>
       </li>
@@ -2076,7 +1946,7 @@ dis_mix
       
 
       <div class="media-body">
-        <h5 class="card-title"><a href="https://shinjaehyeok.github.io/">Jaehyeok Shin</a></h5>
+        <h5 class="card-title"><a href="/">Jaehyeok Shin</a></h5>
         <h6 class="card-subtitle">Postdoctoral Researcher</h6>
         <p class="card-text">My research interest lies in understanding the sequential and adaptive nature of data analysis.</p>
         <ul class="network-icon" aria-hidden="true">
@@ -2323,6 +2193,16 @@ dis_mix
   
   <div class="container">
     <footer class="site-footer">
+  
+  <p class="powered-by">
+    
+      <a href="/privacy/">Privacy Policy</a>
+    
+    
+       &middot; 
+      <a href="/terms/">Terms</a>
+    
+  </p>
   
 
   <p class="powered-by">
