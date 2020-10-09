@@ -2,27 +2,28 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>JH&#39;s Blog</title>
-    <link>/</link>
-      <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://shinjaehyeok.github.io/</link>
+      <atom:link href="https://shinjaehyeok.github.io/index.xml" rel="self" type="application/rss+xml" />
     <description>JH&#39;s Blog</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>Copyright 2020 Jaehyeok Shin. All rights reserved.</copyright><lastBuildDate>Sun, 27 Sep 2020 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_2.png</url>
+      <url>https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_2.png</url>
       <title>JH&#39;s Blog</title>
-      <link>/</link>
+      <link>https://shinjaehyeok.github.io/</link>
     </image>
     
     <item>
       <title>SGLRT package </title>
-      <link>/post/sglrt-package/</link>
+      <link>https://shinjaehyeok.github.io/post/sglrt-package/</link>
       <pubDate>Sun, 27 Sep 2020 00:00:00 +0000</pubDate>
-      <guid>/post/sglrt-package/</guid>
+      <guid>https://shinjaehyeok.github.io/post/sglrt-package/</guid>
       <description>
 
 
 &lt;div id=&#34;sglrt&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;SGLRT&lt;/h1&gt;
-&lt;p&gt;&lt;code&gt;SGLRT&lt;/code&gt; is a R package implementation of Sequential Generalized Likelihood Ratio (GLR)-like Tests and confidence sequences in &lt;strong&gt;Paper&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;SGLRT&lt;/code&gt; is a R package implementation of Sequential Generalized Likelihood Ratio (GLR)-like Tests and confidence sequences in&lt;/p&gt;
+&lt;p&gt;J. Shin, A. Ramdas, A. Rinaldo (2020), &lt;em&gt;Nonparametric iterated-logarithm extensions to Lorden’s treatment of the sequential GLRT&lt;/em&gt;.&lt;/p&gt;
 &lt;div id=&#34;installation&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Installation&lt;/h2&gt;
 &lt;p&gt;You can install the &lt;code&gt;SGLRT&lt;/code&gt; package from &lt;a href=&#34;https://github.com/&#34;&gt;GitHub&lt;/a&gt; with:&lt;/p&gt;
@@ -35,9 +36,9 @@ install.packages(&#34;SGLRT&#34;)
 ```
 --&gt;
 &lt;/div&gt;
-&lt;div id=&#34;how-to-reproduce-all-plots-and-simulation-results-in-paper.&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;How to reproduce all plots and simulation results in &lt;strong&gt;paper&lt;/strong&gt;.&lt;/h2&gt;
-&lt;p&gt;To reproduce plots, you need to install &lt;code&gt;latex2exp&lt;/code&gt; package which parses and converts LaTeX math formulas to R’s plotmath expressions. It is is not installed, you can run the following command to install is.&lt;/p&gt;
+&lt;div id=&#34;how-to-reproduce-all-plots-and-simulation-results-in-srr20.&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;How to reproduce all plots and simulation results in SRR’20.&lt;/h2&gt;
+&lt;p&gt;To reproduce plots, you need to install &lt;code&gt;latex2exp&lt;/code&gt; package which parses and converts LaTeX math formulas to R’s plotmath expressions. It is is not installed, you can run the following command to install it.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;install.packages(&amp;quot;latex2exp&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;div id=&#34;compare-boundaries-for-sequential-glr-tests.&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;1. Compare boundaries for sequential GLR tests.&lt;/h3&gt;
@@ -92,7 +93,7 @@ for (i in seq_along(alpha[1:3])){
   }
 }
 legend(&amp;quot;topleft&amp;quot;, TeX(c(paste0(&amp;quot;Lorden&amp;#39;s ($\\alpha = &amp;quot;, alpha[1:3],&amp;quot;$)&amp;quot;), paste0(&amp;quot;Ours ($\\alpha = &amp;quot;, alpha[1:3],&amp;quot;$)&amp;quot;))), col = c(rep(1,3), rep(2,3)), lty = rep(1:3,2))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2020-09-27-sglrt-package.en_files/figure-html/Fig.3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://shinjaehyeok.github.io/post/2020-09-27-sglrt-package.en_files/figure-html/Fig.3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;ratio-of-cis-width-to-clt&#34; class=&#34;section level3&#34;&gt;
@@ -226,14 +227,14 @@ legend(&amp;quot;topright&amp;quot;, bounds_name,
        lty = legend_lty,
        col = legend_col,
        bg= &amp;quot;white&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2020-09-27-sglrt-package.en_files/figure-html/Fig.5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://shinjaehyeok.github.io/post/2020-09-27-sglrt-package.en_files/figure-html/Fig.5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;efficiency-of-glr-like-and-discrete-mixture-tests&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;3. Efficiency of GLR-like and discrete mixture tests&lt;/h3&gt;
 &lt;div id=&#34;table-i-vi-in-appendix-d&#34; class=&#34;section level5&#34;&gt;
 &lt;h5&gt;(Table I-VI in Appendix D)&lt;/h5&gt;
-&lt;p&gt;The following Rcode reproduces Table I-VI in Appendix D in which we compared performances of sequential &lt;code&gt;GLR-like&lt;/code&gt; and &lt;code&gt;Discrete mixture&lt;/code&gt; tests to standard fixed sample size based tests for Gaussian and Bernoulli observations. In this document, we repeated the simulation only &lt;code&gt;100&lt;/code&gt; times to save the computation time but, in the paper, the simulation result based on &lt;code&gt;2000&lt;/code&gt; times repeatation is presented.&lt;/p&gt;
+&lt;p&gt;The following Rcode reproduces Table I-VI in Appendix D in which we compared performances of sequential &lt;code&gt;GLR-like&lt;/code&gt; and &lt;code&gt;Discrete mixture&lt;/code&gt; tests to standard fixed sample size based tests for Gaussian and Bernoulli observations. In this document, we repeated the simulation only &lt;code&gt;100&lt;/code&gt; times to save the computation time but, in the paper, the simulation result based on &lt;code&gt;2000&lt;/code&gt; times repetition is presented.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Type 1 and Type 2 error control simulation
 library(SGLRT)
 
@@ -301,7 +302,7 @@ ber_sample &amp;lt;- function(n, mu_true){
   rbinom(n, 1, prob = mu_true)
 }
 
-# Function to summurize the simulation result
+# Function to summarize the simulation result
 summ_simul &amp;lt;- function(result_name,
                        simul_out,
                        mu_true_vec){
@@ -328,10 +329,14 @@ f_simul &amp;lt;- function(mu) {
                     mu_true = mu,
                     mu_0 = 0,
                     alpha = 0.1,
-                    beta = 0.9,
+                    beta = 0.1,
                     B = 100,
                     print_progress = FALSE,
-                    print_result = FALSE)
+                    print_result = FALSE,
+                    sample_generator = G_sample,
+                    power_fn = G_pwr,
+                    fixed_test_fn = z_test,
+                    seq_test_fn = seq_G_test_generator)
   return(out)
 }
 
@@ -348,7 +353,7 @@ early_stop_ratio_G &amp;lt;- summ_simul(&amp;quot;early_stop_ratio&amp;quot;,
                                simul_G_out,
                                mu_true_vec)&lt;/code&gt;&lt;/pre&gt;
 &lt;!-- html table generated in R 4.0.2 by xtable 1.8-4 package --&gt;
-&lt;!-- Sat Oct  3 01:39:20 2020 --&gt;
+&lt;!-- Fri Oct  9 01:20:51 2020 --&gt;
 &lt;table border=&#34;1&#34;&gt;
 &lt;caption align=&#34;bottom&#34;&gt;
 Estimated probabilities of rejecting the null hypothesis. (Gaussian)
@@ -494,7 +499,7 @@ exact_test
 &lt;/tr&gt;
 &lt;/table&gt;
 &lt;!-- html table generated in R 4.0.2 by xtable 1.8-4 package --&gt;
-&lt;!-- Sat Oct  3 01:39:20 2020 --&gt;
+&lt;!-- Fri Oct  9 01:20:51 2020 --&gt;
 &lt;table border=&#34;1&#34;&gt;
 &lt;caption align=&#34;bottom&#34;&gt;
 Estimated average sample sizes of testing procedures. (Gaussian)
@@ -619,7 +624,7 @@ exact_test
 &lt;/tr&gt;
 &lt;/table&gt;
 &lt;!-- html table generated in R 4.0.2 by xtable 1.8-4 package --&gt;
-&lt;!-- Sat Oct  3 01:39:20 2020 --&gt;
+&lt;!-- Fri Oct  9 01:20:51 2020 --&gt;
 &lt;table border=&#34;1&#34;&gt;
 &lt;caption align=&#34;bottom&#34;&gt;
 Estimated probabilities of tests being stopped earlier than Z-test.
@@ -735,7 +740,7 @@ f_simul &amp;lt;- function(mu) {
                     mu_true = mu,
                     mu_0 = 0.1,
                     alpha = 0.1,
-                    beta = 0.9,
+                    beta = 0.1,
                     B = 100,
                     print_progress = FALSE,
                     print_result = FALSE,
@@ -759,7 +764,7 @@ early_stop_ratio_ber &amp;lt;- summ_simul(&amp;quot;early_stop_ratio&amp;quot;,
                                simul_ber_out,
                                mu_true_vec)&lt;/code&gt;&lt;/pre&gt;
 &lt;!-- html table generated in R 4.0.2 by xtable 1.8-4 package --&gt;
-&lt;!-- Sat Oct  3 01:39:20 2020 --&gt;
+&lt;!-- Fri Oct  9 01:20:51 2020 --&gt;
 &lt;table border=&#34;1&#34;&gt;
 &lt;caption align=&#34;bottom&#34;&gt;
 Estimated probabilities of rejecting the null hypothesis. (Bernoulli)
@@ -905,7 +910,7 @@ exact_test
 &lt;/tr&gt;
 &lt;/table&gt;
 &lt;!-- html table generated in R 4.0.2 by xtable 1.8-4 package --&gt;
-&lt;!-- Sat Oct  3 01:39:20 2020 --&gt;
+&lt;!-- Fri Oct  9 01:20:51 2020 --&gt;
 &lt;table border=&#34;1&#34;&gt;
 &lt;caption align=&#34;bottom&#34;&gt;
 Estimated average sample sizes of testing procedures. (Bernoulli)
@@ -1030,7 +1035,7 @@ exact_test
 &lt;/tr&gt;
 &lt;/table&gt;
 &lt;!-- html table generated in R 4.0.2 by xtable 1.8-4 package --&gt;
-&lt;!-- Sat Oct  3 01:39:20 2020 --&gt;
+&lt;!-- Fri Oct  9 01:20:51 2020 --&gt;
 &lt;table border=&#34;1&#34;&gt;
 &lt;caption align=&#34;bottom&#34;&gt;
 Estimated probabilities of tests being stopped earlier than the exact binomial test.
@@ -1142,24 +1147,6 @@ dis_mix
 &lt;p&gt;&lt;a name=&#34;myfootnote2&#34;&gt;2&lt;/a&gt;: S. R. Howard, A. Ramdas, J. McAuliffe, and J. Sekhon, “Uniform, nonparametric, non-asymptotic confidence sequences,”arXiv preprint arXiv:1810.08240, 2018. &lt;sup&gt;&lt;a href=&#34;#myfootnote2_return&#34;&gt;return&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Privacy Policy</title>
-      <link>/privacy/</link>
-      <pubDate>Thu, 28 Jun 2018 00:00:00 +0100</pubDate>
-      <guid>/privacy/</guid>
-      <description>&lt;p&gt;&amp;hellip;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Terms</title>
-      <link>/terms/</link>
-      <pubDate>Thu, 28 Jun 2018 00:00:00 +0100</pubDate>
-      <guid>/terms/</guid>
-      <description>&lt;p&gt;&amp;hellip;&lt;/p&gt;
 </description>
     </item>
     
