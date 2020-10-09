@@ -247,6 +247,44 @@ J. Shin, A. Ramdas, A. Rinaldo (2020), Nonparametric iterated-logarithm extensio
 
 
 
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-144639945-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+      dataLayer.push(arguments);
+  }
+
+  function trackOutboundLink(url, target) {
+    gtag('event', 'click', {
+         'event_category': 'outbound',
+         'event_label': url,
+         'transport_type': 'beacon',
+         'event_callback': function () {
+           if (target !== '_blank') {
+             document.location = url;
+           }
+         }
+    });
+    console.debug("Outbound link clicked: " + url);
+  }
+
+  function onClickCallback(event) {
+    if ((event.target.tagName !== 'A') || (event.target.host === window.location.host)) {
+      return;
+    }
+    trackOutboundLink(event.target, event.target.getAttribute('target'));  
+  }
+
+  gtag('js', new Date());
+  gtag('config', 'UA-144639945-1', {});
+
+  
+  document.addEventListener('click', onClickCallback, false);
+</script>
+
+
   
 
 
@@ -1020,7 +1058,7 @@ early_stop_ratio_G &lt;- summ_simul(&quot;early_stop_ratio&quot;,
                                simul_G_out,
                                mu_true_vec)</code></pre>
 <!-- html table generated in R 4.0.2 by xtable 1.8-4 package -->
-<!-- Fri Oct  9 01:20:51 2020 -->
+<!-- Fri Oct  9 01:32:50 2020 -->
 <table border="1">
 <caption align="bottom">
 Estimated probabilities of rejecting the null hypothesis. (Gaussian)
@@ -1166,7 +1204,7 @@ exact_test
 </tr>
 </table>
 <!-- html table generated in R 4.0.2 by xtable 1.8-4 package -->
-<!-- Fri Oct  9 01:20:51 2020 -->
+<!-- Fri Oct  9 01:32:50 2020 -->
 <table border="1">
 <caption align="bottom">
 Estimated average sample sizes of testing procedures. (Gaussian)
@@ -1291,7 +1329,7 @@ exact_test
 </tr>
 </table>
 <!-- html table generated in R 4.0.2 by xtable 1.8-4 package -->
-<!-- Fri Oct  9 01:20:51 2020 -->
+<!-- Fri Oct  9 01:32:50 2020 -->
 <table border="1">
 <caption align="bottom">
 Estimated probabilities of tests being stopped earlier than Z-test.
@@ -1431,7 +1469,7 @@ early_stop_ratio_ber &lt;- summ_simul(&quot;early_stop_ratio&quot;,
                                simul_ber_out,
                                mu_true_vec)</code></pre>
 <!-- html table generated in R 4.0.2 by xtable 1.8-4 package -->
-<!-- Fri Oct  9 01:20:51 2020 -->
+<!-- Fri Oct  9 01:32:50 2020 -->
 <table border="1">
 <caption align="bottom">
 Estimated probabilities of rejecting the null hypothesis. (Bernoulli)
@@ -1577,7 +1615,7 @@ exact_test
 </tr>
 </table>
 <!-- html table generated in R 4.0.2 by xtable 1.8-4 package -->
-<!-- Fri Oct  9 01:20:51 2020 -->
+<!-- Fri Oct  9 01:32:50 2020 -->
 <table border="1">
 <caption align="bottom">
 Estimated average sample sizes of testing procedures. (Bernoulli)
@@ -1702,7 +1740,7 @@ exact_test
 </tr>
 </table>
 <!-- html table generated in R 4.0.2 by xtable 1.8-4 package -->
-<!-- Fri Oct  9 01:20:51 2020 -->
+<!-- Fri Oct  9 01:32:50 2020 -->
 <table border="1">
 <caption align="bottom">
 Estimated probabilities of tests being stopped earlier than the exact binomial test.
