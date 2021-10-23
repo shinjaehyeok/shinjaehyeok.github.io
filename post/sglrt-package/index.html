@@ -1,0 +1,2286 @@
+<!DOCTYPE html><html lang="en-us" >
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.8.0">
+
+  
+
+  
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Jaehyeok Shin">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="SGLRT SGLRT is a R package implementation of Sequential Generalized Likelihood Ratio (GLR)-like Tests and confidence sequences in
+Nonparametric iterated-logarithm extensions to Lorden’s treatment of the sequential GLRT
+J. Shin, A.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://shinjaehyeok.github.io/post/sglrt-package/">
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+  
+  <script src="/js/mathjax-config.js"></script>
+  
+
+  
+  
+  
+  
+    
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha256-FMvZuGapsJLjouA6k7Eo2lusoAX9i0ShlWFG6qt7SLc=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css" integrity="sha256-SHMGCYmST46SoyGgo4YR/9AlK1vf3ff84Aq9yK4hdqM=" crossorigin="anonymous">
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+    
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap">
+    
+  
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.css">
+
+  
+
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-144639945-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+      dataLayer.push(arguments);
+  }
+
+  function trackOutboundLink(url, target) {
+    gtag('event', 'click', {
+         'event_category': 'outbound',
+         'event_label': url,
+         'transport_type': 'beacon',
+         'event_callback': function () {
+           if (target !== '_blank') {
+             document.location = url;
+           }
+         }
+    });
+    console.debug("Outbound link clicked: " + url);
+  }
+
+  function onClickCallback(event) {
+    if ((event.target.tagName !== 'A') || (event.target.host === window.location.host)) {
+      return;
+    }
+    trackOutboundLink(event.target, event.target.getAttribute('target'));  
+  }
+
+  gtag('js', new Date());
+  gtag('config', 'UA-144639945-1', {});
+
+  
+  document.addEventListener('click', onClickCallback, false);
+</script>
+
+
+  
+
+
+  
+  
+
+  
+
+  <link rel="manifest" href="/index.webmanifest">
+  <link rel="icon" type="image/png" href="/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_32x32_fill_lanczos_center_3.png">
+  <link rel="apple-touch-icon" type="image/png" href="/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_192x192_fill_lanczos_center_3.png">
+
+  <link rel="canonical" href="https://shinjaehyeok.github.io/post/sglrt-package/">
+
+  
+  
+  
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary">
+  
+  <meta property="twitter:site" content="@Project20s">
+  <meta property="twitter:creator" content="@Project20s">
+  
+  <meta property="og:site_name" content="JH&#39;s Blog">
+  <meta property="og:url" content="https://shinjaehyeok.github.io/post/sglrt-package/">
+  <meta property="og:title" content="SGLRT package  | JH&#39;s Blog">
+  <meta property="og:description" content="SGLRT SGLRT is a R package implementation of Sequential Generalized Likelihood Ratio (GLR)-like Tests and confidence sequences in
+Nonparametric iterated-logarithm extensions to Lorden’s treatment of the sequential GLRT
+J. Shin, A."><meta property="og:image" content="https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_3.png">
+  <meta property="twitter:image" content="https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_3.png"><meta property="og:locale" content="en-us">
+  
+    
+      <meta property="article:published_time" content="2020-09-27T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2020-09-27T19:33:12-07:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://shinjaehyeok.github.io/post/sglrt-package/"
+  },
+  "headline": "SGLRT package ",
+  
+  "datePublished": "2020-09-27T00:00:00Z",
+  "dateModified": "2020-09-27T19:33:12-07:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Jaehyeok Shin"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "JH's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_192x192_fill_lanczos_center_3.png"
+    }
+  },
+  "description": "SGLRT SGLRT is a R package implementation of Sequential Generalized Likelihood Ratio (GLR)-like Tests and confidence sequences in\nNonparametric iterated-logarithm extensions to Lorden’s treatment of the sequential GLRT\nJ. Shin, A."
+}
+</script>
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>SGLRT package  | JH&#39;s Blog</title>
+
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class=" ">
+
+  
+  
+  
+    <script>window.staDarkLightChooser = true;</script>
+  
+  
+    <script>const isSiteThemeDark = false;</script>
+  
+  
+  <script src="/js/load-theme.js"></script>
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">JH&#39;s Blog</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">JH&#39;s Blog</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      
+      <li class="nav-item dropdown theme-dropdown">
+        <a href="#" class="nav-link js-theme-selector" data-toggle="dropdown" aria-haspopup="true">
+          <i class="fas fa-palette" aria-hidden="true"></i>
+        </a>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item js-set-theme-light">
+            <span>Light</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-dark">
+            <span>Dark</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-auto">
+            <span>Automatic</span>
+          </a>
+        </div>
+      </li>
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+
+  <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>SGLRT package </h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    Sep 27, 2020
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    14 min read
+  </span>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/sglrt-package/#disqus_thread"></a>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/category/r-package/">R package</a></span>
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      
+
+
+<div id="sglrt" class="section level1">
+<h1>SGLRT</h1>
+<p><code>SGLRT</code> is a R package implementation of Sequential Generalized Likelihood Ratio (GLR)-like Tests and confidence sequences in</p>
+<p><strong>Nonparametric iterated-logarithm extensions to Lorden’s treatment of the sequential GLRT</strong><br />
+J. Shin, A. Ramdas, A. Rinaldo <a href="https://arxiv.org/abs/2010.08082">arXiv</a></p>
+<div id="installation" class="section level2">
+<h2>Installation</h2>
+<p>You can install the <code>SGLRT</code> package from <a href="https://github.com/">GitHub</a> with:</p>
+<pre class="r"><code># install.packages(&quot;devtools&quot;)
+devtools::install_github(&quot;shinjaehyeok/SGLRT_public&quot;)</code></pre>
+<!---You can install the released version of SGLRT from [CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("SGLRT")
+```
+-->
+</div>
+<div id="how-to-reproduce-all-plots-and-simulation-results-in-srr20." class="section level2">
+<h2>How to reproduce all plots and simulation results in SRR’20.</h2>
+<p>To reproduce plots, you need to install <code>latex2exp</code> package which parses and converts LaTeX math formulas to R’s plotmath expressions. It is is not installed, you can run the following command to install it.</p>
+<pre class="r"><code>install.packages(&quot;latex2exp&quot;)</code></pre>
+<div id="compare-boundaries-for-sequential-glr-tests." class="section level3">
+<h3>1. Compare boundaries for sequential GLR tests.</h3>
+<div id="fig.-3-in-section-iii-a" class="section level5">
+<h5>(Fig. 3 in Section III-A)</h5>
+<p>For a given exponential family distribution, let <span class="math inline">\(\mathrm{GLR}_n (&gt; \mu_1, \leq\mu_0)\)</span> be the GLR statistic based <span class="math inline">\(n\)</span> i.i.d. observations for the one-sided testing problem:
+<span class="math display">\[
+H_0 : \mu \leq \mu_0~~\text{vs}~~H_1 : \mu &gt;\mu_1,
+\]</span>
+for some <span class="math inline">\(\mu_0 &lt; \mu_0\)</span> in the space of mean parameters. <a name="myfootnote1_return">For any constant <span class="math inline">\(g &gt; 0\)</span>, Lorden 1973 proved the following upper bound on the boundary-crossing probability:</a><sup><a href="#myfootnote1">1</a></sup>
+<span class="math display">\[
+\sup_{\mu \leq \mu_0}\mathbb{P}_{\mu} \left(n \geq 1:   \log\mathrm{GLR}_n(&gt;\mu_1,\leq\mu_0) \geq g\right)
+\leq \begin{cases} e^{-g} &amp;\mbox{if } \mathrm{KL}(\mu_1,\mu_0) \geq g \\
+\left(1 + \frac{g}{\mathrm{KL}(\mu_1,\mu_0)} \right)e^{-g} &amp; \mbox{otherwise }.
+\end{cases}
+\]</span></p>
+<p>Alternatively, in our paper, we proved the following inequality holds:</p>
+<p><span class="math display">\[
+\sup_{\mu \leq \mu_0}\mathbb{P}_{\mu} \left(\exists n \geq 1:   \log\mathrm{GLR}_n(&gt;\mu_1,\leq\mu_0) \geq g\right) 
+\leq \begin{cases} e^{-g} &amp;\mbox{if } \mathrm{KL}(\mu_1,\mu_0) \geq g \\
+\inf_{\eta &gt;1} \left\lceil \log_\eta \left(\frac{g}{\mathrm{KL}(\mu_1,\mu_0)}\right)\right\rceil e^{-g / \eta} &amp; \mbox{otherwise }. 
+\end{cases}
+\]</span>
+(In the paper, a nonparametric generalization of the above inequality was presented.)</p>
+<p>Now, for any <span class="math inline">\(\alpha \in (0,1)\)</span>, let <span class="math inline">\(g_\alpha^L(\mu_1,\mu_0)\)</span> and <span class="math inline">\(g_\alpha(\mu_1,\mu_0)\)</span> be smallest boundary values which make RHS of two above inequalities equal to <span class="math inline">\(\alpha\)</span>, respectively. The following Rcode reproduces the Fig. 3 in Section III-A in which we compared <span class="math inline">\(g_\alpha^L(\mu_1,\mu_0)\)</span> and <span class="math inline">\(g_\alpha(\mu_1,\mu_0)\)</span> for normal distributions with <span class="math inline">\(\sigma = 1\)</span>. (In this case, <span class="math inline">\(\mathrm{KL}(\mu_1 ,\mu_0) = (\mu_1 - \mu_0)^2 / 2\)</span>.)</p>
+<pre class="r"><code>library(latex2exp)
+library(SGLRT)
+
+
+alpha &lt;- 10^seq(-1,-10)
+theta_vec &lt;- c(1,0.5, 10^seq(-1,-10)) 
+theta_vec &lt;- 2^seq(0,-30)
+
+d_vec &lt;- theta_vec^2 / 2
+
+for (i in seq_along(alpha[1:3])){
+  f_lorden &lt;- function(d) const_boundary_lorden(alpha[i], d)
+  lorden &lt;- sapply(d_vec, f_lorden)
+  f_ours &lt;- function(d) const_boundary(alpha[i], d)
+  ours  &lt;- sapply(d_vec, f_ours)
+  if (i == 1){
+    plot(1/theta_vec, unlist(lorden[&quot;g&quot;,]), type = &quot;l&quot;, 
+         log =&quot;x&quot;,
+         ylab = &quot;Boundary Value&quot;,
+         xlab = TeX(&quot;$|\\mu_1 - \\mu_0|^{-1}$ (log scale)&quot;))
+    points(1/theta_vec, unlist(ours[&quot;g&quot;,]), type = &quot;l&quot;, col = 2)
+  } else {
+    points(1/theta_vec, unlist(lorden[&quot;g&quot;,]), type = &quot;l&quot;, col = 1,
+           lty = i)
+    points(1/theta_vec, unlist(ours[&quot;g&quot;,]), type = &quot;l&quot;, col = 2,
+           lty = i)
+  }
+}
+legend(&quot;topleft&quot;, TeX(c(paste0(&quot;Lorden&#39;s ($\\alpha = &quot;, alpha[1:3],&quot;$)&quot;), paste0(&quot;Ours ($\\alpha = &quot;, alpha[1:3],&quot;$)&quot;))), col = c(rep(1,3), rep(2,3)), lty = rep(1:3,2))</code></pre>
+<p><img src="/post/2020-09-27-sglrt-package.en_files/figure-html/Fig.3-1.png" width="672" /></p>
+</div>
+</div>
+<div id="ratio-of-cis-width-to-clt" class="section level3">
+<h3>2. Ratio of CI’s width to CLT</h3>
+<div id="fig.-5-in-section-iv-c" class="section level5">
+<h5>(Fig. 5 in Section IV-C)</h5>
+<p>For each <span class="math inline">\(n\)</span>, let <span class="math inline">\(\mathrm{CI}_n(\alpha)\)</span> be a random set based on first <span class="math inline">\(n\)</span> observations <span class="math inline">\(X_1, \dots, X_n\)</span> from a distribution with mean <span class="math inline">\(\mu\)</span>. If the sequence of random sets <span class="math inline">\(\{\mathrm{CI}_n(\alpha)\}_{n \in \mathbb{N}}\)</span> satisfies the following inequality:
+<span class="math display">\[
+\mathbb{P}_\mu \left( \mu \in \mathrm{CI}_n(\alpha), \forall n \in \mathbb{N}\right) \geq 1-\alpha,~~\forall \mu \in (0,1),
+\]</span>
+it is called a <em>confidence sequence</em> with confidence level <span class="math inline">\(\alpha\)</span> (<a name="myfootnote2_return"></a>e.g, see <a href="https://arxiv.org/abs/1810.08240">Howard et al., 2018</a><sup><a href="#myfootnote2">2</a></sup> and references therein for a comprehensive summary of related literature.)</p>
+<p>Based on the upper bound on the boundary crossing probability above, in our paper, we presented two novel confidence sequences called <em>GLR-like</em> and <em>discrete mixture</em> based confidence sequences. For sub-Gaussian distributions with parameter <span class="math inline">\(\sigma\)</span>, The GLR-like confidence sequence is given by
+<span class="math display">\[
+    \mathrm{CI}_n^{\mathrm{G}} := \begin{cases}  \left(\bar{X}_n - \sigma\sqrt{\frac{g_\alpha}{n_{\min}}}\left[  \sqrt{2}  + \frac{1}{\sqrt{2}}\left(\frac{n_{\min}}{n}-1\right)\right], \infty\right) &amp;\mbox{if } n \in [n_0,n_{\min}) \\
+ \left( \bar{X}_n - \sigma\sqrt{\frac{2g_\alpha}{n}}, \infty\right) &amp;\mbox{if }  n \in [n_{\min}, n_{\max}] \\
+ \left(\bar{X}_n - \sigma\sqrt{\frac{g_\alpha}{n_{\max}}}\left[ \sqrt{2}  + \frac{1}{\sqrt{2}}\left(\frac{n_{\max}}{n}-1\right)\right], \infty\right) &amp;\mbox{if } n \in (n_{\max}, \infty)
+  \end{cases},
+\]</span>
+for any given level <span class="math inline">\(\alpha \in (0, 1)\)</span> and target time interval <span class="math inline">\([n_{\min}, n_{\max}]\)</span> on which the confidence sequence is time-uniformly close to the Chrenoff bound. Unlike the GLR-like one, the discrete mixture based confidence sequence <span class="math inline">\(\{\mathrm{CI}_n^{\mathrm{DM}}\}\)</span> does not have an explicit form and see the paper for the detailed explanation how to compute <span class="math inline">\(\mathrm{CI}_n^{\mathrm{DM}}\)</span> for given sample mean <span class="math inline">\(\bar{X}_n\)</span> and confidence level <span class="math inline">\(\alpha\)</span>. By the construction, we have <span class="math inline">\(\mathrm{CI}_n^{\mathrm{G}} \subset \mathrm{CI}_n^{\mathrm{DM}}\)</span>.</p>
+<p>In Section IV-C of the paper, we compare these bounds with the stitching and normal mixture bounds in <a href="https://arxiv.org/abs/1810.08240">Howard et al., 2018</a> where each confidence intervals for stitching <span class="math inline">\(\mathrm{CI}_{n}^{\mathrm{ST}}\)</span> and normal mixture method <span class="math inline">\(\mathrm{CI}_n^{\mathrm{NM}}\)</span> is given by
+<span class="math display">\[
+\begin{aligned}
+    \mathrm{CI}_{n}^{\mathrm{ST}} &amp;:= \left(\bar{X}_n-  \frac{1.7}{\sqrt{n}}\sqrt{\log\log(2n) + 0.72 \log\left(\frac{5.2}{\alpha}\right)}, \infty \right) \\
+    \mathrm{CI}_{n}^{\mathrm{NM}} &amp;:= \left(\bar{X}_n-  \sqrt{2 \left(1 + \frac{\rho}{n}\right) \log\left(\frac{1}{2\alpha} \sqrt{\frac{n + \rho}{\rho} + 1}\right)}, \infty \right),
+\end{aligned}
+\]</span>
+where we set <span class="math inline">\(\rho = 1260\)</span> by following the setting in Figure 9 of <a href="https://arxiv.org/abs/1810.08240">Howard et al., 2018</a>.</p>
+<p>The following Rcode reproduces the Fig. 5 in Section IV-C in which we compared ratios of widths of confidence intervals above to the pointwise and asymptotically valid normal confidence intervals based on the central limit theorem.</p>
+<pre class="r"><code>library(SGLRT)
+
+# Chernoff
+chornoff &lt;- function(v, alpha = 0.025){
+  sqrt(2  * log(1/alpha) / v)
+}
+
+# Normal mixture function
+normal_mix &lt;- function(v, alpha = 0.025, rho = 1260){
+  sqrt(2 * (1 + rho / v) * log(1/(2*alpha) * sqrt((v + rho)/rho) + 1)) 
+}
+
+#Stitching
+stitch &lt;- function(v, alpha = 0.025){
+  1.7 * sqrt((log(log(2) + log(v)) + 0.72 * log(5.2/alpha)) / v) 
+}
+
+# CLT
+CLT &lt;- function(v, alpha = 0.025){
+  qnorm(1-alpha) / sqrt(v)
+}
+
+# Functions to construct our bounds
+# First one has target interval [1, nmax]
+# Second one has target interval [nmax / 20, nmax * 4]
+
+alpha &lt;- 0.025
+nmax &lt;- 1e+5
+
+nmax1 &lt;- nmax
+nmin1 = 1
+
+nmax2 &lt;- nmax1 * 4
+nmin2 &lt;- nmax1 / 20
+
+
+ours1 &lt;- SGLR_CI_additive(alpha, nmax1, nmin1)
+ours2 &lt;- SGLR_CI_additive(alpha, nmax2, nmin2)
+
+
+# Compute the width of CIs on exponentially-spaced grid.
+M &lt;- log(nmax, base = 10)
+v &lt;- 10^(seq(0,M + 0.2, length.out = 100))
+
+
+# Compute existing bounds
+chornoff_vec &lt;- sapply(v, chornoff)
+CLT_vec &lt;- sapply(v, CLT)
+normal_mix_vec &lt;- sapply(v, normal_mix)
+stit_vec &lt;- sapply(v, stitch)
+
+existing_list &lt;- list(stitch = stit_vec,
+                      normal_mix = normal_mix_vec)
+
+# Compute our bounds
+GLR_like_1_vec &lt;- sapply(v, ours1$GLR_like_fn)
+GLR_like_2_vec &lt;- sapply(v, ours2$GLR_like_fn)
+our_dis_mix_1_vec &lt;- sapply(v, ours1$dis_mix_fn)
+our_dis_mix_2_vec &lt;- sapply(v, ours2$dis_mix_fn)
+
+
+ours_list_1 &lt;- list(GLR_like_1 = GLR_like_1_vec,
+                    our_dis_mix_1 = our_dis_mix_1_vec)
+
+ours_list_2 &lt;- list(GLR_like_2 = GLR_like_2_vec,
+                    our_dis_mix_2 = our_dis_mix_2_vec)
+
+# Plot ratio of bounds
+title &lt;- &quot;Ratio of CI&#39;s width to CLT&quot;
+plot(v, chornoff_vec / CLT_vec, type = &quot;l&quot;,
+     main = title,
+     ylab = &quot;Ratio&quot;,
+     xlab = &quot;n&quot;,
+     ylim = c(1, 4),
+     xlim = c(1, nmax))
+col = 1
+legend_col &lt;- c(1)
+for (i in seq_along(existing_list)){
+  col &lt;- col + 1
+  legend_col &lt;- c(legend_col, col)
+  lines(v, existing_list[[i]] / CLT_vec, col = col)
+}
+legend_lty &lt;- rep(1, length(existing_list) + 1)
+for (i in seq_along(ours_list_1)){
+  col &lt;- col + 1
+  legend_col &lt;- c(legend_col, col)
+  lines(v, ours_list_1[[i]] / CLT_vec,
+        lty = 2, lwd = 2, col = col)
+}
+legend_lty &lt;- c(legend_lty, rep(2, length(ours_list_1)))
+for (i in seq_along(ours_list_2)){
+  col &lt;- col + 1
+  legend_col &lt;- c(legend_col, col)
+  lines(v, ours_list_2[[i]] / CLT_vec,
+        lty = 4, lwd = 2, col = col)
+}
+legend_lty &lt;- c(legend_lty, rep(4, length(ours_list_2)))
+abline(v = c(nmin1, nmin2, nmax1, nmax2), lty = 3)
+bounds_name &lt;- c(&quot;Chernoff&quot;, &quot;Stitching (HRMS&#39;20)&quot;, &quot;Normal Mix. (HRMS&#39;20)&quot;,
+                 &quot;GLR-like 1 (Ours)&quot;, &quot;Discrete Mix. 1 (Ours)&quot;,
+                 &quot;GLR-like 2 (Ours)&quot;, &quot;Discrete Mix. 2 (Ours)&quot;)
+legend(&quot;topright&quot;, bounds_name,
+       lty = legend_lty,
+       col = legend_col,
+       bg= &quot;white&quot;)</code></pre>
+<p><img src="/post/2020-09-27-sglrt-package.en_files/figure-html/Fig.5-1.png" width="672" /></p>
+</div>
+</div>
+<div id="efficiency-of-glr-like-and-discrete-mixture-tests" class="section level3">
+<h3>3. Efficiency of GLR-like and discrete mixture tests</h3>
+<div id="table-i-vi-in-appendix-d" class="section level5">
+<h5>(Table I-VI in Appendix D)</h5>
+<p>The following Rcode reproduces Table I-VI in Appendix D in which we compared performances of sequential <code>GLR-like</code> and <code>Discrete mixture</code> tests to standard fixed sample size based tests for Gaussian and Bernoulli observations. In this document, we repeated the simulation only <code>100</code> times to save the computation time but, in the paper, the simulation result based on <code>2000</code> times repetition is presented.</p>
+<pre class="r"><code># Type 1 and Type 2 error control simulation
+library(SGLRT)
+
+# Define functions for tests based on a fixed sample size.
+
+# Compute power of Z-test
+G_pwr &lt;- function(n, mu_target, mu_0, alpha){
+  thres_exact &lt;- qnorm(alpha, mu_0, sd = 1/sqrt(n), lower.tail = FALSE)
+  pwr &lt;- pnorm(thres_exact, mu_target, sd = 1/sqrt(n), lower.tail = FALSE)
+  return(pwr)
+}
+
+# Z-test function (reject the null if the returned value is positive)
+z_test &lt;- function(x_bar, n, mu_0, alpha){
+  z_alpha &lt;- qnorm(1-alpha)
+  x_bar - mu_0 - z_alpha / sqrt(n)
+}
+
+# Compute power of binomial test
+binom_pwr &lt;- function(n, mu_target, mu_0, alpha){
+  n &lt;- floor(n)
+  thres_exact &lt;- qbinom(alpha, n, mu_0, lower.tail = FALSE)
+  pwr &lt;- pbinom(thres_exact, n, mu_target, lower.tail = FALSE)
+  return(pwr)
+}
+
+# Exact binomial test (reject the null if the returned value is positive)
+binom_test &lt;- function(x_bar, n, mu_0, alpha){
+  thres_exact &lt;- qbinom(alpha, n, mu_0, lower.tail = FALSE)
+  return(x_bar * n - thres_exact)
+}
+
+# Sequential tests
+
+# GLR-like and discrete mixture test for sub-Gaussian
+seq_G_test_generator &lt;- function(alpha, nmax, nmin){
+  G_out &lt;- SGLR_CI(alpha, nmax, nmin)
+  return(G_out)
+} 
+
+# GLR-like and discrete mixture test for sub-Bernoulli
+ber_fn_list &lt;- generate_sub_ber_fn()
+seq_ber_test_generator &lt;- function(alpha, nmax, nmin){
+  ber_out &lt;- SGLR_CI(alpha,
+                     nmax, 
+                     nmin,
+                     breg = ber_fn_list$breg,
+                     breg_pos_inv = ber_fn_list$breg_pos_inv,
+                     breg_neg_inv = ber_fn_list$breg_neg_inv,
+                     breg_derv = ber_fn_list$breg_derv,
+                     mu_lower = ber_fn_list$mu_lower,
+                     mu_upper = ber_fn_list$mu_upper,
+                     grid_by = ber_fn_list$grid_by)
+  return(ber_out)
+} 
+
+# Sample generators
+# Gaussian samples
+G_sample &lt;- function(n, mu_true){
+  rnorm(n, mean = mu_true)
+}
+
+# Bernoulli samples
+ber_sample &lt;- function(n, mu_true){
+  rbinom(n, 1, prob = mu_true)
+}
+
+# Function to summarize the simulation result
+summ_simul &lt;- function(result_name,
+                       simul_out,
+                       mu_true_vec){
+  out &lt;-   data.frame(mu_true = mu_true_vec, 
+                      exact_hacking = numeric(length(mu_true_vec)),
+                      GLR_like = numeric(length(mu_true_vec)),
+                      dis_mix = numeric(length(mu_true_vec)),
+                      exact_test = numeric(length(mu_true_vec)))
+  for (i in seq_along(mu_true_vec)){
+    out[i, -1] &lt;- simul_out[[i]][[result_name]]
+  }
+  return(out)
+}</code></pre>
+</div>
+<div id="gaussian-case" class="section level4">
+<h4>3-1. Gaussian case</h4>
+<p>In the Gaussian setting, we compared sequential <code>GLL-like</code> and <code>Discrete mixture</code> tests to the <code>Z-test</code>. We set the null hypothesis as the mean of the Gaussian distribution is less than or equal to <code>0</code>, and the alternative hypothesis as the true mean is greater than <code>0.1</code>. The <code>Z-test</code> was performed based on a fixed sample size to make the test control both type-1 and type-2 errors by <code>0.1</code>. In the following three tables, results of all three testing procedures are summarized. In the first table, we show that, for each underlying true mean, how frequently each testing procedure rejects the null hypothesis. Here the column <code>Z-test (p-hacking)</code> represents the naive usage of <code>Z-test</code> as a sequential procedure in which we stop and reject the null whenever p-value of the <code>Z-test</code> goes below the level <code>0.1</code>. This is an example of p-hacking which inflates the type-1 error significantly larger than the target level. From the first table, we can check that the <code>Z-test</code> with continuous monitoring of p-values yields a large type 1 error (<code>0.43</code>) even under a null distribution (<code>mean = -0.5</code>) which is a way from the boundary of the null. In contrast, for all other testing procedures, type 1 errors are controlled under the null distributions.</p>
+<p>For alternative distributions (<code>mean &gt; 0.1</code>), the <code>Z-test</code> has larger powers than the prespecified bound (<code>0.9</code>) as expected. Note that the <code>discrete mixture</code> based sequential test achieves almost the same power compared to the <code>Z-test</code>. However, as we can check from the second and third tables, under the alternative distributions, the <code>discrete mixture</code> test detects the signal faster than the <code>Z-test</code> both on average and with high probability. The <code>GLR-like</code> test yields a weaker power at the boundary of the alternative space but it achieves higher powers and smaller sample size as the underlying true means being farther away from the boundary.</p>
+<p>However, <code>GLR-like</code> and <code>discrete mixture</code> tests do not always perform better than the <code>Z-test</code>. If the underlying true mean lies between boundaries of null and alternative spaces, both test have weaker power and requires more samples to detect the signal compared to the <code>Z-test</code>. Therefore, we recommend to set the boundary of the alternative conservatively in practice.</p>
+<pre class="r"><code># Gaussian simulation
+set.seed(1)
+f_simul &lt;- function(mu) {
+  out &lt;- test_simul(mu_target = 0.1,
+                    mu_true = mu,
+                    mu_0 = 0,
+                    alpha = 0.1,
+                    beta = 0.1,
+                    B = 100,
+                    print_progress = FALSE,
+                    print_result = FALSE,
+                    sample_generator = G_sample,
+                    power_fn = G_pwr,
+                    fixed_test_fn = z_test,
+                    seq_test_fn = seq_G_test_generator)
+  return(out)
+}
+
+mu_true_vec &lt;- seq(-0.05, 0.2, by = 0.05)
+simul_G_out &lt;- lapply(mu_true_vec, f_simul)
+
+reject_rate_G &lt;- summ_simul(&quot;reject_rate&quot;, 
+                          simul_G_out,
+                          mu_true_vec)
+sample_size_G &lt;- summ_simul(&quot;sample_size&quot;,
+                          simul_G_out,
+                          mu_true_vec)
+early_stop_ratio_G &lt;- summ_simul(&quot;early_stop_ratio&quot;,
+                               simul_G_out,
+                               mu_true_vec)</code></pre>
+<!-- html table generated in R 4.0.2 by xtable 1.8-4 package -->
+<!-- Wed Jun  2 23:52:56 2021 -->
+<table border="1">
+<caption align="bottom">
+Estimated probabilities of rejecting the null hypothesis. (Gaussian)
+</caption>
+<tr>
+<th>
+</th>
+<th>
+mu_true
+</th>
+<th>
+exact_hacking
+</th>
+<th>
+GLR_like
+</th>
+<th>
+dis_mix
+</th>
+<th>
+exact_test
+</th>
+</tr>
+<tr>
+<td align="right">
+1
+</td>
+<td align="right">
+-0.05
+</td>
+<td align="right">
+0.48
+</td>
+<td align="right">
+0.00
+</td>
+<td align="right">
+0.05
+</td>
+<td align="right">
+0.01
+</td>
+</tr>
+<tr>
+<td align="right">
+2
+</td>
+<td align="right">
+0.00
+</td>
+<td align="right">
+0.60
+</td>
+<td align="right">
+0.02
+</td>
+<td align="right">
+0.07
+</td>
+<td align="right">
+0.08
+</td>
+</tr>
+<tr>
+<td align="right">
+3
+</td>
+<td align="right">
+0.05
+</td>
+<td align="right">
+0.91
+</td>
+<td align="right">
+0.11
+</td>
+<td align="right">
+0.44
+</td>
+<td align="right">
+0.52
+</td>
+</tr>
+<tr>
+<td align="right">
+4
+</td>
+<td align="right">
+0.10
+</td>
+<td align="right">
+1.00
+</td>
+<td align="right">
+0.69
+</td>
+<td align="right">
+0.88
+</td>
+<td align="right">
+0.86
+</td>
+</tr>
+<tr>
+<td align="right">
+5
+</td>
+<td align="right">
+0.15
+</td>
+<td align="right">
+1.00
+</td>
+<td align="right">
+0.99
+</td>
+<td align="right">
+1.00
+</td>
+<td align="right">
+1.00
+</td>
+</tr>
+<tr>
+<td align="right">
+6
+</td>
+<td align="right">
+0.20
+</td>
+<td align="right">
+1.00
+</td>
+<td align="right">
+1.00
+</td>
+<td align="right">
+1.00
+</td>
+<td align="right">
+1.00
+</td>
+</tr>
+</table>
+<!-- html table generated in R 4.0.2 by xtable 1.8-4 package -->
+<!-- Wed Jun  2 23:52:56 2021 -->
+<table border="1">
+<caption align="bottom">
+Estimated average sample sizes of testing procedures. (Gaussian)
+</caption>
+<tr>
+<th>
+</th>
+<th>
+mu_true
+</th>
+<th>
+GLR_like
+</th>
+<th>
+dis_mix
+</th>
+<th>
+exact_test
+</th>
+</tr>
+<tr>
+<td align="right">
+1
+</td>
+<td align="right">
+-0.05
+</td>
+<td align="right">
+1314.00
+</td>
+<td align="right">
+1252.01
+</td>
+<td align="right">
+657.00
+</td>
+</tr>
+<tr>
+<td align="right">
+2
+</td>
+<td align="right">
+0.00
+</td>
+<td align="right">
+1300.92
+</td>
+<td align="right">
+1241.63
+</td>
+<td align="right">
+657.00
+</td>
+</tr>
+<tr>
+<td align="right">
+3
+</td>
+<td align="right">
+0.05
+</td>
+<td align="right">
+1240.67
+</td>
+<td align="right">
+951.47
+</td>
+<td align="right">
+657.00
+</td>
+</tr>
+<tr>
+<td align="right">
+4
+</td>
+<td align="right">
+0.10
+</td>
+<td align="right">
+897.85
+</td>
+<td align="right">
+473.77
+</td>
+<td align="right">
+657.00
+</td>
+</tr>
+<tr>
+<td align="right">
+5
+</td>
+<td align="right">
+0.15
+</td>
+<td align="right">
+506.40
+</td>
+<td align="right">
+240.82
+</td>
+<td align="right">
+657.00
+</td>
+</tr>
+<tr>
+<td align="right">
+6
+</td>
+<td align="right">
+0.20
+</td>
+<td align="right">
+272.49
+</td>
+<td align="right">
+114.01
+</td>
+<td align="right">
+657.00
+</td>
+</tr>
+</table>
+<!-- html table generated in R 4.0.2 by xtable 1.8-4 package -->
+<!-- Wed Jun  2 23:52:56 2021 -->
+<table border="1">
+<caption align="bottom">
+Estimated probabilities of tests being stopped earlier than Z-test.
+</caption>
+<tr>
+<th>
+</th>
+<th>
+mu_true
+</th>
+<th>
+GLR_like
+</th>
+<th>
+dis_mix
+</th>
+</tr>
+<tr>
+<td align="right">
+1
+</td>
+<td align="right">
+-0.05
+</td>
+<td align="right">
+0.00
+</td>
+<td align="right">
+0.05
+</td>
+</tr>
+<tr>
+<td align="right">
+2
+</td>
+<td align="right">
+0.00
+</td>
+<td align="right">
+0.01
+</td>
+<td align="right">
+0.06
+</td>
+</tr>
+<tr>
+<td align="right">
+3
+</td>
+<td align="right">
+0.05
+</td>
+<td align="right">
+0.06
+</td>
+<td align="right">
+0.33
+</td>
+</tr>
+<tr>
+<td align="right">
+4
+</td>
+<td align="right">
+0.10
+</td>
+<td align="right">
+0.30
+</td>
+<td align="right">
+0.71
+</td>
+</tr>
+<tr>
+<td align="right">
+5
+</td>
+<td align="right">
+0.15
+</td>
+<td align="right">
+0.71
+</td>
+<td align="right">
+0.96
+</td>
+</tr>
+<tr>
+<td align="right">
+6
+</td>
+<td align="right">
+0.20
+</td>
+<td align="right">
+0.97
+</td>
+<td align="right">
+1.00
+</td>
+</tr>
+</table>
+</div>
+<div id="bernoulli-case" class="section level4">
+<h4>3-2. Bernoulli case</h4>
+<p>In the Bernoulli setting, we compared sequential <code>GLL-like</code> and <code>Discrete mixture</code> tests to the <code>exact binomial</code> test. We set the null hypothesis as the mean of the Bernoulli distribution is less than or equal to <code>0.1</code>, and the alternative hypothesis as the true mean is greater than <code>0.12</code>. The <code>exact binomial</code> test was performed based on a fixed sample size to make the test control both type-1 and type-2 errors by <code>0.1</code>. The following three tables summarize the simulation result. In all three tables, we can check the same pattern we observed from the Gaussian case. In the first table, we show that, for each underlying true mean, how frequently each testing procedure rejects the null hypothesis. Here the column <code>Exact binomial (p-hacking)</code> represents the naive usage of the exact test as a sequential procedure in which we stop and reject the null whenever p-value of the test goes below the level <code>0.1</code>. As we observed before, the p-hacking inflates the type-1 error significantly larger than the target level. From the table, we can check that the <code>exact binomial test</code> with continuous monitoring of p-values yields a large type 1 error (<code>0.23</code>) even under a null distribution (<code>mean = 0.09</code>) which is a way from the boundary of the null. In contrast, for all other testing procedures, type 1 errors are controlled under the null distributions.</p>
+<p>For alternative distributions (<code>mean &gt; 0.12</code>), the <code>exact binomial</code> test has larger powers than the prespecified bound <code>0.9</code> as expected. Again, as same as the Gaussian case, the <code>discrete mixture</code> based sequential test achieves almost the same power compared to the <code>exact binomial</code> test. However, as we can check from the second and third tables, under the alternative distributions, the <code>discrete mixture</code> test uses, on average and with a high probability, smaller numbers of samples to detect the signal than the <code>exact binomial</code> test with a fixed sample size. The <code>GLR-like</code> test yields a weaker power at the boundary of the alternative space but it achieves higher powers and smaller sample size as the underlying true means being farther away from the boundary.</p>
+<p>However, as same as the Gaussian case, <code>GLR-like</code> and <code>discrete mixture</code> tests do not always perform better than the <code>exact binomial</code> test. If the underlying true mean lies between boundaries of null and alternative spaces, both test have weaker power and requires more samples to detect the signal compared to the <code>exact binomial</code>. Therefore, it is recommended to set the boundary of the alternative close to the boundary of the null in practice.</p>
+<pre class="r"><code># Bernoulli simulation
+set.seed(1)
+f_simul &lt;- function(mu) {
+  out &lt;- test_simul(mu_target = 0.12,
+                    mu_true = mu,
+                    mu_0 = 0.1,
+                    alpha = 0.1,
+                    beta = 0.1,
+                    B = 100,
+                    print_progress = FALSE,
+                    print_result = FALSE,
+                    sample_generator = ber_sample,
+                    power_fn = binom_pwr,
+                    fixed_test_fn = binom_test,
+                    seq_test_fn = seq_ber_test_generator)
+  return(out)
+}
+
+mu_true_vec &lt;- seq(0.09, 0.14, by = 0.01)
+simul_ber_out &lt;- lapply(mu_true_vec, f_simul)
+
+reject_rate_ber &lt;- summ_simul(&quot;reject_rate&quot;, 
+                          simul_ber_out,
+                          mu_true_vec)
+sample_size_ber &lt;- summ_simul(&quot;sample_size&quot;,
+                          simul_ber_out,
+                          mu_true_vec)
+early_stop_ratio_ber &lt;- summ_simul(&quot;early_stop_ratio&quot;,
+                               simul_ber_out,
+                               mu_true_vec)</code></pre>
+<!-- html table generated in R 4.0.2 by xtable 1.8-4 package -->
+<!-- Wed Jun  2 23:53:41 2021 -->
+<table border="1">
+<caption align="bottom">
+Estimated probabilities of rejecting the null hypothesis. (Bernoulli)
+</caption>
+<tr>
+<th>
+</th>
+<th>
+mu_true
+</th>
+<th>
+exact_hacking
+</th>
+<th>
+GLR_like
+</th>
+<th>
+dis_mix
+</th>
+<th>
+exact_test
+</th>
+</tr>
+<tr>
+<td align="right">
+1
+</td>
+<td align="right">
+0.09
+</td>
+<td align="right">
+0.39
+</td>
+<td align="right">
+0.00
+</td>
+<td align="right">
+0.01
+</td>
+<td align="right">
+0.02
+</td>
+</tr>
+<tr>
+<td align="right">
+2
+</td>
+<td align="right">
+0.10
+</td>
+<td align="right">
+0.62
+</td>
+<td align="right">
+0.01
+</td>
+<td align="right">
+0.08
+</td>
+<td align="right">
+0.09
+</td>
+</tr>
+<tr>
+<td align="right">
+3
+</td>
+<td align="right">
+0.11
+</td>
+<td align="right">
+0.94
+</td>
+<td align="right">
+0.08
+</td>
+<td align="right">
+0.44
+</td>
+<td align="right">
+0.51
+</td>
+</tr>
+<tr>
+<td align="right">
+4
+</td>
+<td align="right">
+0.12
+</td>
+<td align="right">
+0.99
+</td>
+<td align="right">
+0.63
+</td>
+<td align="right">
+0.90
+</td>
+<td align="right">
+0.88
+</td>
+</tr>
+<tr>
+<td align="right">
+5
+</td>
+<td align="right">
+0.13
+</td>
+<td align="right">
+1.00
+</td>
+<td align="right">
+0.99
+</td>
+<td align="right">
+1.00
+</td>
+<td align="right">
+0.99
+</td>
+</tr>
+<tr>
+<td align="right">
+6
+</td>
+<td align="right">
+0.14
+</td>
+<td align="right">
+1.00
+</td>
+<td align="right">
+1.00
+</td>
+<td align="right">
+1.00
+</td>
+<td align="right">
+1.00
+</td>
+</tr>
+</table>
+<!-- html table generated in R 4.0.2 by xtable 1.8-4 package -->
+<!-- Wed Jun  2 23:53:41 2021 -->
+<table border="1">
+<caption align="bottom">
+Estimated average sample sizes of testing procedures. (Bernoulli)
+</caption>
+<tr>
+<th>
+</th>
+<th>
+mu_true
+</th>
+<th>
+GLR_like
+</th>
+<th>
+dis_mix
+</th>
+<th>
+exact_test
+</th>
+</tr>
+<tr>
+<td align="right">
+1
+</td>
+<td align="right">
+0.09
+</td>
+<td align="right">
+3290.00
+</td>
+<td align="right">
+3257.57
+</td>
+<td align="right">
+1645.00
+</td>
+</tr>
+<tr>
+<td align="right">
+2
+</td>
+<td align="right">
+0.10
+</td>
+<td align="right">
+3267.50
+</td>
+<td align="right">
+3065.64
+</td>
+<td align="right">
+1645.00
+</td>
+</tr>
+<tr>
+<td align="right">
+3
+</td>
+<td align="right">
+0.11
+</td>
+<td align="right">
+3158.03
+</td>
+<td align="right">
+2299.34
+</td>
+<td align="right">
+1645.00
+</td>
+</tr>
+<tr>
+<td align="right">
+4
+</td>
+<td align="right">
+0.12
+</td>
+<td align="right">
+2349.01
+</td>
+<td align="right">
+1157.50
+</td>
+<td align="right">
+1645.00
+</td>
+</tr>
+<tr>
+<td align="right">
+5
+</td>
+<td align="right">
+0.13
+</td>
+<td align="right">
+1299.54
+</td>
+<td align="right">
+610.78
+</td>
+<td align="right">
+1645.00
+</td>
+</tr>
+<tr>
+<td align="right">
+6
+</td>
+<td align="right">
+0.14
+</td>
+<td align="right">
+677.04
+</td>
+<td align="right">
+292.32
+</td>
+<td align="right">
+1645.00
+</td>
+</tr>
+</table>
+<!-- html table generated in R 4.0.2 by xtable 1.8-4 package -->
+<!-- Wed Jun  2 23:53:41 2021 -->
+<table border="1">
+<caption align="bottom">
+Estimated probabilities of tests being stopped earlier than the exact binomial test.
+</caption>
+<tr>
+<th>
+</th>
+<th>
+mu_true
+</th>
+<th>
+GLR_like
+</th>
+<th>
+dis_mix
+</th>
+</tr>
+<tr>
+<td align="right">
+1
+</td>
+<td align="right">
+0.09
+</td>
+<td align="right">
+0.00
+</td>
+<td align="right">
+0.01
+</td>
+</tr>
+<tr>
+<td align="right">
+2
+</td>
+<td align="right">
+0.10
+</td>
+<td align="right">
+0.01
+</td>
+<td align="right">
+0.07
+</td>
+</tr>
+<tr>
+<td align="right">
+3
+</td>
+<td align="right">
+0.11
+</td>
+<td align="right">
+0.04
+</td>
+<td align="right">
+0.34
+</td>
+</tr>
+<tr>
+<td align="right">
+4
+</td>
+<td align="right">
+0.12
+</td>
+<td align="right">
+0.24
+</td>
+<td align="right">
+0.73
+</td>
+</tr>
+<tr>
+<td align="right">
+5
+</td>
+<td align="right">
+0.13
+</td>
+<td align="right">
+0.72
+</td>
+<td align="right">
+0.94
+</td>
+</tr>
+<tr>
+<td align="right">
+6
+</td>
+<td align="right">
+0.14
+</td>
+<td align="right">
+0.98
+</td>
+<td align="right">
+1.00
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div id="reference" class="section level2">
+<h2>Reference</h2>
+<p><a name="myfootnote1">1</a>: G. Lorden, “Open-ended tests for Koopman-Darmois families,”The Annals of Statistics, vol. 1, no. 4, pp. 633–643, 1973. <sup><a href="#myfootnote1_return">return</a></sup></p>
+<p><a name="myfootnote2">2</a>: S. R. Howard, A. Ramdas, J. McAuliffe, and J. Sekhon, “Uniform, nonparametric, non-asymptotic confidence sequences,”arXiv preprint arXiv:1810.08240, 2018. <sup><a href="#myfootnote2_return">return</a></sup></p>
+</div>
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/ab-test/">ab test</a>
+  
+  <a class="badge badge-light" href="/tag/research/">research</a>
+  
+</div>
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://shinjaehyeok.github.io/post/sglrt-package/&amp;text=SGLRT%20package%20" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://shinjaehyeok.github.io/post/sglrt-package/&amp;t=SGLRT%20package%20" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=SGLRT%20package%20&amp;body=https://shinjaehyeok.github.io/post/sglrt-package/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https://shinjaehyeok.github.io/post/sglrt-package/&amp;title=SGLRT%20package%20" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=SGLRT%20package%20%20https://shinjaehyeok.github.io/post/sglrt-package/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https://shinjaehyeok.github.io/post/sglrt-package/&amp;title=SGLRT%20package%20" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+    
+    
+    
+      
+    
+    
+    
+    <div class="media author-card content-widget-hr">
+      
+        
+        <img class="avatar mr-3 avatar-circle" src="/author/jaehyeok-shin/avatar_hu4bfebfed29c68355e919404572255097_130697_270x270_fill_q90_lanczos_center.jpg" alt="Jaehyeok Shin">
+      
+
+      <div class="media-body">
+        <h5 class="card-title"><a href="https://shinjaehyeok.github.io/">Jaehyeok Shin</a></h5>
+        <h6 class="card-subtitle">Data Scientist</h6>
+        <p class="card-text">Interested in understanding the sequential and adaptive nature of data analysis.</p>
+        <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/Project20s" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=9vx2IdMAAAAJ" target="_blank" rel="noopener">
+        <i class="ai ai-google-scholar"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.linkedin.com/in/jh-shin/" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+      </div>
+    </div>
+  
+
+
+
+
+
+
+
+<section id="comments">
+  
+    
+<div id="disqus_thread"></div>
+<script>
+  let disqus_config = function () {
+    
+    
+    
+  };
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+      return;
+    }
+    var d = document, s = d.createElement('script'); s.async = true;
+    s.src = 'https://' + "shinjaehyeok" + '.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+  
+</section>
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  </div>
+</article>
+
+      
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js" integrity="sha512-1+qUtKoh9XZW7j+6LhRMAyOrgSQKenQ4mluTR+cvxXjP1Z54RxZuzstR/H9kgPXQsVB8IW7DMDFUJpzLjvhGSQ==" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js" integrity="sha512-7t8APmYpzEsZP7CYoA7RfMPV9Bb+PJHa9x2WiUnDXZx3XHveuyWUtvNOexhkierl5flZ3tr92dP1mMS+SGlD+A==" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/languages/r.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/languages/latex.min.js"></script>
+        
+      
+
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js" integrity="sha256-EErZamuLefUnbMBQbsEqu1USa+btR2oIlCpBJbyD4/g=" crossorigin="anonymous"></script>
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    
+    
+    
+    
+    <script>
+      const search_config = {"indexURI":"/index.json","minLength":1,"threshold":0.3};
+      const i18n = {"no_results":"No results found","placeholder":"Search...","results":"results found"};
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks",
+        'slides' : "Slides"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    <script id="dsq-count-scr" src="https://shinjaehyeok.disqus.com/count.js" async></script>
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.f6ecf7692215f2bc4850b72c8176bfa2.js"></script>
+
+    
+
+
+
+
+
+
+  
+  
+  <div class="container">
+    <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    Copyright 2021 Jaehyeok Shin. All rights reserved.
+  </p>
+
+  
+  
+
+
+
+
+
+
+
+
+ 
+  <script>
+  $(document).ready(function () {
+    window.initializeCodeFolding("show" === "hide");
+  });
+  </script>
+  <script src="/js/codefolding.js"></script>
+
+
+
+  <p class="powered-by">
+    
+    Published with
+    <a href="https://wowchemy.com" target="_blank" rel="noopener">Wowchemy Website Builder</a>
+    
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" class="back-to-top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+  </div>
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
