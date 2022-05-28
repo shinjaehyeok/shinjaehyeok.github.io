@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Statistics | JH&#39;s Blog</title>
+    <link>https://shinjaehyeok.github.io/category/statistics/</link>
+      <atom:link href="https://shinjaehyeok.github.io/category/statistics/index.xml" rel="self" type="application/rss+xml" />
+    <description>Statistics</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>Copyright 2022 Jaehyeok Shin. All rights reserved.</copyright><lastBuildDate>Mon, 23 May 2022 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_3.png</url>
+      <title>Statistics</title>
+      <link>https://shinjaehyeok.github.io/category/statistics/</link>
+    </image>
+    
+    <item>
+      <title>STCP tutorial 1. Statistical Test</title>
+      <link>https://shinjaehyeok.github.io/post/stcd-tutorial/</link>
+      <pubDate>Mon, 23 May 2022 00:00:00 +0000</pubDate>
+      <guid>https://shinjaehyeok.github.io/post/stcd-tutorial/</guid>
+      <description>
+&lt;script src=&#34;https://shinjaehyeok.github.io/post/stcd-tutorial/index.en_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+
+
+</description>
+    </item>
+    
+  </channel>
+</rss>
