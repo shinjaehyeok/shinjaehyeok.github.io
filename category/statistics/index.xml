@@ -5,7 +5,7 @@
     <link>https://shinjaehyeok.github.io/category/statistics/</link>
       <atom:link href="https://shinjaehyeok.github.io/category/statistics/index.xml" rel="self" type="application/rss+xml" />
     <description>Statistics</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>Copyright 2022 Jaehyeok Shin. All rights reserved.</copyright><lastBuildDate>Mon, 23 May 2022 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>Copyright 2022 Jaehyeok Shin. All rights reserved.</copyright><lastBuildDate>Sat, 28 May 2022 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_3.png</url>
       <title>Statistics</title>
@@ -13,14 +13,64 @@
     </image>
     
     <item>
-      <title>STCP tutorial 1. Statistical Test</title>
-      <link>https://shinjaehyeok.github.io/post/stcd-tutorial/</link>
-      <pubDate>Mon, 23 May 2022 00:00:00 +0000</pubDate>
-      <guid>https://shinjaehyeok.github.io/post/stcd-tutorial/</guid>
+      <title>Sequential Hypothesis Testing: 1. Sample efficiency</title>
+      <link>https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/</link>
+      <pubDate>Sat, 28 May 2022 00:00:00 +0000</pubDate>
+      <guid>https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/</guid>
       <description>
-&lt;script src=&#34;https://shinjaehyeok.github.io/post/stcd-tutorial/index.en_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;https://shinjaehyeok.github.io/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
 
 
+&lt;p&gt;In this and a follow-up posts, we explain two main advantages of sequential hypothesis testing methods compared to standard tests based on a fixed sample size.&lt;/p&gt;
+&lt;div id=&#34;sample-efficiency-in-practice&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;1. Sample efficiency in practice&lt;/h2&gt;
+&lt;p&gt;As a working example, suppose we have observed a sequence of independent coin tosses, which are encoded by &lt;span class=&#34;math inline&#34;&gt;\(X_n = 1\)&lt;/span&gt; if the &lt;span class=&#34;math inline&#34;&gt;\(n\)&lt;/span&gt;-th observation is head and &lt;span class=&#34;math inline&#34;&gt;\(X_n = 0\)&lt;/span&gt; if it is tail. Statistically, we can model this sequence by independently and identically distributed (i.i.d.) random observations &lt;span class=&#34;math inline&#34;&gt;\(X_1, X_2, \dots \in \{0,1\}\)&lt;/span&gt; from a Bernoulli distribution &lt;span class=&#34;math inline&#34;&gt;\(B(p)\)&lt;/span&gt; with unknown success probability &lt;span class=&#34;math inline&#34;&gt;\(p \in (0,1)\)&lt;/span&gt;. How can we test whether the coin is fair, i.e., &lt;span class=&#34;math inline&#34;&gt;\(p = p_0:= 0.5\)&lt;/span&gt; or not. For a simple presentation, we assume that if the coin is biased then the biased success probability &lt;span class=&#34;math inline&#34;&gt;\(p_1\)&lt;/span&gt; must be larger than &lt;span class=&#34;math inline&#34;&gt;\(p_0\)&lt;/span&gt;.&lt;/p&gt;
+&lt;div id=&#34;a-difficulties-in-sample-size-calculation-in-fixed-sample-size-tests&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;a) Difficulties in sample size calculation in fixed sample size tests&lt;/h3&gt;
+&lt;p&gt;If we know the success probability &lt;span class=&#34;math inline&#34;&gt;\(p\)&lt;/span&gt; must be equal to a constant &lt;span class=&#34;math inline&#34;&gt;\(p_1 &amp;gt; 0.5\)&lt;/span&gt; when the coin turns out to be unfair or biased then the &lt;a href=&#34;https://en.wikipedia.org/wiki/Neyman%E2%80%93Pearson_lemma&#34;&gt;Neyman-Pearson lemma&lt;/a&gt; shows that for a fixed test level &lt;span class=&#34;math inline&#34;&gt;\(\alpha \in (0,1)\)&lt;/span&gt;, the most powerful test is the likelihood-ratio test (LRT) rejecting the null (&lt;span class=&#34;math inline&#34;&gt;\(H_0: p = p_0\)&lt;/span&gt;) in a favor of the alternative (&lt;span class=&#34;math inline&#34;&gt;\(H_1: p = p_1\)&lt;/span&gt;) if &lt;span class=&#34;math inline&#34;&gt;\(\bar{X}_n \geq c_\alpha\)&lt;/span&gt; where &lt;span class=&#34;math inline&#34;&gt;\(\bar{X}_n := \sum_{i=1}^n X_i /n\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(c_\alpha\)&lt;/span&gt; is a positive constant satisfying &lt;span class=&#34;math inline&#34;&gt;\(P_{H_0}(\bar{X}_n \geq c_\alpha) = \alpha\)&lt;/span&gt;.&lt;a href=&#34;#fn1&#34; class=&#34;footnote-ref&#34; id=&#34;fnref1&#34;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;In fact, LRT is an uniformly most powerful test against all possible alternatives &lt;span class=&#34;math inline&#34;&gt;\(p_1\)&lt;/span&gt; larger than &lt;span class=&#34;math inline&#34;&gt;\(p_0\)&lt;/span&gt;. Hence, if the sample size and test level are fixed, checking whether the sample mean is larger than the critical value &lt;span class=&#34;math inline&#34;&gt;\(c_\alpha\)&lt;/span&gt; is all you need to do. This test is also called as the exact &lt;a href=&#34;https://en.wikipedia.org/wiki/Binomial_test&#34;&gt;Binomial test&lt;/a&gt;.&lt;a href=&#34;#fn2&#34; class=&#34;footnote-ref&#34; id=&#34;fnref2&#34;&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Example R script&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(1)
+printf &amp;lt;- function(...) invisible(print(sprintf(...)))
+n &amp;lt;- 100L
+
+# Testing fair coin sample (alpha = 0.05)
+fair_coin_sample &amp;lt;- rbinom(n, size = 1, prob = 0.5) 
+fair_coin_test_result &amp;lt;- binom.test(sum(fair_coin_sample), n, p = 0.5, alternative = &amp;quot;greater&amp;quot;)
+printf(&amp;quot;p-value of a fair coin test is %.3f&amp;quot;, fair_coin_test_result$p.value)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;p-value of a fair coin test is 0.691&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Testing biased coin sample (alpha = 0.05)
+biased_coin_sample &amp;lt;- rbinom(n, size = 1, prob = 0.6)
+biased_coin_test_result &amp;lt;- binom.test(sum(biased_coin_sample), n, p = 0.5, alternative = &amp;quot;greater&amp;quot;)
+printf(&amp;quot;p-value of a biased coin test is %.3f&amp;quot;, biased_coin_test_result$p.value)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;p-value of a biased coin test is 0.028&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;However, in practice, we rarely know what the alternative success rate could be before an experiment. Instead, we set a minimum effect size of interest &lt;span class=&#34;math inline&#34;&gt;\(\Delta &amp;gt; 0\)&lt;/span&gt; that we practically consider as a meaningful bias from &lt;span class=&#34;math inline&#34;&gt;\(p_0\)&lt;/span&gt;. Based on the minimum effect size &lt;span class=&#34;math inline&#34;&gt;\(\Delta\)&lt;/span&gt; and desired minimum power &lt;span class=&#34;math inline&#34;&gt;\(\beta \in (0,1)\)&lt;/span&gt;, we can compute the minimum sample size we need to perform a statistical test that can detect &lt;span class=&#34;math inline&#34;&gt;\(p_1 &amp;gt;= p_0 + \Delta\)&lt;/span&gt; with probability at least &lt;span class=&#34;math inline&#34;&gt;\(\beta\)&lt;/span&gt; if the coin is actually biased.&lt;/p&gt;
+&lt;p&gt;The size of &lt;span class=&#34;math inline&#34;&gt;\(\Delta\)&lt;/span&gt; depends on the application. For example, If we just play a game in a party with friends, we may still consider a coin with the success probability up to &lt;span class=&#34;math inline&#34;&gt;\(0.51\)&lt;/span&gt; as a “fairly fair” coin we can use. In this case, the minimum effect size is &lt;span class=&#34;math inline&#34;&gt;\(\Delta = 0.1\)&lt;/span&gt;. On the other hand, if we play a serious gamble with a large bet on the coin toss then even &lt;span class=&#34;math inline&#34;&gt;\(0.501\)&lt;/span&gt; can be viewed as an unfair coin and the minimum effect size &lt;span class=&#34;math inline&#34;&gt;\(\Delta\)&lt;/span&gt; is less than &lt;span class=&#34;math inline&#34;&gt;\(0.01\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;In any case, since we do not know the “true” alternative &lt;span class=&#34;math inline&#34;&gt;\(p_1\)&lt;/span&gt;, we cannot but set the minimum effect size conservatively. Thus it is possible that the true alternative &lt;span class=&#34;math inline&#34;&gt;\(p_1\)&lt;/span&gt; turns out to be much larger than the boundary &lt;span class=&#34;math inline&#34;&gt;\(p_0 + \Delta\)&lt;/span&gt;. In this case, the minimum sample size we computed can be very larger than what we could have used to detect the alternative at the same level of detection power.&lt;/p&gt;
+&lt;p&gt;To detour this issue, it is a common practice conducting a preliminary study with a small sample size to get a rough estimate of &lt;span class=&#34;math inline&#34;&gt;\(p_1\)&lt;/span&gt; and using it to compute the sample size of the main follow-up study. However, designing a sample efficient preliminary study is itself a non-trivial problem since we cannot re-use samples in the preliminary study for testing the main follow-up experiment.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;b-sequential-tests-can-choose-the-sample-size-adpatively.&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;b) Sequential tests can choose the sample size adpatively.&lt;/h3&gt;
+&lt;p&gt;If there are only two distributions specified in null and alternative hypotheses then similar to the Neyman-Pearson lemma, &lt;a href=&#34;https://en.wikipedia.org/wiki/Sequential_probability_ratio_test&#34;&gt;Wald’s sequential probability ratio test (SPRT)&lt;/a&gt; is the test having the smallest average sample size among all statistical tests including both fixed and sequential tests of pre-specified test level &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt; and minimum power level &lt;span class=&#34;math inline&#34;&gt;\(\beta\)&lt;/span&gt;. It is not contradict to the Neyman-Pearson lemma which only covers all fixed sample size tests. In the sequential test, the sample size is a random stopping time at which we declare whether to reject the null or not.&lt;/p&gt;
+&lt;p&gt;The SPRT&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;fixed-sample-size&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;1. Fixed sample size&lt;/h2&gt;
+&lt;p&gt;In the classical setting like scientific researches or survey analyses, it is often expensive to collect observations. Therefore, the sample size is often determined by external factors such as research budget or the number of available respondents at the survey time rather than the power analysis result. Even sometimes, a pre-collected set of samples is given to analysts and analysts themselves have no or very small control on the collected sample size. This is a reason why, in many textbook scenarios like above, samples of a fixed number are given and we are asked to perform fixed sample size tests.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;sequential-observations&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;2. Sequential observations&lt;/h2&gt;
+&lt;p&gt;In industrial settings, data are often collected by sensors or logs from which we can access a stream of observations in real time.&lt;/p&gt;
+&lt;!-- This is a classical example of statistical hypothesis testing and there are various standard ways to perform a test including Z-test (asymptotic test for a large sample size) and binomial test (exact test for small-to-medium sample  sizes). --&gt;
+&lt;/div&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn1&#34;&gt;&lt;p&gt;Since &lt;span class=&#34;math inline&#34;&gt;\(\bar{X}_n\)&lt;/span&gt; is discrete, there might be no such constant &lt;span class=&#34;math inline&#34;&gt;\(c_\alpha\)&lt;/span&gt; satisfying the equality. In this case, we can randomized the test, which is beyond the scope of this post.&lt;a href=&#34;#fnref1&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li id=&#34;fn2&#34;&gt;&lt;p&gt;Computing the critical value or the corresponding p-value could be computationally expensive if the sample size is large. In this case, we can use a normal approximation-based z-test instead of the exact Binomial test.&lt;a href=&#34;#fnref2&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
 </description>
     </item>
     
