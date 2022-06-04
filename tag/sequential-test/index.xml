@@ -110,7 +110,8 @@ plot(seq_along(s_history), s_history, type = &amp;quot;l&amp;quot;,
      ylim = c(a, b))
 abline(h = a, col = 2)
 abline(h = b, col = 2)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://shinjaehyeok.github.io/post/statistics/statistical_test_1/1.statistical_test_files/figure-html/binomial_sprt_null-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://shinjaehyeok.github.io/post/statistics/statistical_test_1/1.statistical_test_files/figure-html/binomial_sprt_null-1.png&#34; width=&#34;672&#34; /&gt;
+&lt;strong&gt;fig 1. A sample &lt;span class=&#34;math inline&#34;&gt;\(S_n\)&lt;/span&gt; path of SPRT under the null.&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Example R script for SPRT under the alternative&lt;/em&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;s &amp;lt;- 0
 # Set a placeholder only for visualization.
@@ -146,7 +147,8 @@ plot(seq_along(s_history), s_history, type = &amp;quot;l&amp;quot;,
 abline(h = a, col = 2)
 abline(h = b, col = 2)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;https://shinjaehyeok.github.io/post/statistics/statistical_test_1/1.statistical_test_files/figure-html/binomial_sprt_alter-1.png&#34; width=&#34;672&#34; /&gt;
-From the above example, We can see SPRT ended around &lt;span class=&#34;math inline&#34;&gt;\(90\sim120\)&lt;/span&gt;. However, to achieve the same test level and minimum power, LRT (binomial test in this case), requires at least &lt;span class=&#34;math inline&#34;&gt;\(n = 280\)&lt;/span&gt; samples.&lt;a href=&#34;#fn3&#34; class=&#34;footnote-ref&#34; id=&#34;fnref3&#34;&gt;&lt;sup&gt;3&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;strong&gt;fig 2. A sapmle &lt;span class=&#34;math inline&#34;&gt;\(S_n\)&lt;/span&gt; path of SPRT under the alternative.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;From the above example, We can see SPRT ended around &lt;span class=&#34;math inline&#34;&gt;\(90\sim120\)&lt;/span&gt;. However, to achieve the same test level and minimum power, LRT (binomial test in this case), requires at least &lt;span class=&#34;math inline&#34;&gt;\(n = 280\)&lt;/span&gt; samples.&lt;a href=&#34;#fn3&#34; class=&#34;footnote-ref&#34; id=&#34;fnref3&#34;&gt;&lt;sup&gt;3&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Sample size calculation for the Binomial test&lt;/em&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;n_to_power &amp;lt;- function(n, p0, p1, alpha) {
   n &amp;lt;- ceiling(n)
@@ -323,7 +325,7 @@ sprt_power_mis2 &amp;lt;- mean(sprt_power_mis2_out[&amp;quot;is_reject_null&amp;
 sprt_power_mis_2_sample_size &amp;lt;- mean(sprt_power_mis2_out[&amp;quot;stopped_n&amp;quot;, ])
 printf(&amp;quot;Power of SPRT (E[N] = %.1f) is %.2f&amp;quot;, sprt_power_mis_2_sample_size, sprt_power_mis2)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Power of SPRT (E[N] = 76.1) is 1.00&amp;quot;&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Under a misspecified alternative with &lt;span class=&#34;math inline&#34;&gt;\(p = 0.65 &amp;gt; p_1 = 0.6\)&lt;/span&gt;, both LRT and SPRT has almost power of 1 but SPRT has a much smaller average sample size as SPRT can early stop the procedure adaptive to the underlying higher success probability then the alternative.&lt;/p&gt;
+&lt;p&gt;Under a misspecified alternative with &lt;span class=&#34;math inline&#34;&gt;\(p = 0.65 &amp;gt; p_1 = 0.6\)&lt;/span&gt;, both LRT and SPRT has almost power of 1 but SPRT has a much smaller average sample size as SPRT can early stop the procedure adaptively to the underlying higher success probability then the alternative.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;conclustion&#34; class=&#34;section level3&#34;&gt;
@@ -347,7 +349,7 @@ In industrial settings, data are often collected by sensors or logs from which w
 &lt;li id=&#34;fn1&#34;&gt;&lt;p&gt;Since &lt;span class=&#34;math inline&#34;&gt;\(\bar{X}_n\)&lt;/span&gt; is discrete, there might be no such constant &lt;span class=&#34;math inline&#34;&gt;\(c_\alpha\)&lt;/span&gt; satisfying the equality. In this case, we can randomized the test, which is beyond the scope of this post.&lt;a href=&#34;#fnref1&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li id=&#34;fn2&#34;&gt;&lt;p&gt;Computing the critical value or the corresponding p-value could be computationally expensive if the sample size is large. In this case, we can use a normal approximation-based z-test instead of the exact Binomial test.&lt;a href=&#34;#fnref2&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li id=&#34;fn3&#34;&gt;&lt;p&gt;This is not a free lunch - in worst scenarios, SPRT can reach the max iteration which could be much larger than the fixed sample size of LRT.&lt;a href=&#34;#fnref3&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;li id=&#34;fn4&#34;&gt;&lt;p&gt;We can use a mixture of SPRTs to achieve a near optimal sample efficiency for a composite alternative hypothesis space in which a range of alternative distributions exist. This topic was discussed in literature several times. For example, see &lt;a href=&#34;https://arxiv.org/abs/2010.08082&#34;&gt;arXiv&lt;/a&gt;.&lt;a href=&#34;#fnref4&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li id=&#34;fn4&#34;&gt;&lt;p&gt;We can use a mixture of SPRTs to achieve a near optimal sample efficiency for a composite alternative hypothesis space in which a range of alternative distributions exist. This topic has been discussed in literature. For example, see &lt;a href=&#34;https://arxiv.org/abs/2010.08082&#34;&gt;arXiv&lt;/a&gt;.&lt;a href=&#34;#fnref4&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
 </description>
