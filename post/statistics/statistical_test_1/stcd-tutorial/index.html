@@ -30,7 +30,7 @@
   
     
   
-  <meta name="description" content="In this and a follow-up posts, we explain two main advantages of sequential hypothesis testing methods compared to standard tests based on a fixed sample size. 1. Sample efficiency in">
+  <meta name="description" content="In this and a follow-up posts, we explain two main advantages of sequential hypothesis testing methods compared to standard tests based on fixed sample size. 1. Sample efficiency in practice">
 
   
   <link rel="alternate" hreflang="en-us" href="https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/">
@@ -317,7 +317,7 @@
   <meta property="og:site_name" content="Jae&#39;s Blog">
   <meta property="og:url" content="https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/">
   <meta property="og:title" content="Advantages of Sequential Hypothesis Testing: 1. Sample efficiency | Jae&#39;s Blog">
-  <meta property="og:description" content="In this and a follow-up posts, we explain two main advantages of sequential hypothesis testing methods compared to standard tests based on a fixed sample size. 1. Sample efficiency in"><meta property="og:image" content="https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_3.png">
+  <meta property="og:description" content="In this and a follow-up posts, we explain two main advantages of sequential hypothesis testing methods compared to standard tests based on fixed sample size. 1. Sample efficiency in practice"><meta property="og:image" content="https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_3.png">
   <meta property="twitter:image" content="https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_3.png"><meta property="og:locale" content="en-us">
   
     
@@ -367,7 +367,7 @@
       "url": "https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_192x192_fill_lanczos_center_3.png"
     }
   },
-  "description": "In this and a follow-up posts, we explain two main advantages of sequential hypothesis testing methods compared to standard tests based on a fixed sample size. 1. Sample efficiency in"
+  "description": "In this and a follow-up posts, we explain two main advantages of sequential hypothesis testing methods compared to standard tests based on fixed sample size. 1. Sample efficiency in practice"
 }
 </script>
 
@@ -692,14 +692,14 @@
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
-<p>In this and a follow-up posts, we explain two main advantages of sequential hypothesis testing methods compared to standard tests based on a fixed sample size.</p>
+<p>In this and a follow-up posts, we explain two main advantages of sequential hypothesis testing methods compared to standard tests based on fixed sample size.</p>
 <div id="sample-efficiency-in-practice" class="section level2">
 <h2>1. Sample efficiency in practice</h2>
 <p>As a working example, suppose we have observed a sequence of independent coin tosses, which are encoded by <span class="math inline">\(X_n = 1\)</span> if the <span class="math inline">\(n\)</span>-th observation is head and <span class="math inline">\(X_n = 0\)</span> if it is tail. Statistically, we can model this sequence by independently and identically distributed (i.i.d.) random observations <span class="math inline">\(X_1, X_2, \dots \in \{0,1\}\)</span> from a Bernoulli distribution <span class="math inline">\(B(p)\)</span> with unknown success probability <span class="math inline">\(p \in (0,1)\)</span>. How can we test whether the coin is fair, i.e., <span class="math inline">\(p = p_0:= 0.5\)</span> or not. For a simple presentation, we assume that if the coin is biased then the biased success probability <span class="math inline">\(p_1\)</span> must be larger than <span class="math inline">\(p_0\)</span>.</p>
 <div id="a-difficulties-in-sample-size-calculation-in-fixed-sample-size-tests" class="section level3">
 <h3>a) Difficulties in sample size calculation in fixed sample size tests</h3>
 <p>If we know the success probability <span class="math inline">\(p\)</span> must be equal to a constant <span class="math inline">\(p_1 &gt; 0.5\)</span> when the coin turns out to be unfair or biased then the <a href="https://en.wikipedia.org/wiki/Neyman%E2%80%93Pearson_lemma">Neyman-Pearson lemma</a> shows that for a fixed test level <span class="math inline">\(\alpha \in (0,1)\)</span>, the most powerful test is the likelihood-ratio test (LRT) rejecting the null (<span class="math inline">\(H_0: p = p_0\)</span>) in a favor of the alternative (<span class="math inline">\(H_1: p = p_1\)</span>) if <span class="math inline">\(\bar{X}_n \geq c_\alpha\)</span> where <span class="math inline">\(\bar{X}_n := \sum_{i=1}^n X_i /n\)</span> and <span class="math inline">\(c_\alpha\)</span> is a positive constant satisfying <span class="math inline">\(P_{H_0}(\bar{X}_n \geq c_\alpha) = \alpha\)</span>.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
-<p>In fact, LRT is an uniformly most powerful test against all possible alternatives <span class="math inline">\(p_1\)</span> larger than <span class="math inline">\(p_0\)</span>. Hence, if the sample size and test level are fixed, checking whether the sample mean is larger than the critical value <span class="math inline">\(c_\alpha\)</span> is all you need to do. This test is also called as the exact <a href="https://en.wikipedia.org/wiki/Binomial_test">Binomial test</a>.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p>
+<p>In fact, LRT is a uniformly most powerful test against all possible alternatives <span class="math inline">\(p_1\)</span> larger than <span class="math inline">\(p_0\)</span>. Hence, if the sample size and test level are fixed, checking whether the sample mean is larger than the critical value <span class="math inline">\(c_\alpha\)</span> is all you need to do. This test is also called the exact <a href="https://en.wikipedia.org/wiki/Binomial_test">Binomial test</a>.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p>
 <p><em>Example R script</em></p>
 <pre class="r"><code>set.seed(1)
 printf &lt;- function(...) invisible(print(sprintf(...)))
@@ -716,13 +716,13 @@ biased_coin_test_result &lt;- binom.test(sum(biased_coin_sample), n, p = 0.5, al
 printf(&quot;p-value of a biased coin test is %.3f&quot;, biased_coin_test_result$p.value)</code></pre>
 <pre><code>## [1] &quot;p-value of a biased coin test is 0.028&quot;</code></pre>
 <p>However, in practice, we rarely know what the alternative success rate could be before an experiment. Instead, we set a minimum effect size of interest <span class="math inline">\(\Delta &gt; 0\)</span> that we practically consider as a meaningful bias from <span class="math inline">\(p_0\)</span>. Based on the minimum effect size <span class="math inline">\(\Delta\)</span> and desired minimum power <span class="math inline">\(\beta \in (0,1)\)</span>, we can compute the minimum sample size we need to perform a statistical test that can detect <span class="math inline">\(p_1 &gt;= p_0 + \Delta\)</span> with probability at least <span class="math inline">\(\beta\)</span> if the coin is actually biased.</p>
-<p>The size of <span class="math inline">\(\Delta\)</span> depends on the application. For example, If we just play a game in a party with friends, we may still consider a coin with the success probability up to <span class="math inline">\(0.51\)</span> as a “fairly fair” coin we can use. In this case, the minimum effect size is <span class="math inline">\(\Delta = 0.1\)</span>. On the other hand, if we play a serious gamble with a large bet on the coin toss then even <span class="math inline">\(0.501\)</span> can be viewed as an unfair coin and the minimum effect size <span class="math inline">\(\Delta\)</span> is less than <span class="math inline">\(0.01\)</span>.</p>
+<p>The size of <span class="math inline">\(\Delta\)</span> depends on the application. For example, If we just play a game at a party with friends, we may still consider a coin with a success probability up to <span class="math inline">\(0.51\)</span> as a “fairly fair” coin we can use. In this case, the minimum effect size is <span class="math inline">\(\Delta = 0.1\)</span>. On the other hand, if we play a serious gamble with a large bet on the coin toss then even <span class="math inline">\(0.501\)</span> can be viewed as an unfair coin and the minimum effect size <span class="math inline">\(\Delta\)</span> is less than <span class="math inline">\(0.01\)</span>.</p>
 <p>In any case, since we do not know the “true” alternative <span class="math inline">\(p_1\)</span>, we cannot but set the minimum effect size conservatively. Thus it is possible that the true alternative <span class="math inline">\(p_1\)</span> turns out to be much larger than the boundary <span class="math inline">\(p_0 + \Delta\)</span>. In this case, the minimum sample size we computed can be very larger than what we could have used to detect the alternative at the same level of detection power.</p>
-<p>To detour this issue, it is a common practice conducting a preliminary study with a small sample size to get a rough estimate of <span class="math inline">\(p_1\)</span> and using it to compute the sample size of the main follow-up study. However, designing a sample efficient preliminary study is itself a non-trivial problem since we cannot re-use samples in the preliminary study for testing the main follow-up experiment.</p>
+<p>To detour this issue, it is common practice to conduct a preliminary study with a small sample size to get a rough estimate of <span class="math inline">\(p_1\)</span> and use it to compute the sample size of the main follow-up study. However, designing a sample efficient preliminary study is itself a non-trivial problem since we cannot reuse samples in the preliminary study for testing the main follow-up experiment.</p>
 </div>
-<div id="b-sequential-tests-can-choose-the-sample-size-adpatively." class="section level3">
-<h3>b) Sequential tests can choose the sample size adpatively.</h3>
-<p>If there are only two distributions specified in null and alternative hypotheses then similar to the Neyman-Pearson lemma, <a href="https://en.wikipedia.org/wiki/Sequential_probability_ratio_test">Wald’s sequential probability ratio test (SPRT)</a> is the test having the smallest average sample size among all statistical tests including both fixed and sequential tests of pre-specified test level <span class="math inline">\(\alpha\)</span> and minimum power level <span class="math inline">\(\beta\)</span>. It is not contradict to the Neyman-Pearson lemma which only covers all fixed sample size tests. In the sequential test, the sample size is a random stopping time at which we declare whether to reject the null or not.</p>
+<div id="b-sequential-tests-can-choose-the-sample-size-adaptively." class="section level3">
+<h3>b) Sequential tests can choose the sample size adaptively.</h3>
+<p>If there are only two distributions specified in null and alternative hypotheses then similar to the Neyman-Pearson lemma, <a href="https://en.wikipedia.org/wiki/Sequential_probability_ratio_test">Wald’s sequential probability ratio test (SPRT)</a> is the test having the smallest average sample size among all statistical tests including both fixed and sequential tests of pre-specified test level <span class="math inline">\(\alpha\)</span> and minimum power level <span class="math inline">\(\beta\)</span>. It is not contradicting the Neyman-Pearson lemma which only covers all fixed sample size tests. In the sequential test, the sample size is a random stopping time at which we declare whether to reject the null or not.</p>
 <p>For our Bernoulli example with <span class="math inline">\(H_0: p = p_0\)</span> vs <span class="math inline">\(H_1: p = p_1\)</span>, the Wald’s SPRT is given by the following procedure.</p>
 <ul>
 <li><p>Set <span class="math inline">\(S_0 := 0\)</span> and for each observation <span class="math inline">\(X_n\)</span>, compute the probability ratio <span class="math inline">\(\Lambda_n\)</span> by
@@ -844,7 +844,7 @@ minimum_sample &lt;- power_to_n(beta, p0 , p1 , alpha)
 printf(&quot;%i is the minimum sample size to achieve test level %.2f and power %.2f.&quot;, 
        minimum_sample, alpha, beta)</code></pre>
 <pre><code>## [1] &quot;280 is the minimum sample size to achieve test level 0.05 and power 0.95.&quot;</code></pre>
-<p>Unlike the LRT, the efficiency of the Wald’s SPRT is guaranteed only for a simple alternative hypothesis space in which there is a single alternative distribution. However, SPRT works reasonable well even for mis-specified alternative distributions.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a></p>
+<p>Unlike the LRT, the efficiency of Wald’s SPRT is guaranteed only for a simple alternative hypothesis space in which there is a single alternative distribution. However, SPRT works reasonably well even for misspecified alternative distributions.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a></p>
 </div>
 <div id="c-simulations" class="section level3">
 <h3>c) Simulations</h3>
@@ -921,7 +921,7 @@ sprt_null_err &lt;- mean(sprt_null_out[&quot;is_reject_null&quot;, ])
 sprt_null_sample_size &lt;- mean(sprt_null_out[&quot;stopped_n&quot;, ])
 printf(&quot;Type 1 error of SPRT (E[N] = %.1f) is %.2f&quot;, sprt_null_sample_size, sprt_null_err)</code></pre>
 <pre><code>## [1] &quot;Type 1 error of SPRT (E[N] = 137.7) is 0.04&quot;</code></pre>
-<p>Under the null, both LRT and SPRT control type-1 error and SPRT has smaller average sample size compared to the LRT.</p>
+<p>Under the null, both LRT and SPRT control type-1 error, and SPRT has a smaller average sample size compared to the LRT.</p>
 </div>
 <div id="ii.-under-the-alternative-h_1-p-0.6" class="section level4">
 <h4>ii. Under the alternative (<span class="math inline">\(H_1: p = 0.6\)</span>)</h4>
@@ -945,7 +945,7 @@ sprt_power &lt;- mean(sprt_power_out[&quot;is_reject_null&quot;, ])
 sprt_power_sample_size &lt;- mean(sprt_power_out[&quot;stopped_n&quot;, ])
 printf(&quot;Power of SPRT (E[N] = %.1f) is %.2f&quot;, sprt_power_sample_size, sprt_power)</code></pre>
 <pre><code>## [1] &quot;Power of SPRT (E[N] = 139.3) is 0.96&quot;</code></pre>
-<p>Under the alternative, both LRT and SPRT achieve the minimum power and SPRT has smaller average sample size compared to the LRT.</p>
+<p>Under the alternative, both LRT and SPRT achieve the minimum power and SPRT has a smaller average sample size compared to the LRT.</p>
 </div>
 <div id="iii.-under-a-misspecified-alternative-1.-small-p-0.55." class="section level4">
 <h4>iii. Under a misspecified alternative 1. small <span class="math inline">\(p = 0.55\)</span>.</h4>
@@ -971,7 +971,7 @@ sprt_power_mis1 &lt;- mean(sprt_power_mis1_out[&quot;is_reject_null&quot;, ])
 sprt_power_mis_1_sample_size &lt;- mean(sprt_power_mis1_out[&quot;stopped_n&quot;, ])
 printf(&quot;Power of SPRT (E[N] = %.1f) is %.2f&quot;, sprt_power_mis_1_sample_size, sprt_power_mis1)</code></pre>
 <pre><code>## [1] &quot;Power of SPRT (E[N] = 234.5) is 0.50&quot;</code></pre>
-<p>Under a misspecified alternative with <span class="math inline">\(p = 0.55 &lt; p_1 = 0.6\)</span>, both LRT and SPRT achieve a similar power but SPRT has a smaller average sample size. The achieved power is below the pre-specified minimum power as the true success proability is smaller than the alternative.</p>
+<p>Under a misspecified alternative with <span class="math inline">\(p = 0.55 &lt; p_1 = 0.6\)</span>, both LRT and SPRT achieve a similar power but SPRT has a smaller average sample size. The achieved power is below the pre-specified minimum power as the true success probability is smaller than the alternative.</p>
 </div>
 <div id="iv.-under-a-misspecified-alternative-2.-large-p-0.65." class="section level4">
 <h4>iv. Under a misspecified alternative 2. large <span class="math inline">\(p = 0.65\)</span>.</h4>
@@ -996,12 +996,12 @@ sprt_power_mis2 &lt;- mean(sprt_power_mis2_out[&quot;is_reject_null&quot;, ])
 sprt_power_mis_2_sample_size &lt;- mean(sprt_power_mis2_out[&quot;stopped_n&quot;, ])
 printf(&quot;Power of SPRT (E[N] = %.1f) is %.2f&quot;, sprt_power_mis_2_sample_size, sprt_power_mis2)</code></pre>
 <pre><code>## [1] &quot;Power of SPRT (E[N] = 76.1) is 1.00&quot;</code></pre>
-<p>Under a misspecified alternative with <span class="math inline">\(p = 0.65 &gt; p_1 = 0.6\)</span>, both LRT and SPRT has almost power of 1 but SPRT has a much smaller average sample size as SPRT can early stop the procedure adaptively to the underlying higher success probability then the alternative.</p>
+<p>Under a misspecified alternative with <span class="math inline">\(p = 0.65 &gt; p_1 = 0.6\)</span>, both LRT and SPRT have almost a power of 1 but SPRT has a much smaller average sample size as SPRT can early stop the procedure adaptively to the underlying higher success probability than the alternative.</p>
 </div>
 </div>
-<div id="conclustion" class="section level3">
-<h3>Conclustion</h3>
-<p>Sequential hypothesis testing procedures can achieve a better sample efficiency even compared to the best fixed sample size test. In the following post, we will explain the flexibility and safety of sequential testing procedures.</p>
+<div id="conclusion" class="section level3">
+<h3>Conclusion</h3>
+<p>Sequential hypothesis testing procedures can achieve a better sample efficiency even compared to the best-fixed sample size test. In the following post, we will explain the flexibility and safety of sequential testing procedures.</p>
 <!--
 ## 1. Fixed sample size
 
