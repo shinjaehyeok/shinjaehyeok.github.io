@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>ab test | JH&#39;s Blog</title>
+    <title>ab test | Jae&#39;s Blog</title>
     <link>https://shinjaehyeok.github.io/tag/ab-test/</link>
       <atom:link href="https://shinjaehyeok.github.io/tag/ab-test/index.xml" rel="self" type="application/rss+xml" />
     <description>ab test</description>
@@ -13,7 +13,7 @@
     </image>
     
     <item>
-      <title>Sequential Hypothesis Testing: 1. Sample efficiency</title>
+      <title>Advantages of Sequential Hypothesis Testing: 1. Sample efficiency</title>
       <link>https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/</link>
       <pubDate>Sat, 28 May 2022 00:00:00 +0000</pubDate>
       <guid>https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/</guid>
@@ -52,23 +52,302 @@ printf(&amp;quot;p-value of a biased coin test is %.3f&amp;quot;, biased_coin_te
 &lt;div id=&#34;b-sequential-tests-can-choose-the-sample-size-adpatively.&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;b) Sequential tests can choose the sample size adpatively.&lt;/h3&gt;
 &lt;p&gt;If there are only two distributions specified in null and alternative hypotheses then similar to the Neyman-Pearson lemma, &lt;a href=&#34;https://en.wikipedia.org/wiki/Sequential_probability_ratio_test&#34;&gt;Wald’s sequential probability ratio test (SPRT)&lt;/a&gt; is the test having the smallest average sample size among all statistical tests including both fixed and sequential tests of pre-specified test level &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt; and minimum power level &lt;span class=&#34;math inline&#34;&gt;\(\beta\)&lt;/span&gt;. It is not contradict to the Neyman-Pearson lemma which only covers all fixed sample size tests. In the sequential test, the sample size is a random stopping time at which we declare whether to reject the null or not.&lt;/p&gt;
-&lt;p&gt;The SPRT&lt;/p&gt;
+&lt;p&gt;For our Bernoulli example with &lt;span class=&#34;math inline&#34;&gt;\(H_0: p = p_0\)&lt;/span&gt; vs &lt;span class=&#34;math inline&#34;&gt;\(H_1: p = p_1\)&lt;/span&gt;, the Wald’s SPRT is given by the following procedure.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Set &lt;span class=&#34;math inline&#34;&gt;\(S_0 := 0\)&lt;/span&gt; and for each observation &lt;span class=&#34;math inline&#34;&gt;\(X_n\)&lt;/span&gt;, compute the probability ratio &lt;span class=&#34;math inline&#34;&gt;\(\Lambda_n\)&lt;/span&gt; by
+&lt;span class=&#34;math display&#34;&gt;\[
+\Lambda_n := \left(\frac{p_1}{p_0}\right)^{X_n}\left(\frac{1-p_1}{1-p_0}\right)^{1-X_n}.
+\]&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Update &lt;span class=&#34;math inline&#34;&gt;\(S_n := S_{n-1} + \log \Lambda_n\)&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Make one of three following decisions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;If &lt;span class=&#34;math inline&#34;&gt;\(S_n \geq b\)&lt;/span&gt; then stop and reject the null (since there is only one alternative, it is equivalent to accept the alternative).&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;If &lt;span class=&#34;math inline&#34;&gt;\(S_n \leq a\)&lt;/span&gt; then stop and reject the alternative (or accept the null).&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Otherwise, continue to the next iteration.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Here, thresholds &lt;span class=&#34;math inline&#34;&gt;\(a\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(b\)&lt;/span&gt; are given approximately &lt;span class=&#34;math inline&#34;&gt;\(a \sim \log\frac{1-\beta}{1-\alpha}\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(b \sim \log\frac{\beta}{\alpha}\)&lt;/span&gt; for pre-specified test level &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt; and minimum power level &lt;span class=&#34;math inline&#34;&gt;\(\beta\)&lt;/span&gt;. Exact thresholds depend on the underlying null and alternative distributions. In the following R example, we use conservative but correct thresholds given by &lt;span class=&#34;math inline&#34;&gt;\(a = \log(1-\beta)\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(b = \log\frac{1}{\alpha}\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Example R script for SPRT under the null&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(1)
+max_iter &amp;lt;- 1e+3L
+p0 &amp;lt;- 0.5 # Null distribution
+p1 &amp;lt;- 0.6 # Alternative distribution
+alpha &amp;lt;- 0.05 # Test level
+beta &amp;lt;- 0.95 # Minimum power level  
+a &amp;lt;- log(1 - beta)
+b &amp;lt;- log(1 / alpha)
+s &amp;lt;- 0
+# Set a placeholder only for visualization.
+# Actual test does not require it. 
+
+p &amp;lt;- p0 # True distribution is the alternative
+s_history &amp;lt;- rep(NA, max_iter) 
+for (n in 1:max_iter) {
+  # Observe a new sample
+  x &amp;lt;- rbinom(1, 1, p)
+  # Update S_n
+  s &amp;lt;- s + ifelse(x == 1, log(p1/p0), log((1-p1)/(1-p0)))
+  s_history[n] &amp;lt;- s
+  # Make a decision
+  if (s &amp;gt;= b) {
+    decision &amp;lt;- &amp;quot;Reject the null&amp;quot;
+    break 
+  } else if (s &amp;lt;= a) {
+    decision &amp;lt;- &amp;quot;Reject the alternative&amp;quot;
+    break
+  } 
+  if (n == max_iter) {
+    decision &amp;lt;- &amp;quot;Test reached the max interation&amp;quot;
+  }
+}
+printf(&amp;quot;SPRT was ended at n=%i&amp;quot;, n)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;SPRT was ended at n=90&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;printf(&amp;quot;Decision: %s&amp;quot;, decision)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Decision: Reject the alternative&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;s_history &amp;lt;- s_history[!is.na(s_history)]
+plot(seq_along(s_history), s_history, type = &amp;quot;l&amp;quot;,
+     xlab = &amp;quot;n&amp;quot;, ylab = expression(&amp;#39;S&amp;#39;[&amp;#39;n&amp;#39;]),
+     ylim = c(a, b))
+abline(h = a, col = 2)
+abline(h = b, col = 2)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://shinjaehyeok.github.io/post/statistics/statistical_test_1/1.statistical_test_files/figure-html/binomial_sprt_null-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Example R script for SPRT under the alternative&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;s &amp;lt;- 0
+# Set a placeholder only for visualization.
+# Actual test does not require it. 
+p &amp;lt;- p1 # True distribution is the alternative
+s_history &amp;lt;- rep(NA, max_iter) 
+for (n in 1:max_iter) {
+  # Observe a new sample
+  x &amp;lt;- rbinom(1, 1, p)
+  # Update S_n
+  s &amp;lt;- s + ifelse(x == 1, log(p1/p0), log((1-p1)/(1-p0)))
+  s_history[n] &amp;lt;- s
+  # Make a decision
+  if (s &amp;gt;= b) {
+    decision &amp;lt;- &amp;quot;Reject the null&amp;quot;
+    break 
+  } else if (s &amp;lt;= a) {
+    decision &amp;lt;- &amp;quot;Reject the alternative&amp;quot;
+    break
+  } 
+  if (n == max_iter) {
+    decision &amp;lt;- &amp;quot;Test reached the max interation&amp;quot;
+  }
+}
+printf(&amp;quot;SPRT was ended at n=%i&amp;quot;, n)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;SPRT was ended at n=119&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;printf(&amp;quot;Decision: %s&amp;quot;, decision)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Decision: Reject the null&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;s_history &amp;lt;- s_history[!is.na(s_history)]
+plot(seq_along(s_history), s_history, type = &amp;quot;l&amp;quot;,
+     xlab = &amp;quot;n&amp;quot;, ylab = expression(&amp;#39;S&amp;#39;[&amp;#39;n&amp;#39;]),
+     ylim = c(a, b))
+abline(h = a, col = 2)
+abline(h = b, col = 2)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://shinjaehyeok.github.io/post/statistics/statistical_test_1/1.statistical_test_files/figure-html/binomial_sprt_alter-1.png&#34; width=&#34;672&#34; /&gt;
+From the above example, We can see SPRT ended around &lt;span class=&#34;math inline&#34;&gt;\(90\sim120\)&lt;/span&gt;. However, to achieve the same test level and minimum power, LRT (binomial test in this case), requires at least &lt;span class=&#34;math inline&#34;&gt;\(n = 280\)&lt;/span&gt; samples.&lt;a href=&#34;#fn3&#34; class=&#34;footnote-ref&#34; id=&#34;fnref3&#34;&gt;&lt;sup&gt;3&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Sample size calculation for the Binomial test&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;n_to_power &amp;lt;- function(n, p0, p1, alpha) {
+  n &amp;lt;- ceiling(n)
+  thres &amp;lt;- qbinom(alpha, n, p0, lower.tail = FALSE)
+  pwr &amp;lt;- pbinom(thres, n, p1, lower.tail = FALSE)
+  return(pwr)
+}
+
+power_to_n &amp;lt;- function(beta, p0, p1, alpha) {
+  f &amp;lt;- function(n) {
+    beta - n_to_power(n, p0, p1, alpha)
+  }
+  root &amp;lt;- stats::uniroot(f, c(1, 1e+4), tol = 1e-6)
+  return(ceiling(root$root))
+}
+
+alpha &amp;lt;- 0.05
+beta &amp;lt;- 0.95
+p0 &amp;lt;- 0.5
+p1 &amp;lt;- 0.6
+minimum_sample &amp;lt;- power_to_n(beta, p0 , p1 , alpha)
+printf(&amp;quot;%i is the minimum sample size to achieve test level %.2f and power %.2f.&amp;quot;, 
+       minimum_sample, alpha, beta)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;280 is the minimum sample size to achieve test level 0.05 and power 0.95.&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Unlike the LRT, the efficiency of the Wald’s SPRT is guaranteed only for a simple alternative hypothesis space in which there is a single alternative distribution. However, SPRT works reasonable well even for mis-specified alternative distributions.&lt;a href=&#34;#fn4&#34; class=&#34;footnote-ref&#34; id=&#34;fnref4&#34;&gt;&lt;sup&gt;4&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;c-simulations&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;c) Simulations&lt;/h3&gt;
+&lt;p&gt;We end this post by checking the sample efficiency of SPRT over LRT in Bernoulli case simulations. Thoughout the simulation, we use test level &lt;span class=&#34;math inline&#34;&gt;\(\alpha = 0.05\)&lt;/span&gt;, minimum power &lt;span class=&#34;math inline&#34;&gt;\(\beta = 0.95\)&lt;/span&gt; for hypotheses &lt;span class=&#34;math inline&#34;&gt;\(H_0: p = 0.5\)&lt;/span&gt; vs &lt;span class=&#34;math inline&#34;&gt;\(H_1: p = 0.6\)&lt;/span&gt;. In this case, the mimum sample size of LRT (one-sided binomial test) is equal to &lt;span class=&#34;math inline&#34;&gt;\(n = 280\)&lt;/span&gt;. Later, we also simulate the misspecified alternatives &lt;span class=&#34;math inline&#34;&gt;\(p = 0.55\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(p = 0.65\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Set up&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Set up
+alpha &amp;lt;- 0.05
+p0 &amp;lt;- 0.5
+p1 &amp;lt;- 0.6
+beta &amp;lt;- 0.95
+n &amp;lt;- power_to_n(beta, p0, p1, alpha) # n = 280
+max_iter &amp;lt;- 1e+4L
+
+# One-sided Binomial test 
+run_binom_test &amp;lt;- function(n, p_true,
+                           p0 = 0.5, p1 = 0.6,
+                           alpha = 0.05) {
+  thres &amp;lt;- qbinom(alpha, n, p0, lower.tail = FALSE)
+  num_head &amp;lt;- rbinom(1, size = n, prob = p_true)
+  return(num_head &amp;gt;= thres)
+}
+
+# SPRT
+run_wald_sprt &amp;lt;- function(p_true, p0 = 0.5, p1 = 0.6,
+                      alpha = 0.05, beta = 0.95, max_iter = 1e+3L) {
+  a &amp;lt;- log(1 - beta)
+  b &amp;lt;- log(1 / alpha)
+  s &amp;lt;- 0
+  for (n in 1:max_iter) {
+    # Observe a new sample
+    x &amp;lt;- rbinom(1, 1, p_true)
+    # Update S_n
+    s &amp;lt;- s + ifelse(x == 1, log(p1/p0), log((1-p1)/(1-p0)))
+    # Make a decision
+    if (s &amp;gt;= b) {
+      decision &amp;lt;- &amp;quot;Reject the null&amp;quot;
+      is_reject_null &amp;lt;- TRUE
+      break 
+    } else if (s &amp;lt;= a) {
+      decision &amp;lt;- &amp;quot;Reject the alternative&amp;quot;
+      is_reject_null &amp;lt;- FALSE
+      break
+    } 
+    if (n == max_iter) {
+      decision &amp;lt;- &amp;quot;Test reached the max interation&amp;quot;
+      is_reject_null &amp;lt;- FALSE
+    }
+  } 
+  return(list(
+    stopped_n = n,
+    decision = decision,
+    is_reject_null = is_reject_null
+  ))
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;i.-under-the-null-h_0-p-0.5&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;i. Under the null (&lt;span class=&#34;math inline&#34;&gt;\(H_0: p = 0.5\)&lt;/span&gt;)&lt;/h4&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(1)
+# Under the null p_true = 0.5
+# LRT (binomial)
+binom_null_err &amp;lt;- mean(replicate(max_iter, {
+  run_binom_test(n, p_true = p0,
+                 p0, p1,
+                 alpha)
+}))
+printf(&amp;quot;Type 1 error of LRT (n = %i) is %.2f&amp;quot;, n, binom_null_err)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Type 1 error of LRT (n = 280) is 0.05&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# SPRT 
+sprt_null_out &amp;lt;- replicate(max_iter, {
+  out &amp;lt;- run_wald_sprt(p_true = p0, p0, p1,
+                alpha, beta, max_iter = 1e+3L)
+  return(c(stopped_n = out$stopped_n, is_reject_null = out$is_reject_null))
+})
+sprt_null_err &amp;lt;- mean(sprt_null_out[&amp;quot;is_reject_null&amp;quot;, ])
+sprt_null_sample_size &amp;lt;- mean(sprt_null_out[&amp;quot;stopped_n&amp;quot;, ])
+printf(&amp;quot;Type 1 error of SPRT (E[N] = %.1f) is %.2f&amp;quot;, sprt_null_sample_size, sprt_null_err)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Type 1 error of SPRT (E[N] = 137.7) is 0.04&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Under the null, both LRT and SPRT control type-1 error and SPRT has smaller average sample size compared to the LRT.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;ii.-under-the-alternative-h_1-p-0.6&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;ii. Under the alternative (&lt;span class=&#34;math inline&#34;&gt;\(H_1: p = 0.6\)&lt;/span&gt;)&lt;/h4&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(1)
+# Under the alternative p_true = 0.6
+# LRT (binomial)
+binom_power &amp;lt;- mean(replicate(max_iter, {
+  run_binom_test(n, p_true = p1,
+                 p0, p1,
+                 alpha)
+}))
+printf(&amp;quot;Power of LRT (n = %i) is %.2f&amp;quot;, n, binom_power)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Power of LRT (n = 280) is 0.96&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# SPRT
+sprt_power_out &amp;lt;- replicate(max_iter, {
+  out &amp;lt;- run_wald_sprt(p_true = p1, p0, p1,
+                       alpha, beta, max_iter = 1e+3L)
+  return(c(stopped_n = out$stopped_n, is_reject_null = out$is_reject_null))
+})
+sprt_power &amp;lt;- mean(sprt_power_out[&amp;quot;is_reject_null&amp;quot;, ])
+sprt_power_sample_size &amp;lt;- mean(sprt_power_out[&amp;quot;stopped_n&amp;quot;, ])
+printf(&amp;quot;Power of SPRT (E[N] = %.1f) is %.2f&amp;quot;, sprt_power_sample_size, sprt_power)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Power of SPRT (E[N] = 139.3) is 0.96&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Under the alternative, both LRT and SPRT achieve the minimum power and SPRT has smaller average sample size compared to the LRT.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;iii.-under-a-misspecified-alternative-1.-small-p-0.55.&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;iii. Under a misspecified alternative 1. small &lt;span class=&#34;math inline&#34;&gt;\(p = 0.55\)&lt;/span&gt;.&lt;/h4&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(1)
+# Under a misspecified alternative 1. small p_true = 0.55.
+p_mis1 &amp;lt;- 0.55
+
+# LRT (binomial)
+binom_power_mis1 &amp;lt;- mean(replicate(max_iter, {
+  run_binom_test(n, p_true = p_mis1,
+                 p0, p1,
+                 alpha)
+}))
+printf(&amp;quot;Power of LRT (n = %i) is %.2f&amp;quot;, n, binom_power_mis1)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Power of LRT (n = 280) is 0.52&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# SPRT
+sprt_power_mis1_out &amp;lt;- replicate(max_iter, {
+  out &amp;lt;- run_wald_sprt(p_true = p_mis1, p0, p1,
+                       alpha, beta, max_iter = 1e+3L)
+  return(c(stopped_n = out$stopped_n, is_reject_null = out$is_reject_null))
+})
+sprt_power_mis1 &amp;lt;- mean(sprt_power_mis1_out[&amp;quot;is_reject_null&amp;quot;, ])
+sprt_power_mis_1_sample_size &amp;lt;- mean(sprt_power_mis1_out[&amp;quot;stopped_n&amp;quot;, ])
+printf(&amp;quot;Power of SPRT (E[N] = %.1f) is %.2f&amp;quot;, sprt_power_mis_1_sample_size, sprt_power_mis1)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Power of SPRT (E[N] = 234.5) is 0.50&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Under a misspecified alternative with &lt;span class=&#34;math inline&#34;&gt;\(p = 0.55 &amp;lt; p_1 = 0.6\)&lt;/span&gt;, both LRT and SPRT achieve a similar power but SPRT has a smaller average sample size. The achieved power is below the pre-specified minimum power as the true success proability is smaller than the alternative.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;iv.-under-a-misspecified-alternative-2.-large-p-0.65.&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;iv. Under a misspecified alternative 2. large &lt;span class=&#34;math inline&#34;&gt;\(p = 0.65\)&lt;/span&gt;.&lt;/h4&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(1)
+# Under a misspecified alternative 2. large p_true = 0.65.
+p_mis2 &amp;lt;- 0.65
+
+# LRT (binomial)
+binom_power_mis2 &amp;lt;- mean(replicate(max_iter, {
+  run_binom_test(n, p_true = p_mis2,
+                 p0, p1,
+                 alpha)
+}))
+printf(&amp;quot;Power of LRT (n = %i) is %.2f&amp;quot;, n, binom_power_mis2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Power of LRT (n = 280) is 1.00&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sprt_power_mis2_out &amp;lt;- replicate(max_iter, {
+  out &amp;lt;- run_wald_sprt(p_true = p_mis2, p0, p1,
+                       alpha, beta, max_iter = 1e+3L)
+  return(c(stopped_n = out$stopped_n, is_reject_null = out$is_reject_null))
+})
+sprt_power_mis2 &amp;lt;- mean(sprt_power_mis2_out[&amp;quot;is_reject_null&amp;quot;, ])
+sprt_power_mis_2_sample_size &amp;lt;- mean(sprt_power_mis2_out[&amp;quot;stopped_n&amp;quot;, ])
+printf(&amp;quot;Power of SPRT (E[N] = %.1f) is %.2f&amp;quot;, sprt_power_mis_2_sample_size, sprt_power_mis2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Power of SPRT (E[N] = 76.1) is 1.00&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Under a misspecified alternative with &lt;span class=&#34;math inline&#34;&gt;\(p = 0.65 &amp;gt; p_1 = 0.6\)&lt;/span&gt;, both LRT and SPRT has almost power of 1 but SPRT has a much smaller average sample size as SPRT can early stop the procedure adaptive to the underlying higher success probability then the alternative.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id=&#34;fixed-sample-size&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;1. Fixed sample size&lt;/h2&gt;
-&lt;p&gt;In the classical setting like scientific researches or survey analyses, it is often expensive to collect observations. Therefore, the sample size is often determined by external factors such as research budget or the number of available respondents at the survey time rather than the power analysis result. Even sometimes, a pre-collected set of samples is given to analysts and analysts themselves have no or very small control on the collected sample size. This is a reason why, in many textbook scenarios like above, samples of a fixed number are given and we are asked to perform fixed sample size tests.&lt;/p&gt;
+&lt;div id=&#34;conclustion&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Conclustion&lt;/h3&gt;
+&lt;p&gt;Sequential hypothesis testing procedures can achieve a better sample efficiency even compared to the best fixed sample size test. In the following post, we will explain the flexibility and safety of sequential testing procedures.&lt;/p&gt;
+&lt;!--
+## 1. Fixed sample size
+
+In the classical setting like scientific researches or survey analyses, it is often expensive to collect observations. Therefore, the sample size is often determined by external factors such as research budget or the number of available respondents at the survey time rather than the power analysis result. Even sometimes, a pre-collected set of samples is given to analysts and analysts themselves have no or very small control on the collected sample size. This is a reason why, in many textbook scenarios like above, samples of a fixed number are given and we are asked to perform fixed sample size tests. 
+
+
+## 2. Sequential observations
+In industrial settings, data are often collected by sensors or logs from which we can access a stream of observations in real time. 
+
+ This is a classical example of statistical hypothesis testing and there are various standard ways to perform a test including Z-test (asymptotic test for a large sample size) and binomial test (exact test for small-to-medium sample  sizes). --&gt;
 &lt;/div&gt;
-&lt;div id=&#34;sequential-observations&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;2. Sequential observations&lt;/h2&gt;
-&lt;p&gt;In industrial settings, data are often collected by sensors or logs from which we can access a stream of observations in real time.&lt;/p&gt;
-&lt;!-- This is a classical example of statistical hypothesis testing and there are various standard ways to perform a test including Z-test (asymptotic test for a large sample size) and binomial test (exact test for small-to-medium sample  sizes). --&gt;
 &lt;/div&gt;
 &lt;div class=&#34;footnotes&#34;&gt;
 &lt;hr /&gt;
 &lt;ol&gt;
 &lt;li id=&#34;fn1&#34;&gt;&lt;p&gt;Since &lt;span class=&#34;math inline&#34;&gt;\(\bar{X}_n\)&lt;/span&gt; is discrete, there might be no such constant &lt;span class=&#34;math inline&#34;&gt;\(c_\alpha\)&lt;/span&gt; satisfying the equality. In this case, we can randomized the test, which is beyond the scope of this post.&lt;a href=&#34;#fnref1&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li id=&#34;fn2&#34;&gt;&lt;p&gt;Computing the critical value or the corresponding p-value could be computationally expensive if the sample size is large. In this case, we can use a normal approximation-based z-test instead of the exact Binomial test.&lt;a href=&#34;#fnref2&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li id=&#34;fn3&#34;&gt;&lt;p&gt;This is not a free lunch - in worst scenarios, SPRT can reach the max iteration which could be much larger than the fixed sample size of LRT.&lt;a href=&#34;#fnref3&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li id=&#34;fn4&#34;&gt;&lt;p&gt;We can use a mixture of SPRTs to achieve a near optimal sample efficiency for a composite alternative hypothesis space in which a range of alternative distributions exist. This topic was discussed in literature several times. For example, see &lt;a href=&#34;https://arxiv.org/abs/2010.08082&#34;&gt;arXiv&lt;/a&gt;.&lt;a href=&#34;#fnref4&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
 </description>

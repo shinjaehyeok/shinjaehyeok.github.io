@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts | Jae&#39;s Blog</title>
-    <link>https://shinjaehyeok.github.io/post/</link>
-      <atom:link href="https://shinjaehyeok.github.io/post/index.xml" rel="self" type="application/rss+xml" />
-    <description>Posts</description>
+    <title>sequential test | Jae&#39;s Blog</title>
+    <link>https://shinjaehyeok.github.io/tag/sequential-test/</link>
+      <atom:link href="https://shinjaehyeok.github.io/tag/sequential-test/index.xml" rel="self" type="application/rss+xml" />
+    <description>sequential test</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>Copyright 2022 Jaehyeok Shin. All rights reserved.</copyright><lastBuildDate>Sat, 28 May 2022 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_3.png</url>
-      <title>Posts</title>
-      <link>https://shinjaehyeok.github.io/post/</link>
+      <title>sequential test</title>
+      <link>https://shinjaehyeok.github.io/tag/sequential-test/</link>
     </image>
     
     <item>

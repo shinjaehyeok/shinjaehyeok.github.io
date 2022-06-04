@@ -2,16 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://shinjaehyeok.github.io/authors/</loc>
+    <loc>https://shinjaehyeok.github.io/tag/ab-test/</loc>
+    <lastmod>2022-05-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/</loc>
+    <lastmod>2022-05-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://shinjaehyeok.github.io/categories/</loc>
+    <lastmod>2022-05-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://shinjaehyeok.github.io/tag/inference/</loc>
+    <lastmod>2022-05-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://shinjaehyeok.github.io/</loc>
+    <lastmod>2022-05-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://shinjaehyeok.github.io/post/</loc>
+    <lastmod>2022-05-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://shinjaehyeok.github.io/tag/sequential-test/</loc>
+    <lastmod>2022-05-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://shinjaehyeok.github.io/category/statistics/</loc>
+    <lastmod>2022-05-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://shinjaehyeok.github.io/tags/</loc>
+    <lastmod>2022-05-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://shinjaehyeok.github.io/authors/</loc>
   </url><url>
     <loc>https://shinjaehyeok.github.io/author/jaehyeok-shin/</loc>
   </url><url>
     <loc>https://shinjaehyeok.github.io/publication_types/</loc>
-  </url><url>
-    <loc>https://shinjaehyeok.github.io/tags/</loc>
   </url>
 </urlset>

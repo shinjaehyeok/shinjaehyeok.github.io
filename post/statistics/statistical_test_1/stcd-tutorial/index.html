@@ -314,9 +314,9 @@
   <meta property="twitter:site" content="@Project20s">
   <meta property="twitter:creator" content="@Project20s">
   
-  <meta property="og:site_name" content="JH&#39;s Blog">
+  <meta property="og:site_name" content="Jae&#39;s Blog">
   <meta property="og:url" content="https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/">
-  <meta property="og:title" content="Sequential Hypothesis Testing: 1. Sample efficiency | JH&#39;s Blog">
+  <meta property="og:title" content="Advantages of Sequential Hypothesis Testing: 1. Sample efficiency | Jae&#39;s Blog">
   <meta property="og:description" content="In this and a follow-up posts, we explain two main advantages of sequential hypothesis testing methods compared to standard tests based on a fixed sample size. 1. Sample efficiency in"><meta property="og:image" content="https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_3.png">
   <meta property="twitter:image" content="https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_3.png"><meta property="og:locale" content="en-us">
   
@@ -349,7 +349,7 @@
     "@type": "WebPage",
     "@id": "https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/"
   },
-  "headline": "Sequential Hypothesis Testing: 1. Sample efficiency",
+  "headline": "Advantages of Sequential Hypothesis Testing: 1. Sample efficiency",
   
   "datePublished": "2022-05-28T00:00:00Z",
   "dateModified": "2022-05-28T00:00:00Z",
@@ -361,7 +361,7 @@
   
   "publisher": {
     "@type": "Organization",
-    "name": "JH's Blog",
+    "name": "Jae's Blog",
     "logo": {
       "@type": "ImageObject",
       "url": "https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_192x192_fill_lanczos_center_3.png"
@@ -385,7 +385,7 @@
 
 
 
-  <title>Sequential Hypothesis Testing: 1. Sample efficiency | JH&#39;s Blog</title>
+  <title>Advantages of Sequential Hypothesis Testing: 1. Sample efficiency | Jae&#39;s Blog</title>
 
 </head>
 
@@ -453,7 +453,7 @@
 
     
     <div class="d-none d-lg-inline-flex">
-      <a class="navbar-brand" href="/">JH&#39;s Blog</a>
+      <a class="navbar-brand" href="/">Jae&#39;s Blog</a>
     </div>
     
 
@@ -466,7 +466,7 @@
 
     
     <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
-      <a class="navbar-brand" href="/">JH&#39;s Blog</a>
+      <a class="navbar-brand" href="/">Jae&#39;s Blog</a>
     </div>
     
 
@@ -615,7 +615,7 @@
   
   
 <div class="article-container pt-3">
-  <h1>Sequential Hypothesis Testing: 1. Sample efficiency</h1>
+  <h1>Advantages of Sequential Hypothesis Testing: 1. Sample efficiency</h1>
 
   
 
@@ -643,7 +643,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    3 min read
+    6 min read
   </span>
   
 
@@ -723,23 +723,302 @@ printf(&quot;p-value of a biased coin test is %.3f&quot;, biased_coin_test_resul
 <div id="b-sequential-tests-can-choose-the-sample-size-adpatively." class="section level3">
 <h3>b) Sequential tests can choose the sample size adpatively.</h3>
 <p>If there are only two distributions specified in null and alternative hypotheses then similar to the Neyman-Pearson lemma, <a href="https://en.wikipedia.org/wiki/Sequential_probability_ratio_test">Wald’s sequential probability ratio test (SPRT)</a> is the test having the smallest average sample size among all statistical tests including both fixed and sequential tests of pre-specified test level <span class="math inline">\(\alpha\)</span> and minimum power level <span class="math inline">\(\beta\)</span>. It is not contradict to the Neyman-Pearson lemma which only covers all fixed sample size tests. In the sequential test, the sample size is a random stopping time at which we declare whether to reject the null or not.</p>
-<p>The SPRT</p>
+<p>For our Bernoulli example with <span class="math inline">\(H_0: p = p_0\)</span> vs <span class="math inline">\(H_1: p = p_1\)</span>, the Wald’s SPRT is given by the following procedure.</p>
+<ul>
+<li><p>Set <span class="math inline">\(S_0 := 0\)</span> and for each observation <span class="math inline">\(X_n\)</span>, compute the probability ratio <span class="math inline">\(\Lambda_n\)</span> by
+<span class="math display">\[
+\Lambda_n := \left(\frac{p_1}{p_0}\right)^{X_n}\left(\frac{1-p_1}{1-p_0}\right)^{1-X_n}.
+\]</span></p></li>
+<li><p>Update <span class="math inline">\(S_n := S_{n-1} + \log \Lambda_n\)</span></p></li>
+<li><p>Make one of three following decisions:</p>
+<ul>
+<li><p>If <span class="math inline">\(S_n \geq b\)</span> then stop and reject the null (since there is only one alternative, it is equivalent to accept the alternative).</p></li>
+<li><p>If <span class="math inline">\(S_n \leq a\)</span> then stop and reject the alternative (or accept the null).</p></li>
+<li><p>Otherwise, continue to the next iteration.</p></li>
+</ul></li>
+</ul>
+<p>Here, thresholds <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are given approximately <span class="math inline">\(a \sim \log\frac{1-\beta}{1-\alpha}\)</span> and <span class="math inline">\(b \sim \log\frac{\beta}{\alpha}\)</span> for pre-specified test level <span class="math inline">\(\alpha\)</span> and minimum power level <span class="math inline">\(\beta\)</span>. Exact thresholds depend on the underlying null and alternative distributions. In the following R example, we use conservative but correct thresholds given by <span class="math inline">\(a = \log(1-\beta)\)</span> and <span class="math inline">\(b = \log\frac{1}{\alpha}\)</span>.</p>
+<p><em>Example R script for SPRT under the null</em></p>
+<pre class="r"><code>set.seed(1)
+max_iter &lt;- 1e+3L
+p0 &lt;- 0.5 # Null distribution
+p1 &lt;- 0.6 # Alternative distribution
+alpha &lt;- 0.05 # Test level
+beta &lt;- 0.95 # Minimum power level  
+a &lt;- log(1 - beta)
+b &lt;- log(1 / alpha)
+s &lt;- 0
+# Set a placeholder only for visualization.
+# Actual test does not require it. 
+
+p &lt;- p0 # True distribution is the alternative
+s_history &lt;- rep(NA, max_iter) 
+for (n in 1:max_iter) {
+  # Observe a new sample
+  x &lt;- rbinom(1, 1, p)
+  # Update S_n
+  s &lt;- s + ifelse(x == 1, log(p1/p0), log((1-p1)/(1-p0)))
+  s_history[n] &lt;- s
+  # Make a decision
+  if (s &gt;= b) {
+    decision &lt;- &quot;Reject the null&quot;
+    break 
+  } else if (s &lt;= a) {
+    decision &lt;- &quot;Reject the alternative&quot;
+    break
+  } 
+  if (n == max_iter) {
+    decision &lt;- &quot;Test reached the max interation&quot;
+  }
+}
+printf(&quot;SPRT was ended at n=%i&quot;, n)</code></pre>
+<pre><code>## [1] &quot;SPRT was ended at n=90&quot;</code></pre>
+<pre class="r"><code>printf(&quot;Decision: %s&quot;, decision)</code></pre>
+<pre><code>## [1] &quot;Decision: Reject the alternative&quot;</code></pre>
+<pre class="r"><code>s_history &lt;- s_history[!is.na(s_history)]
+plot(seq_along(s_history), s_history, type = &quot;l&quot;,
+     xlab = &quot;n&quot;, ylab = expression(&#39;S&#39;[&#39;n&#39;]),
+     ylim = c(a, b))
+abline(h = a, col = 2)
+abline(h = b, col = 2)</code></pre>
+<p><img src="/post/statistics/statistical_test_1/1.statistical_test_files/figure-html/binomial_sprt_null-1.png" width="672" /></p>
+<p><em>Example R script for SPRT under the alternative</em></p>
+<pre class="r"><code>s &lt;- 0
+# Set a placeholder only for visualization.
+# Actual test does not require it. 
+p &lt;- p1 # True distribution is the alternative
+s_history &lt;- rep(NA, max_iter) 
+for (n in 1:max_iter) {
+  # Observe a new sample
+  x &lt;- rbinom(1, 1, p)
+  # Update S_n
+  s &lt;- s + ifelse(x == 1, log(p1/p0), log((1-p1)/(1-p0)))
+  s_history[n] &lt;- s
+  # Make a decision
+  if (s &gt;= b) {
+    decision &lt;- &quot;Reject the null&quot;
+    break 
+  } else if (s &lt;= a) {
+    decision &lt;- &quot;Reject the alternative&quot;
+    break
+  } 
+  if (n == max_iter) {
+    decision &lt;- &quot;Test reached the max interation&quot;
+  }
+}
+printf(&quot;SPRT was ended at n=%i&quot;, n)</code></pre>
+<pre><code>## [1] &quot;SPRT was ended at n=119&quot;</code></pre>
+<pre class="r"><code>printf(&quot;Decision: %s&quot;, decision)</code></pre>
+<pre><code>## [1] &quot;Decision: Reject the null&quot;</code></pre>
+<pre class="r"><code>s_history &lt;- s_history[!is.na(s_history)]
+plot(seq_along(s_history), s_history, type = &quot;l&quot;,
+     xlab = &quot;n&quot;, ylab = expression(&#39;S&#39;[&#39;n&#39;]),
+     ylim = c(a, b))
+abline(h = a, col = 2)
+abline(h = b, col = 2)</code></pre>
+<p><img src="/post/statistics/statistical_test_1/1.statistical_test_files/figure-html/binomial_sprt_alter-1.png" width="672" />
+From the above example, We can see SPRT ended around <span class="math inline">\(90\sim120\)</span>. However, to achieve the same test level and minimum power, LRT (binomial test in this case), requires at least <span class="math inline">\(n = 280\)</span> samples.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
+<p><em>Sample size calculation for the Binomial test</em></p>
+<pre class="r"><code>n_to_power &lt;- function(n, p0, p1, alpha) {
+  n &lt;- ceiling(n)
+  thres &lt;- qbinom(alpha, n, p0, lower.tail = FALSE)
+  pwr &lt;- pbinom(thres, n, p1, lower.tail = FALSE)
+  return(pwr)
+}
+
+power_to_n &lt;- function(beta, p0, p1, alpha) {
+  f &lt;- function(n) {
+    beta - n_to_power(n, p0, p1, alpha)
+  }
+  root &lt;- stats::uniroot(f, c(1, 1e+4), tol = 1e-6)
+  return(ceiling(root$root))
+}
+
+alpha &lt;- 0.05
+beta &lt;- 0.95
+p0 &lt;- 0.5
+p1 &lt;- 0.6
+minimum_sample &lt;- power_to_n(beta, p0 , p1 , alpha)
+printf(&quot;%i is the minimum sample size to achieve test level %.2f and power %.2f.&quot;, 
+       minimum_sample, alpha, beta)</code></pre>
+<pre><code>## [1] &quot;280 is the minimum sample size to achieve test level 0.05 and power 0.95.&quot;</code></pre>
+<p>Unlike the LRT, the efficiency of the Wald’s SPRT is guaranteed only for a simple alternative hypothesis space in which there is a single alternative distribution. However, SPRT works reasonable well even for mis-specified alternative distributions.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a></p>
+</div>
+<div id="c-simulations" class="section level3">
+<h3>c) Simulations</h3>
+<p>We end this post by checking the sample efficiency of SPRT over LRT in Bernoulli case simulations. Thoughout the simulation, we use test level <span class="math inline">\(\alpha = 0.05\)</span>, minimum power <span class="math inline">\(\beta = 0.95\)</span> for hypotheses <span class="math inline">\(H_0: p = 0.5\)</span> vs <span class="math inline">\(H_1: p = 0.6\)</span>. In this case, the mimum sample size of LRT (one-sided binomial test) is equal to <span class="math inline">\(n = 280\)</span>. Later, we also simulate the misspecified alternatives <span class="math inline">\(p = 0.55\)</span> and <span class="math inline">\(p = 0.65\)</span>.</p>
+<p><em>Set up</em></p>
+<pre class="r"><code># Set up
+alpha &lt;- 0.05
+p0 &lt;- 0.5
+p1 &lt;- 0.6
+beta &lt;- 0.95
+n &lt;- power_to_n(beta, p0, p1, alpha) # n = 280
+max_iter &lt;- 1e+4L
+
+# One-sided Binomial test 
+run_binom_test &lt;- function(n, p_true,
+                           p0 = 0.5, p1 = 0.6,
+                           alpha = 0.05) {
+  thres &lt;- qbinom(alpha, n, p0, lower.tail = FALSE)
+  num_head &lt;- rbinom(1, size = n, prob = p_true)
+  return(num_head &gt;= thres)
+}
+
+# SPRT
+run_wald_sprt &lt;- function(p_true, p0 = 0.5, p1 = 0.6,
+                      alpha = 0.05, beta = 0.95, max_iter = 1e+3L) {
+  a &lt;- log(1 - beta)
+  b &lt;- log(1 / alpha)
+  s &lt;- 0
+  for (n in 1:max_iter) {
+    # Observe a new sample
+    x &lt;- rbinom(1, 1, p_true)
+    # Update S_n
+    s &lt;- s + ifelse(x == 1, log(p1/p0), log((1-p1)/(1-p0)))
+    # Make a decision
+    if (s &gt;= b) {
+      decision &lt;- &quot;Reject the null&quot;
+      is_reject_null &lt;- TRUE
+      break 
+    } else if (s &lt;= a) {
+      decision &lt;- &quot;Reject the alternative&quot;
+      is_reject_null &lt;- FALSE
+      break
+    } 
+    if (n == max_iter) {
+      decision &lt;- &quot;Test reached the max interation&quot;
+      is_reject_null &lt;- FALSE
+    }
+  } 
+  return(list(
+    stopped_n = n,
+    decision = decision,
+    is_reject_null = is_reject_null
+  ))
+}</code></pre>
+<div id="i.-under-the-null-h_0-p-0.5" class="section level4">
+<h4>i. Under the null (<span class="math inline">\(H_0: p = 0.5\)</span>)</h4>
+<pre class="r"><code>set.seed(1)
+# Under the null p_true = 0.5
+# LRT (binomial)
+binom_null_err &lt;- mean(replicate(max_iter, {
+  run_binom_test(n, p_true = p0,
+                 p0, p1,
+                 alpha)
+}))
+printf(&quot;Type 1 error of LRT (n = %i) is %.2f&quot;, n, binom_null_err)</code></pre>
+<pre><code>## [1] &quot;Type 1 error of LRT (n = 280) is 0.05&quot;</code></pre>
+<pre class="r"><code># SPRT 
+sprt_null_out &lt;- replicate(max_iter, {
+  out &lt;- run_wald_sprt(p_true = p0, p0, p1,
+                alpha, beta, max_iter = 1e+3L)
+  return(c(stopped_n = out$stopped_n, is_reject_null = out$is_reject_null))
+})
+sprt_null_err &lt;- mean(sprt_null_out[&quot;is_reject_null&quot;, ])
+sprt_null_sample_size &lt;- mean(sprt_null_out[&quot;stopped_n&quot;, ])
+printf(&quot;Type 1 error of SPRT (E[N] = %.1f) is %.2f&quot;, sprt_null_sample_size, sprt_null_err)</code></pre>
+<pre><code>## [1] &quot;Type 1 error of SPRT (E[N] = 137.7) is 0.04&quot;</code></pre>
+<p>Under the null, both LRT and SPRT control type-1 error and SPRT has smaller average sample size compared to the LRT.</p>
+</div>
+<div id="ii.-under-the-alternative-h_1-p-0.6" class="section level4">
+<h4>ii. Under the alternative (<span class="math inline">\(H_1: p = 0.6\)</span>)</h4>
+<pre class="r"><code>set.seed(1)
+# Under the alternative p_true = 0.6
+# LRT (binomial)
+binom_power &lt;- mean(replicate(max_iter, {
+  run_binom_test(n, p_true = p1,
+                 p0, p1,
+                 alpha)
+}))
+printf(&quot;Power of LRT (n = %i) is %.2f&quot;, n, binom_power)</code></pre>
+<pre><code>## [1] &quot;Power of LRT (n = 280) is 0.96&quot;</code></pre>
+<pre class="r"><code># SPRT
+sprt_power_out &lt;- replicate(max_iter, {
+  out &lt;- run_wald_sprt(p_true = p1, p0, p1,
+                       alpha, beta, max_iter = 1e+3L)
+  return(c(stopped_n = out$stopped_n, is_reject_null = out$is_reject_null))
+})
+sprt_power &lt;- mean(sprt_power_out[&quot;is_reject_null&quot;, ])
+sprt_power_sample_size &lt;- mean(sprt_power_out[&quot;stopped_n&quot;, ])
+printf(&quot;Power of SPRT (E[N] = %.1f) is %.2f&quot;, sprt_power_sample_size, sprt_power)</code></pre>
+<pre><code>## [1] &quot;Power of SPRT (E[N] = 139.3) is 0.96&quot;</code></pre>
+<p>Under the alternative, both LRT and SPRT achieve the minimum power and SPRT has smaller average sample size compared to the LRT.</p>
+</div>
+<div id="iii.-under-a-misspecified-alternative-1.-small-p-0.55." class="section level4">
+<h4>iii. Under a misspecified alternative 1. small <span class="math inline">\(p = 0.55\)</span>.</h4>
+<pre class="r"><code>set.seed(1)
+# Under a misspecified alternative 1. small p_true = 0.55.
+p_mis1 &lt;- 0.55
+
+# LRT (binomial)
+binom_power_mis1 &lt;- mean(replicate(max_iter, {
+  run_binom_test(n, p_true = p_mis1,
+                 p0, p1,
+                 alpha)
+}))
+printf(&quot;Power of LRT (n = %i) is %.2f&quot;, n, binom_power_mis1)</code></pre>
+<pre><code>## [1] &quot;Power of LRT (n = 280) is 0.52&quot;</code></pre>
+<pre class="r"><code># SPRT
+sprt_power_mis1_out &lt;- replicate(max_iter, {
+  out &lt;- run_wald_sprt(p_true = p_mis1, p0, p1,
+                       alpha, beta, max_iter = 1e+3L)
+  return(c(stopped_n = out$stopped_n, is_reject_null = out$is_reject_null))
+})
+sprt_power_mis1 &lt;- mean(sprt_power_mis1_out[&quot;is_reject_null&quot;, ])
+sprt_power_mis_1_sample_size &lt;- mean(sprt_power_mis1_out[&quot;stopped_n&quot;, ])
+printf(&quot;Power of SPRT (E[N] = %.1f) is %.2f&quot;, sprt_power_mis_1_sample_size, sprt_power_mis1)</code></pre>
+<pre><code>## [1] &quot;Power of SPRT (E[N] = 234.5) is 0.50&quot;</code></pre>
+<p>Under a misspecified alternative with <span class="math inline">\(p = 0.55 &lt; p_1 = 0.6\)</span>, both LRT and SPRT achieve a similar power but SPRT has a smaller average sample size. The achieved power is below the pre-specified minimum power as the true success proability is smaller than the alternative.</p>
+</div>
+<div id="iv.-under-a-misspecified-alternative-2.-large-p-0.65." class="section level4">
+<h4>iv. Under a misspecified alternative 2. large <span class="math inline">\(p = 0.65\)</span>.</h4>
+<pre class="r"><code>set.seed(1)
+# Under a misspecified alternative 2. large p_true = 0.65.
+p_mis2 &lt;- 0.65
+
+# LRT (binomial)
+binom_power_mis2 &lt;- mean(replicate(max_iter, {
+  run_binom_test(n, p_true = p_mis2,
+                 p0, p1,
+                 alpha)
+}))
+printf(&quot;Power of LRT (n = %i) is %.2f&quot;, n, binom_power_mis2)</code></pre>
+<pre><code>## [1] &quot;Power of LRT (n = 280) is 1.00&quot;</code></pre>
+<pre class="r"><code>sprt_power_mis2_out &lt;- replicate(max_iter, {
+  out &lt;- run_wald_sprt(p_true = p_mis2, p0, p1,
+                       alpha, beta, max_iter = 1e+3L)
+  return(c(stopped_n = out$stopped_n, is_reject_null = out$is_reject_null))
+})
+sprt_power_mis2 &lt;- mean(sprt_power_mis2_out[&quot;is_reject_null&quot;, ])
+sprt_power_mis_2_sample_size &lt;- mean(sprt_power_mis2_out[&quot;stopped_n&quot;, ])
+printf(&quot;Power of SPRT (E[N] = %.1f) is %.2f&quot;, sprt_power_mis_2_sample_size, sprt_power_mis2)</code></pre>
+<pre><code>## [1] &quot;Power of SPRT (E[N] = 76.1) is 1.00&quot;</code></pre>
+<p>Under a misspecified alternative with <span class="math inline">\(p = 0.65 &gt; p_1 = 0.6\)</span>, both LRT and SPRT has almost power of 1 but SPRT has a much smaller average sample size as SPRT can early stop the procedure adaptive to the underlying higher success probability then the alternative.</p>
 </div>
 </div>
-<div id="fixed-sample-size" class="section level2">
-<h2>1. Fixed sample size</h2>
-<p>In the classical setting like scientific researches or survey analyses, it is often expensive to collect observations. Therefore, the sample size is often determined by external factors such as research budget or the number of available respondents at the survey time rather than the power analysis result. Even sometimes, a pre-collected set of samples is given to analysts and analysts themselves have no or very small control on the collected sample size. This is a reason why, in many textbook scenarios like above, samples of a fixed number are given and we are asked to perform fixed sample size tests.</p>
+<div id="conclustion" class="section level3">
+<h3>Conclustion</h3>
+<p>Sequential hypothesis testing procedures can achieve a better sample efficiency even compared to the best fixed sample size test. In the following post, we will explain the flexibility and safety of sequential testing procedures.</p>
+<!--
+## 1. Fixed sample size
+
+In the classical setting like scientific researches or survey analyses, it is often expensive to collect observations. Therefore, the sample size is often determined by external factors such as research budget or the number of available respondents at the survey time rather than the power analysis result. Even sometimes, a pre-collected set of samples is given to analysts and analysts themselves have no or very small control on the collected sample size. This is a reason why, in many textbook scenarios like above, samples of a fixed number are given and we are asked to perform fixed sample size tests. 
+
+
+## 2. Sequential observations
+In industrial settings, data are often collected by sensors or logs from which we can access a stream of observations in real time. 
+
+ This is a classical example of statistical hypothesis testing and there are various standard ways to perform a test including Z-test (asymptotic test for a large sample size) and binomial test (exact test for small-to-medium sample  sizes). -->
 </div>
-<div id="sequential-observations" class="section level2">
-<h2>2. Sequential observations</h2>
-<p>In industrial settings, data are often collected by sensors or logs from which we can access a stream of observations in real time.</p>
-<!-- This is a classical example of statistical hypothesis testing and there are various standard ways to perform a test including Z-test (asymptotic test for a large sample size) and binomial test (exact test for small-to-medium sample  sizes). -->
 </div>
 <div class="footnotes">
 <hr />
 <ol>
 <li id="fn1"><p>Since <span class="math inline">\(\bar{X}_n\)</span> is discrete, there might be no such constant <span class="math inline">\(c_\alpha\)</span> satisfying the equality. In this case, we can randomized the test, which is beyond the scope of this post.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
 <li id="fn2"><p>Computing the critical value or the corresponding p-value could be computationally expensive if the sample size is large. In this case, we can use a normal approximation-based z-test instead of the exact Binomial test.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>This is not a free lunch - in worst scenarios, SPRT can reach the max iteration which could be much larger than the fixed sample size of LRT.<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p>We can use a mixture of SPRTs to achieve a near optimal sample efficiency for a composite alternative hypothesis space in which a range of alternative distributions exist. This topic was discussed in literature several times. For example, see <a href="https://arxiv.org/abs/2010.08082">arXiv</a>.<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
 
@@ -758,6 +1037,8 @@ printf(&quot;p-value of a biased coin test is %.3f&quot;, biased_coin_test_resul
   
   <a class="badge badge-light" href="/tag/inference/">inference</a>
   
+  <a class="badge badge-light" href="/tag/sequential-test/">sequential test</a>
+  
 </div>
 
 
@@ -773,7 +1054,7 @@ printf(&quot;p-value of a biased coin test is %.3f&quot;, biased_coin_test_resul
       
       
       <li>
-        <a href="https://twitter.com/intent/tweet?url=https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/&amp;text=Sequential%20Hypothesis%20Testing:%201.%20Sample%20efficiency" target="_blank" rel="noopener" class="share-btn-twitter">
+        <a href="https://twitter.com/intent/tweet?url=https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/&amp;text=Advantages%20of%20Sequential%20Hypothesis%20Testing:%201.%20Sample%20efficiency" target="_blank" rel="noopener" class="share-btn-twitter">
           <i class="fab fa-twitter"></i>
         </a>
       </li>
@@ -786,7 +1067,7 @@ printf(&quot;p-value of a biased coin test is %.3f&quot;, biased_coin_test_resul
       
       
       <li>
-        <a href="https://www.facebook.com/sharer.php?u=https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/&amp;t=Sequential%20Hypothesis%20Testing:%201.%20Sample%20efficiency" target="_blank" rel="noopener" class="share-btn-facebook">
+        <a href="https://www.facebook.com/sharer.php?u=https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/&amp;t=Advantages%20of%20Sequential%20Hypothesis%20Testing:%201.%20Sample%20efficiency" target="_blank" rel="noopener" class="share-btn-facebook">
           <i class="fab fa-facebook"></i>
         </a>
       </li>
@@ -799,7 +1080,7 @@ printf(&quot;p-value of a biased coin test is %.3f&quot;, biased_coin_test_resul
       
       
       <li>
-        <a href="mailto:?subject=Sequential%20Hypothesis%20Testing:%201.%20Sample%20efficiency&amp;body=https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/" target="_blank" rel="noopener" class="share-btn-email">
+        <a href="mailto:?subject=Advantages%20of%20Sequential%20Hypothesis%20Testing:%201.%20Sample%20efficiency&amp;body=https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/" target="_blank" rel="noopener" class="share-btn-email">
           <i class="fas fa-envelope"></i>
         </a>
       </li>
@@ -812,7 +1093,7 @@ printf(&quot;p-value of a biased coin test is %.3f&quot;, biased_coin_test_resul
       
       
       <li>
-        <a href="https://www.linkedin.com/shareArticle?url=https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/&amp;title=Sequential%20Hypothesis%20Testing:%201.%20Sample%20efficiency" target="_blank" rel="noopener" class="share-btn-linkedin">
+        <a href="https://www.linkedin.com/shareArticle?url=https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/&amp;title=Advantages%20of%20Sequential%20Hypothesis%20Testing:%201.%20Sample%20efficiency" target="_blank" rel="noopener" class="share-btn-linkedin">
           <i class="fab fa-linkedin-in"></i>
         </a>
       </li>
@@ -825,7 +1106,7 @@ printf(&quot;p-value of a biased coin test is %.3f&quot;, biased_coin_test_resul
       
       
       <li>
-        <a href="whatsapp://send?text=Sequential%20Hypothesis%20Testing:%201.%20Sample%20efficiency%20https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+        <a href="whatsapp://send?text=Advantages%20of%20Sequential%20Hypothesis%20Testing:%201.%20Sample%20efficiency%20https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/" target="_blank" rel="noopener" class="share-btn-whatsapp">
           <i class="fab fa-whatsapp"></i>
         </a>
       </li>
@@ -838,7 +1119,7 @@ printf(&quot;p-value of a biased coin test is %.3f&quot;, biased_coin_test_resul
       
       
       <li>
-        <a href="https://service.weibo.com/share/share.php?url=https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/&amp;title=Sequential%20Hypothesis%20Testing:%201.%20Sample%20efficiency" target="_blank" rel="noopener" class="share-btn-weibo">
+        <a href="https://service.weibo.com/share/share.php?url=https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/&amp;title=Advantages%20of%20Sequential%20Hypothesis%20Testing:%201.%20Sample%20efficiency" target="_blank" rel="noopener" class="share-btn-weibo">
           <i class="fab fa-weibo"></i>
         </a>
       </li>
