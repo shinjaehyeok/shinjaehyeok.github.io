@@ -321,9 +321,9 @@
   <meta property="twitter:image" content="https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_3.png"><meta property="og:locale" content="en-us">
   
     
-      <meta property="article:published_time" content="2022-05-28T00:00:00&#43;00:00">
+      <meta property="article:published_time" content="2022-06-03T00:00:00&#43;00:00">
     
-    <meta property="article:modified_time" content="2022-05-28T00:00:00&#43;00:00">
+    <meta property="article:modified_time" content="2022-06-03T00:00:00&#43;00:00">
   
 
   
@@ -351,8 +351,8 @@
   },
   "headline": "Advantages of Sequential Hypothesis Testing: 1. Sample efficiency",
   
-  "datePublished": "2022-05-28T00:00:00Z",
-  "dateModified": "2022-05-28T00:00:00Z",
+  "datePublished": "2022-06-03T00:00:00Z",
+  "dateModified": "2022-06-03T00:00:00Z",
   
   "author": {
     "@type": "Person",
@@ -634,7 +634,7 @@
     
       
     
-    May 28, 2022
+    Jun 3, 2022
   </span>
   
 
@@ -782,7 +782,7 @@ plot(seq_along(s_history), s_history, type = &quot;l&quot;,
 abline(h = a, col = 2)
 abline(h = b, col = 2)</code></pre>
 <p><img src="/post/statistics/statistical_test_1/1.statistical_test_files/figure-html/binomial_sprt_null-1.png" width="672" />
-<strong>fig 1. A sample <span class="math inline">\(S_n\)</span> path of SPRT under the null.</strong></p>
+<strong>Fig 1. A sample <span class="math inline">\(S_n\)</span> path of SPRT under the null.</strong></p>
 <p><em>Example R script for SPRT under the alternative</em></p>
 <pre class="r"><code>s &lt;- 0
 # Set a placeholder only for visualization.
@@ -818,7 +818,7 @@ plot(seq_along(s_history), s_history, type = &quot;l&quot;,
 abline(h = a, col = 2)
 abline(h = b, col = 2)</code></pre>
 <p><img src="/post/statistics/statistical_test_1/1.statistical_test_files/figure-html/binomial_sprt_alter-1.png" width="672" />
-<strong>fig 2. A sapmle <span class="math inline">\(S_n\)</span> path of SPRT under the alternative.</strong></p>
+<strong>Fig 2. A sample <span class="math inline">\(S_n\)</span> path of SPRT under the alternative.</strong></p>
 <p>From the above example, We can see SPRT ended around <span class="math inline">\(90\sim120\)</span>. However, to achieve the same test level and minimum power, LRT (binomial test in this case), requires at least <span class="math inline">\(n = 280\)</span> samples.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
 <p><em>Sample size calculation for the Binomial test</em></p>
 <pre class="r"><code>n_to_power &lt;- function(n, p0, p1, alpha) {

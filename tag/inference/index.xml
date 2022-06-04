@@ -5,7 +5,7 @@
     <link>https://shinjaehyeok.github.io/tag/inference/</link>
       <atom:link href="https://shinjaehyeok.github.io/tag/inference/index.xml" rel="self" type="application/rss+xml" />
     <description>inference</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>Copyright 2022 Jaehyeok Shin. All rights reserved.</copyright><lastBuildDate>Sat, 28 May 2022 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>Copyright 2022 Jaehyeok Shin. All rights reserved.</copyright><lastBuildDate>Fri, 03 Jun 2022 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_3.png</url>
       <title>inference</title>
@@ -15,7 +15,7 @@
     <item>
       <title>Advantages of Sequential Hypothesis Testing: 1. Sample efficiency</title>
       <link>https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/</link>
-      <pubDate>Sat, 28 May 2022 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 03 Jun 2022 00:00:00 +0000</pubDate>
       <guid>https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/</guid>
       <description>
 &lt;script src=&#34;https://shinjaehyeok.github.io/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
@@ -111,7 +111,7 @@ plot(seq_along(s_history), s_history, type = &amp;quot;l&amp;quot;,
 abline(h = a, col = 2)
 abline(h = b, col = 2)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;https://shinjaehyeok.github.io/post/statistics/statistical_test_1/1.statistical_test_files/figure-html/binomial_sprt_null-1.png&#34; width=&#34;672&#34; /&gt;
-&lt;strong&gt;fig 1. A sample &lt;span class=&#34;math inline&#34;&gt;\(S_n\)&lt;/span&gt; path of SPRT under the null.&lt;/strong&gt;&lt;/p&gt;
+&lt;strong&gt;Fig 1. A sample &lt;span class=&#34;math inline&#34;&gt;\(S_n\)&lt;/span&gt; path of SPRT under the null.&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Example R script for SPRT under the alternative&lt;/em&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;s &amp;lt;- 0
 # Set a placeholder only for visualization.
@@ -147,7 +147,7 @@ plot(seq_along(s_history), s_history, type = &amp;quot;l&amp;quot;,
 abline(h = a, col = 2)
 abline(h = b, col = 2)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;https://shinjaehyeok.github.io/post/statistics/statistical_test_1/1.statistical_test_files/figure-html/binomial_sprt_alter-1.png&#34; width=&#34;672&#34; /&gt;
-&lt;strong&gt;fig 2. A sapmle &lt;span class=&#34;math inline&#34;&gt;\(S_n\)&lt;/span&gt; path of SPRT under the alternative.&lt;/strong&gt;&lt;/p&gt;
+&lt;strong&gt;Fig 2. A sample &lt;span class=&#34;math inline&#34;&gt;\(S_n\)&lt;/span&gt; path of SPRT under the alternative.&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;From the above example, We can see SPRT ended around &lt;span class=&#34;math inline&#34;&gt;\(90\sim120\)&lt;/span&gt;. However, to achieve the same test level and minimum power, LRT (binomial test in this case), requires at least &lt;span class=&#34;math inline&#34;&gt;\(n = 280\)&lt;/span&gt; samples.&lt;a href=&#34;#fn3&#34; class=&#34;footnote-ref&#34; id=&#34;fnref3&#34;&gt;&lt;sup&gt;3&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Sample size calculation for the Binomial test&lt;/em&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;n_to_power &amp;lt;- function(n, p0, p1, alpha) {
