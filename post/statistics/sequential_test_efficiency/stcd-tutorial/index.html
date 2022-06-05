@@ -1,0 +1,1469 @@
+<!DOCTYPE html><html lang="en-us" >
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.8.0">
+
+  
+
+  
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Jaehyeok Shin">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="In this and a follow-up posts, we explain two main advantages of sequential hypothesis testing methods compared to standard tests based on fixed sample size. Sample efficiency in practice As">
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://shinjaehyeok.github.io/post/statistics/sequential_test_efficiency/stcd-tutorial/">
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+  
+  <script src="/js/mathjax-config.js"></script>
+  
+
+  
+  
+  
+  
+    
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha256-FMvZuGapsJLjouA6k7Eo2lusoAX9i0ShlWFG6qt7SLc=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css" integrity="sha256-SHMGCYmST46SoyGgo4YR/9AlK1vf3ff84Aq9yK4hdqM=" crossorigin="anonymous">
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+    
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap">
+    
+  
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.css">
+
+  
+
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-144639945-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+      dataLayer.push(arguments);
+  }
+
+  function trackOutboundLink(url, target) {
+    gtag('event', 'click', {
+         'event_category': 'outbound',
+         'event_label': url,
+         'transport_type': 'beacon',
+         'event_callback': function () {
+           if (target !== '_blank') {
+             document.location = url;
+           }
+         }
+    });
+    console.debug("Outbound link clicked: " + url);
+  }
+
+  function onClickCallback(event) {
+    if ((event.target.tagName !== 'A') || (event.target.host === window.location.host)) {
+      return;
+    }
+    trackOutboundLink(event.target, event.target.getAttribute('target'));  
+  }
+
+  gtag('js', new Date());
+  gtag('config', 'UA-144639945-1', {});
+
+  
+  document.addEventListener('click', onClickCallback, false);
+</script>
+
+
+  
+
+
+  
+  
+
+  
+
+  <link rel="manifest" href="/index.webmanifest">
+  <link rel="icon" type="image/png" href="/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_32x32_fill_lanczos_center_3.png">
+  <link rel="apple-touch-icon" type="image/png" href="/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_192x192_fill_lanczos_center_3.png">
+
+  <link rel="canonical" href="https://shinjaehyeok.github.io/post/statistics/sequential_test_efficiency/stcd-tutorial/">
+
+  
+  
+  
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary">
+  
+  <meta property="twitter:site" content="@Project20s">
+  <meta property="twitter:creator" content="@Project20s">
+  
+  <meta property="og:site_name" content="Jae&#39;s Blog">
+  <meta property="og:url" content="https://shinjaehyeok.github.io/post/statistics/sequential_test_efficiency/stcd-tutorial/">
+  <meta property="og:title" content="Advantages of Sequential Hypothesis Testing: 1. Sample efficiency | Jae&#39;s Blog">
+  <meta property="og:description" content="In this and a follow-up posts, we explain two main advantages of sequential hypothesis testing methods compared to standard tests based on fixed sample size. Sample efficiency in practice As"><meta property="og:image" content="https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_3.png">
+  <meta property="twitter:image" content="https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_3.png"><meta property="og:locale" content="en-us">
+  
+    
+      <meta property="article:published_time" content="2022-06-03T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2022-06-03T00:00:00&#43;00:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://shinjaehyeok.github.io/post/statistics/sequential_test_efficiency/stcd-tutorial/"
+  },
+  "headline": "Advantages of Sequential Hypothesis Testing: 1. Sample efficiency",
+  
+  "datePublished": "2022-06-03T00:00:00Z",
+  "dateModified": "2022-06-03T00:00:00Z",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Jaehyeok Shin"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Jae's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_192x192_fill_lanczos_center_3.png"
+    }
+  },
+  "description": "In this and a follow-up posts, we explain two main advantages of sequential hypothesis testing methods compared to standard tests based on fixed sample size. Sample efficiency in practice As"
+}
+</script>
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>Advantages of Sequential Hypothesis Testing: 1. Sample efficiency | Jae&#39;s Blog</title>
+
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class=" ">
+
+  
+  
+  
+    <script>window.staDarkLightChooser = true;</script>
+  
+  
+    <script>const isSiteThemeDark = false;</script>
+  
+  
+  <script src="/js/load-theme.js"></script>
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">Jae&#39;s Blog</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">Jae&#39;s Blog</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      
+      <li class="nav-item dropdown theme-dropdown">
+        <a href="#" class="nav-link js-theme-selector" data-toggle="dropdown" aria-haspopup="true">
+          <i class="fas fa-palette" aria-hidden="true"></i>
+        </a>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item js-set-theme-light">
+            <span>Light</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-dark">
+            <span>Dark</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-auto">
+            <span>Automatic</span>
+          </a>
+        </div>
+      </li>
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+
+  <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Advantages of Sequential Hypothesis Testing: 1. Sample efficiency</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    Jun 3, 2022
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    6 min read
+  </span>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/statistics/sequential_test_efficiency/stcd-tutorial/#disqus_thread"></a>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/category/statistics/">Statistics</a></span>
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>In this and a follow-up posts, we explain two main advantages of sequential hypothesis testing methods compared to standard tests based on fixed sample size.</p>
+<div id="sample-efficiency-in-practice" class="section level2">
+<h2>Sample efficiency in practice</h2>
+<p>As a working example, suppose we have observed a sequence of independent coin tosses, which are encoded by <span class="math inline">\(X_n = 1\)</span> if the <span class="math inline">\(n\)</span>-th observation is head and <span class="math inline">\(X_n = 0\)</span> if it is tail. Statistically, we can model this sequence by independently and identically distributed (i.i.d.) random observations <span class="math inline">\(X_1, X_2, \dots \in \{0,1\}\)</span> from a Bernoulli distribution <span class="math inline">\(B(p)\)</span> with unknown success probability <span class="math inline">\(p \in (0,1)\)</span>. How can we test whether the coin is fair, i.e., <span class="math inline">\(p = p_0:= 0.5\)</span> or not. For a simple presentation, we assume that if the coin is biased then the biased success probability <span class="math inline">\(p_1\)</span> must be larger than <span class="math inline">\(p_0\)</span>.</p>
+<div id="a-difficulties-in-sample-size-calculation-in-fixed-sample-size-tests" class="section level3">
+<h3>a) Difficulties in sample size calculation in fixed sample size tests</h3>
+<p>If we know the success probability <span class="math inline">\(p\)</span> must be equal to a constant <span class="math inline">\(p_1 &gt; 0.5\)</span> when the coin turns out to be unfair or biased then the <a href="https://en.wikipedia.org/wiki/Neyman%E2%80%93Pearson_lemma">Neyman-Pearson lemma</a> shows that for a fixed test level <span class="math inline">\(\alpha \in (0,1)\)</span>, the most powerful test is the likelihood-ratio test (LRT) rejecting the null (<span class="math inline">\(H_0: p = p_0\)</span>) in a favor of the alternative (<span class="math inline">\(H_1: p = p_1\)</span>) if <span class="math inline">\(\bar{X}_n \geq c_\alpha\)</span> where <span class="math inline">\(\bar{X}_n := \sum_{i=1}^n X_i /n\)</span> and <span class="math inline">\(c_\alpha\)</span> is a positive constant satisfying <span class="math inline">\(P_{H_0}(\bar{X}_n \geq c_\alpha) = \alpha\)</span>.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
+<p>In fact, LRT is a uniformly most powerful test against all possible alternatives <span class="math inline">\(p_1\)</span> larger than <span class="math inline">\(p_0\)</span>. Hence, if the sample size and test level are fixed, checking whether the sample mean is larger than the critical value <span class="math inline">\(c_\alpha\)</span> is all you need to do. This test is also called the exact <a href="https://en.wikipedia.org/wiki/Binomial_test">Binomial test</a>.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p>
+<p><em>Example R script</em></p>
+<pre class="r"><code>set.seed(1)
+printf &lt;- function(...) invisible(print(sprintf(...)))
+n &lt;- 100L
+
+# Testing fair coin sample (alpha = 0.05)
+fair_coin_sample &lt;- rbinom(n, size = 1, prob = 0.5) 
+fair_coin_test_result &lt;- binom.test(sum(fair_coin_sample), n, p = 0.5, alternative = &quot;greater&quot;)
+printf(&quot;p-value of a fair coin test is %.3f&quot;, fair_coin_test_result$p.value)</code></pre>
+<pre><code>## [1] &quot;p-value of a fair coin test is 0.691&quot;</code></pre>
+<pre class="r"><code># Testing biased coin sample (alpha = 0.05)
+biased_coin_sample &lt;- rbinom(n, size = 1, prob = 0.6)
+biased_coin_test_result &lt;- binom.test(sum(biased_coin_sample), n, p = 0.5, alternative = &quot;greater&quot;)
+printf(&quot;p-value of a biased coin test is %.3f&quot;, biased_coin_test_result$p.value)</code></pre>
+<pre><code>## [1] &quot;p-value of a biased coin test is 0.028&quot;</code></pre>
+<p>However, in practice, we rarely know what the alternative success rate could be before an experiment. Instead, we set a minimum effect size of interest <span class="math inline">\(\Delta &gt; 0\)</span> that we practically consider as a meaningful bias from <span class="math inline">\(p_0\)</span>. Based on the minimum effect size <span class="math inline">\(\Delta\)</span> and desired minimum power <span class="math inline">\(\beta \in (0,1)\)</span>, we can compute the minimum sample size we need to perform a statistical test that can detect <span class="math inline">\(p_1 &gt;= p_0 + \Delta\)</span> with probability at least <span class="math inline">\(\beta\)</span> if the coin is actually biased.</p>
+<p>The size of <span class="math inline">\(\Delta\)</span> depends on the application. For example, If we just play a game at a party with friends, we may still consider a coin with a success probability up to <span class="math inline">\(0.51\)</span> as a “fairly fair” coin we can use. In this case, the minimum effect size is <span class="math inline">\(\Delta = 0.1\)</span>. On the other hand, if we play a serious gamble with a large bet on the coin toss then even <span class="math inline">\(0.501\)</span> can be viewed as an unfair coin and the minimum effect size <span class="math inline">\(\Delta\)</span> is less than <span class="math inline">\(0.01\)</span>.</p>
+<p>In any case, since we do not know the “true” alternative <span class="math inline">\(p_1\)</span>, we cannot but set the minimum effect size conservatively. Thus it is possible that the true alternative <span class="math inline">\(p_1\)</span> turns out to be much larger than the boundary <span class="math inline">\(p_0 + \Delta\)</span>. In this case, the minimum sample size we computed can be very larger than what we could have used to detect the alternative at the same level of detection power.</p>
+<p>To detour this issue, it is common practice to conduct a preliminary study with a small sample size to get a rough estimate of <span class="math inline">\(p_1\)</span> and use it to compute the sample size of the main follow-up study. However, designing a sample efficient preliminary study is itself a non-trivial problem since we cannot reuse samples in the preliminary study for testing the main follow-up experiment.</p>
+</div>
+<div id="b-sequential-tests-can-choose-the-sample-size-adaptively." class="section level3">
+<h3>b) Sequential tests can choose the sample size adaptively.</h3>
+<p>If there are only two distributions specified in null and alternative hypotheses then similar to the Neyman-Pearson lemma, <a href="https://en.wikipedia.org/wiki/Sequential_probability_ratio_test">Wald’s sequential probability ratio test (SPRT)</a> is the test having the smallest average sample size among all statistical tests including both fixed and sequential tests of pre-specified test level <span class="math inline">\(\alpha\)</span> and minimum power level <span class="math inline">\(\beta\)</span>. It is not contradicting the Neyman-Pearson lemma which only covers all fixed sample size tests. In the sequential test, the sample size is a random stopping time at which we declare whether to reject the null or not.</p>
+<p>For our Bernoulli example with <span class="math inline">\(H_0: p = p_0\)</span> vs <span class="math inline">\(H_1: p = p_1\)</span>, the Wald’s SPRT is given by the following procedure.</p>
+<ul>
+<li><p>Set <span class="math inline">\(S_0 := 0\)</span> and for each observation <span class="math inline">\(X_n\)</span>, compute the probability ratio <span class="math inline">\(\Lambda_n\)</span> by
+<span class="math display">\[
+\Lambda_n := \left(\frac{p_1}{p_0}\right)^{X_n}\left(\frac{1-p_1}{1-p_0}\right)^{1-X_n}.
+\]</span></p></li>
+<li><p>Update <span class="math inline">\(S_n := S_{n-1} + \log \Lambda_n\)</span></p></li>
+<li><p>Make one of three following decisions:</p>
+<ul>
+<li><p>If <span class="math inline">\(S_n \geq b\)</span> then stop and reject the null (since there is only one alternative, it is equivalent to accept the alternative).</p></li>
+<li><p>If <span class="math inline">\(S_n \leq a\)</span> then stop and reject the alternative (or accept the null).</p></li>
+<li><p>Otherwise, continue to the next iteration.</p></li>
+</ul></li>
+</ul>
+<p>Here, thresholds <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are given approximately <span class="math inline">\(a \sim \log\frac{1-\beta}{1-\alpha}\)</span> and <span class="math inline">\(b \sim \log\frac{\beta}{\alpha}\)</span> for pre-specified test level <span class="math inline">\(\alpha\)</span> and minimum power level <span class="math inline">\(\beta\)</span>. Exact thresholds depend on the underlying null and alternative distributions. In the following R example, we use conservative but correct thresholds given by <span class="math inline">\(a = \log(1-\beta)\)</span> and <span class="math inline">\(b = \log\frac{1}{\alpha}\)</span>.</p>
+<p><em>Example R script for SPRT under the null</em></p>
+<pre class="r"><code>set.seed(1)
+max_iter &lt;- 1e+3L
+p0 &lt;- 0.5 # Null distribution
+p1 &lt;- 0.6 # Alternative distribution
+alpha &lt;- 0.05 # Test level
+beta &lt;- 0.95 # Minimum power level  
+a &lt;- log(1 - beta)
+b &lt;- log(1 / alpha)
+s &lt;- 0
+# Set a placeholder only for visualization.
+# Actual test does not require it. 
+
+p &lt;- p0 # True distribution is the alternative
+s_history &lt;- rep(NA, max_iter) 
+for (n in 1:max_iter) {
+  # Observe a new sample
+  x &lt;- rbinom(1, 1, p)
+  # Update S_n
+  s &lt;- s + ifelse(x == 1, log(p1/p0), log((1-p1)/(1-p0)))
+  s_history[n] &lt;- s
+  # Make a decision
+  if (s &gt;= b) {
+    decision &lt;- &quot;Reject the null&quot;
+    break 
+  } else if (s &lt;= a) {
+    decision &lt;- &quot;Reject the alternative&quot;
+    break
+  } 
+  if (n == max_iter) {
+    decision &lt;- &quot;Test reached the max interation&quot;
+  }
+}
+printf(&quot;SPRT was ended at n=%i&quot;, n)</code></pre>
+<pre><code>## [1] &quot;SPRT was ended at n=90&quot;</code></pre>
+<pre class="r"><code>printf(&quot;Decision: %s&quot;, decision)</code></pre>
+<pre><code>## [1] &quot;Decision: Reject the alternative&quot;</code></pre>
+<pre class="r"><code>s_history &lt;- s_history[!is.na(s_history)]
+plot(seq_along(s_history), s_history, type = &quot;l&quot;,
+     xlab = &quot;n&quot;, ylab = expression(&#39;S&#39;[&#39;n&#39;]),
+     ylim = c(a, b))
+abline(h = a, col = 2)
+abline(h = b, col = 2)</code></pre>
+<p><img src="/post/statistics/sequential_test_efficiency/1.statistical_test_files/figure-html/binomial_sprt_null-1.png" width="672" />
+<strong>Fig 1. A sample <span class="math inline">\(S_n\)</span> path of SPRT under the null.</strong></p>
+<p><em>Example R script for SPRT under the alternative</em></p>
+<pre class="r"><code>s &lt;- 0
+# Set a placeholder only for visualization.
+# Actual test does not require it. 
+p &lt;- p1 # True distribution is the alternative
+s_history &lt;- rep(NA, max_iter) 
+for (n in 1:max_iter) {
+  # Observe a new sample
+  x &lt;- rbinom(1, 1, p)
+  # Update S_n
+  s &lt;- s + ifelse(x == 1, log(p1/p0), log((1-p1)/(1-p0)))
+  s_history[n] &lt;- s
+  # Make a decision
+  if (s &gt;= b) {
+    decision &lt;- &quot;Reject the null&quot;
+    break 
+  } else if (s &lt;= a) {
+    decision &lt;- &quot;Reject the alternative&quot;
+    break
+  } 
+  if (n == max_iter) {
+    decision &lt;- &quot;Test reached the max interation&quot;
+  }
+}
+printf(&quot;SPRT was ended at n=%i&quot;, n)</code></pre>
+<pre><code>## [1] &quot;SPRT was ended at n=119&quot;</code></pre>
+<pre class="r"><code>printf(&quot;Decision: %s&quot;, decision)</code></pre>
+<pre><code>## [1] &quot;Decision: Reject the null&quot;</code></pre>
+<pre class="r"><code>s_history &lt;- s_history[!is.na(s_history)]
+plot(seq_along(s_history), s_history, type = &quot;l&quot;,
+     xlab = &quot;n&quot;, ylab = expression(&#39;S&#39;[&#39;n&#39;]),
+     ylim = c(a, b))
+abline(h = a, col = 2)
+abline(h = b, col = 2)</code></pre>
+<p><img src="/post/statistics/sequential_test_efficiency/1.statistical_test_files/figure-html/binomial_sprt_alter-1.png" width="672" />
+<strong>Fig 2. A sample <span class="math inline">\(S_n\)</span> path of SPRT under the alternative.</strong></p>
+<p>From the above example, We can see SPRT ended around <span class="math inline">\(90\sim120\)</span>. However, to achieve the same test level and minimum power, LRT (binomial test in this case), requires at least <span class="math inline">\(n = 280\)</span> samples.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
+<p><em>Sample size calculation for the Binomial test</em></p>
+<pre class="r"><code>n_to_power &lt;- function(n, p0, p1, alpha) {
+  n &lt;- ceiling(n)
+  thres &lt;- qbinom(alpha, n, p0, lower.tail = FALSE)
+  pwr &lt;- pbinom(thres, n, p1, lower.tail = FALSE)
+  return(pwr)
+}
+
+power_to_n &lt;- function(beta, p0, p1, alpha) {
+  f &lt;- function(n) {
+    beta - n_to_power(n, p0, p1, alpha)
+  }
+  root &lt;- stats::uniroot(f, c(1, 1e+4), tol = 1e-6)
+  return(ceiling(root$root))
+}
+
+alpha &lt;- 0.05
+beta &lt;- 0.95
+p0 &lt;- 0.5
+p1 &lt;- 0.6
+minimum_sample &lt;- power_to_n(beta, p0 , p1 , alpha)
+printf(&quot;%i is the minimum sample size to achieve test level %.2f and power %.2f.&quot;, 
+       minimum_sample, alpha, beta)</code></pre>
+<pre><code>## [1] &quot;280 is the minimum sample size to achieve test level 0.05 and power 0.95.&quot;</code></pre>
+<p>Unlike the LRT, the efficiency of Wald’s SPRT is guaranteed only for a simple alternative hypothesis space in which there is a single alternative distribution. However, SPRT works reasonably well even for misspecified alternative distributions.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a></p>
+</div>
+<div id="c-simulations" class="section level3">
+<h3>c) Simulations</h3>
+<p>We end this post by checking the sample efficiency of SPRT over LRT in Bernoulli case simulations. Thoughout the simulation, we use test level <span class="math inline">\(\alpha = 0.05\)</span>, minimum power <span class="math inline">\(\beta = 0.95\)</span> for hypotheses <span class="math inline">\(H_0: p = 0.5\)</span> vs <span class="math inline">\(H_1: p = 0.6\)</span>. In this case, the mimum sample size of LRT (one-sided binomial test) is equal to <span class="math inline">\(n = 280\)</span>. Later, we also simulate the misspecified alternatives <span class="math inline">\(p = 0.55\)</span> and <span class="math inline">\(p = 0.65\)</span>.</p>
+<p><em>Set up</em></p>
+<pre class="r"><code># Set up
+alpha &lt;- 0.05
+p0 &lt;- 0.5
+p1 &lt;- 0.6
+beta &lt;- 0.95
+n &lt;- power_to_n(beta, p0, p1, alpha) # n = 254
+max_iter &lt;- 1e+4L
+
+# One-sided Binomial test 
+run_binom_test &lt;- function(n, p_true,
+                           p0 = 0.5, p1 = 0.6,
+                           alpha = 0.05) {
+  thres &lt;- qbinom(alpha, n, p0, lower.tail = FALSE)
+  num_head &lt;- rbinom(1, size = n, prob = p_true)
+  return(num_head &gt; thres)
+}
+
+# SPRT
+run_wald_sprt &lt;- function(p_true, p0 = 0.5, p1 = 0.6,
+                      alpha = 0.05, beta = 0.95, max_iter = 1e+3L) {
+  a &lt;- log(1 - beta)
+  b &lt;- log(1 / alpha)
+  s &lt;- 0
+  for (n in 1:max_iter) {
+    # Observe a new sample
+    x &lt;- rbinom(1, 1, p_true)
+    # Update S_n
+    s &lt;- s + ifelse(x == 1, log(p1/p0), log((1-p1)/(1-p0)))
+    # Make a decision
+    if (s &gt;= b) {
+      decision &lt;- &quot;Reject the null&quot;
+      is_reject_null &lt;- TRUE
+      break 
+    } else if (s &lt;= a) {
+      decision &lt;- &quot;Reject the alternative&quot;
+      is_reject_null &lt;- FALSE
+      break
+    } 
+    if (n == max_iter) {
+      decision &lt;- &quot;Test reached the max interation&quot;
+      is_reject_null &lt;- FALSE
+    }
+  } 
+  return(list(
+    stopped_n = n,
+    decision = decision,
+    is_reject_null = is_reject_null
+  ))
+}</code></pre>
+<div id="i.-under-the-null-h_0-p-0.5" class="section level4">
+<h4>i. Under the null (<span class="math inline">\(H_0: p = 0.5\)</span>)</h4>
+<pre class="r"><code>set.seed(1)
+# Under the null p_true = 0.5
+# LRT (binomial)
+binom_null_err &lt;- mean(replicate(max_iter, {
+  run_binom_test(n, p_true = p0,
+                 p0, p1,
+                 alpha)
+}))
+printf(&quot;Type 1 error of LRT (n = %i) is %.2f&quot;, n, binom_null_err)</code></pre>
+<pre><code>## [1] &quot;Type 1 error of LRT (n = 280) is 0.05&quot;</code></pre>
+<pre class="r"><code># SPRT 
+sprt_null_out &lt;- replicate(max_iter, {
+  out &lt;- run_wald_sprt(p_true = p0, p0, p1,
+                alpha, beta, max_iter = 1e+3L)
+  return(c(stopped_n = out$stopped_n, is_reject_null = out$is_reject_null))
+})
+sprt_null_err &lt;- mean(sprt_null_out[&quot;is_reject_null&quot;, ])
+sprt_null_sample_size &lt;- mean(sprt_null_out[&quot;stopped_n&quot;, ])
+printf(&quot;Type 1 error of SPRT (E[N] = %.1f) is %.2f&quot;, sprt_null_sample_size, sprt_null_err)</code></pre>
+<pre><code>## [1] &quot;Type 1 error of SPRT (E[N] = 137.7) is 0.04&quot;</code></pre>
+<p>Under the null, both LRT and SPRT control type-1 error, and SPRT has a smaller average sample size compared to the LRT.</p>
+</div>
+<div id="ii.-under-the-alternative-h_1-p-0.6" class="section level4">
+<h4>ii. Under the alternative (<span class="math inline">\(H_1: p = 0.6\)</span>)</h4>
+<pre class="r"><code>set.seed(1)
+# Under the alternative p_true = 0.6
+# LRT (binomial)
+binom_power &lt;- mean(replicate(max_iter, {
+  run_binom_test(n, p_true = p1,
+                 p0, p1,
+                 alpha)
+}))
+printf(&quot;Power of LRT (n = %i) is %.2f&quot;, n, binom_power)</code></pre>
+<pre><code>## [1] &quot;Power of LRT (n = 280) is 0.96&quot;</code></pre>
+<pre class="r"><code># SPRT
+sprt_power_out &lt;- replicate(max_iter, {
+  out &lt;- run_wald_sprt(p_true = p1, p0, p1,
+                       alpha, beta, max_iter = 1e+3L)
+  return(c(stopped_n = out$stopped_n, is_reject_null = out$is_reject_null))
+})
+sprt_power &lt;- mean(sprt_power_out[&quot;is_reject_null&quot;, ])
+sprt_power_sample_size &lt;- mean(sprt_power_out[&quot;stopped_n&quot;, ])
+printf(&quot;Power of SPRT (E[N] = %.1f) is %.2f&quot;, sprt_power_sample_size, sprt_power)</code></pre>
+<pre><code>## [1] &quot;Power of SPRT (E[N] = 139.3) is 0.96&quot;</code></pre>
+<p>Under the alternative, both LRT and SPRT achieve the minimum power and SPRT has a smaller average sample size compared to the LRT.</p>
+</div>
+<div id="iii.-under-a-misspecified-alternative-1.-small-p-0.55." class="section level4">
+<h4>iii. Under a misspecified alternative 1. small <span class="math inline">\(p = 0.55\)</span>.</h4>
+<pre class="r"><code>set.seed(1)
+# Under a misspecified alternative 1. small p_true = 0.55.
+p_mis1 &lt;- 0.55
+
+# LRT (binomial)
+binom_power_mis1 &lt;- mean(replicate(max_iter, {
+  run_binom_test(n, p_true = p_mis1,
+                 p0, p1,
+                 alpha)
+}))
+printf(&quot;Power of LRT (n = %i) is %.2f&quot;, n, binom_power_mis1)</code></pre>
+<pre><code>## [1] &quot;Power of LRT (n = 280) is 0.52&quot;</code></pre>
+<pre class="r"><code># SPRT
+sprt_power_mis1_out &lt;- replicate(max_iter, {
+  out &lt;- run_wald_sprt(p_true = p_mis1, p0, p1,
+                       alpha, beta, max_iter = 1e+3L)
+  return(c(stopped_n = out$stopped_n, is_reject_null = out$is_reject_null))
+})
+sprt_power_mis1 &lt;- mean(sprt_power_mis1_out[&quot;is_reject_null&quot;, ])
+sprt_power_mis_1_sample_size &lt;- mean(sprt_power_mis1_out[&quot;stopped_n&quot;, ])
+printf(&quot;Power of SPRT (E[N] = %.1f) is %.2f&quot;, sprt_power_mis_1_sample_size, sprt_power_mis1)</code></pre>
+<pre><code>## [1] &quot;Power of SPRT (E[N] = 234.5) is 0.50&quot;</code></pre>
+<p>Under a misspecified alternative with <span class="math inline">\(p = 0.55 &lt; p_1 = 0.6\)</span>, both LRT and SPRT achieve a similar power but SPRT has a smaller average sample size. The achieved power is below the pre-specified minimum power as the true success probability is smaller than the alternative.</p>
+</div>
+<div id="iv.-under-a-misspecified-alternative-2.-large-p-0.65." class="section level4">
+<h4>iv. Under a misspecified alternative 2. large <span class="math inline">\(p = 0.65\)</span>.</h4>
+<pre class="r"><code>set.seed(1)
+# Under a misspecified alternative 2. large p_true = 0.65.
+p_mis2 &lt;- 0.65
+
+# LRT (binomial)
+binom_power_mis2 &lt;- mean(replicate(max_iter, {
+  run_binom_test(n, p_true = p_mis2,
+                 p0, p1,
+                 alpha)
+}))
+printf(&quot;Power of LRT (n = %i) is %.2f&quot;, n, binom_power_mis2)</code></pre>
+<pre><code>## [1] &quot;Power of LRT (n = 280) is 1.00&quot;</code></pre>
+<pre class="r"><code>sprt_power_mis2_out &lt;- replicate(max_iter, {
+  out &lt;- run_wald_sprt(p_true = p_mis2, p0, p1,
+                       alpha, beta, max_iter = 1e+3L)
+  return(c(stopped_n = out$stopped_n, is_reject_null = out$is_reject_null))
+})
+sprt_power_mis2 &lt;- mean(sprt_power_mis2_out[&quot;is_reject_null&quot;, ])
+sprt_power_mis_2_sample_size &lt;- mean(sprt_power_mis2_out[&quot;stopped_n&quot;, ])
+printf(&quot;Power of SPRT (E[N] = %.1f) is %.2f&quot;, sprt_power_mis_2_sample_size, sprt_power_mis2)</code></pre>
+<pre><code>## [1] &quot;Power of SPRT (E[N] = 76.1) is 1.00&quot;</code></pre>
+<p>Under a misspecified alternative with <span class="math inline">\(p = 0.65 &gt; p_1 = 0.6\)</span>, both LRT and SPRT have almost a power of 1 but SPRT has a much smaller average sample size as SPRT can early stop the procedure adaptively to the underlying higher success probability than the alternative.</p>
+</div>
+</div>
+<div id="conclusion" class="section level3">
+<h3>Conclusion</h3>
+<p>Sequential hypothesis testing procedures can achieve a better sample efficiency even compared to the best-fixed sample size test. In the following post, we will explain the flexibility and safety of sequential testing procedures.</p>
+<!--
+## 1. Fixed sample size
+
+In the classical setting like scientific researches or survey analyses, it is often expensive to collect observations. Therefore, the sample size is often determined by external factors such as research budget or the number of available respondents at the survey time rather than the power analysis result. Even sometimes, a pre-collected set of samples is given to analysts and analysts themselves have no or very small control on the collected sample size. This is a reason why, in many textbook scenarios like above, samples of a fixed number are given and we are asked to perform fixed sample size tests. 
+
+
+## 2. Sequential observations
+In industrial settings, data are often collected by sensors or logs from which we can access a stream of observations in real time. 
+
+ This is a classical example of statistical hypothesis testing and there are various standard ways to perform a test including Z-test (asymptotic test for a large sample size) and binomial test (exact test for small-to-medium sample  sizes). -->
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Since <span class="math inline">\(\bar{X}_n\)</span> is discrete, there might be no such constant <span class="math inline">\(c_\alpha\)</span> satisfying the equality. In this case, we can randomized the test, which is beyond the scope of this post.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>Computing the critical value or the corresponding p-value could be computationally expensive if the sample size is large. In this case, we can use a normal approximation-based z-test instead of the exact Binomial test.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>This is not a free lunch - in worst scenarios, SPRT can reach the max iteration which could be much larger than the fixed sample size of LRT.<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p>We can use a mixture of SPRTs to achieve a near optimal sample efficiency for a composite alternative hypothesis space in which a range of alternative distributions exist. This topic has been discussed in literature. For example, see <a href="https://arxiv.org/abs/2010.08082">arXiv</a>.<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/ab-test/">ab test</a>
+  
+  <a class="badge badge-light" href="/tag/inference/">inference</a>
+  
+  <a class="badge badge-light" href="/tag/sequential-test/">sequential test</a>
+  
+</div>
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://shinjaehyeok.github.io/post/statistics/sequential_test_efficiency/stcd-tutorial/&amp;text=Advantages%20of%20Sequential%20Hypothesis%20Testing:%201.%20Sample%20efficiency" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://shinjaehyeok.github.io/post/statistics/sequential_test_efficiency/stcd-tutorial/&amp;t=Advantages%20of%20Sequential%20Hypothesis%20Testing:%201.%20Sample%20efficiency" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Advantages%20of%20Sequential%20Hypothesis%20Testing:%201.%20Sample%20efficiency&amp;body=https://shinjaehyeok.github.io/post/statistics/sequential_test_efficiency/stcd-tutorial/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https://shinjaehyeok.github.io/post/statistics/sequential_test_efficiency/stcd-tutorial/&amp;title=Advantages%20of%20Sequential%20Hypothesis%20Testing:%201.%20Sample%20efficiency" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+    
+    
+    
+      
+    
+    
+    
+    <div class="media author-card content-widget-hr">
+      
+        
+        <img class="avatar mr-3 avatar-circle" src="/author/jaehyeok-shin/avatar_hu4bfebfed29c68355e919404572255097_130697_270x270_fill_q90_lanczos_center.jpg" alt="Jaehyeok Shin">
+      
+
+      <div class="media-body">
+        <h5 class="card-title"><a href="https://shinjaehyeok.github.io/">Jaehyeok Shin</a></h5>
+        <h6 class="card-subtitle">Data Scientist</h6>
+        <p class="card-text">Interested in understanding the sequential and adaptive nature of data analysis.</p>
+        <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/Project20s" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=9vx2IdMAAAAJ" target="_blank" rel="noopener">
+        <i class="ai ai-google-scholar"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.linkedin.com/in/jh-shin/" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+      </div>
+    </div>
+  
+
+
+
+
+
+
+
+<section id="comments">
+  
+    
+<div id="disqus_thread"></div>
+<script>
+  let disqus_config = function () {
+    
+    
+    
+  };
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+      return;
+    }
+    var d = document, s = d.createElement('script'); s.async = true;
+    s.src = 'https://' + "shinjaehyeok" + '.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+  
+</section>
+
+
+
+
+
+
+
+
+  
+  
+  <div class="article-widget content-widget-hr">
+    <h3>Related</h3>
+    <ul>
+      
+      <li><a href="/post/statistics/sequential_test_safety/stcd-tutorial/">Advantages of Sequential Hypothesis Testing: 2. Flexiablity and Safety</a></li>
+      
+    </ul>
+  </div>
+  
+
+
+
+
+
+  </div>
+</article>
+
+      
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js" integrity="sha512-1+qUtKoh9XZW7j+6LhRMAyOrgSQKenQ4mluTR+cvxXjP1Z54RxZuzstR/H9kgPXQsVB8IW7DMDFUJpzLjvhGSQ==" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js" integrity="sha512-7t8APmYpzEsZP7CYoA7RfMPV9Bb+PJHa9x2WiUnDXZx3XHveuyWUtvNOexhkierl5flZ3tr92dP1mMS+SGlD+A==" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/languages/r.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/languages/latex.min.js"></script>
+        
+      
+
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js" integrity="sha256-EErZamuLefUnbMBQbsEqu1USa+btR2oIlCpBJbyD4/g=" crossorigin="anonymous"></script>
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    
+    
+    
+    
+    <script>
+      const search_config = {"indexURI":"/index.json","minLength":1,"threshold":0.3};
+      const i18n = {"no_results":"No results found","placeholder":"Search...","results":"results found"};
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks",
+        'slides' : "Slides"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    <script id="dsq-count-scr" src="https://shinjaehyeok.disqus.com/count.js" async></script>
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.f6ecf7692215f2bc4850b72c8176bfa2.js"></script>
+
+    
+
+
+
+
+
+
+  
+  
+  <div class="container">
+    <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    Copyright 2022 Jaehyeok Shin. All rights reserved.
+  </p>
+
+  
+  
+
+
+
+
+
+
+
+
+ 
+  <script>
+  $(document).ready(function () {
+    window.initializeCodeFolding("show" === "hide");
+  });
+  </script>
+  <script src="/js/codefolding.js"></script>
+
+
+
+  <p class="powered-by">
+    
+    Published with
+    <a href="https://wowchemy.com" target="_blank" rel="noopener">Wowchemy Website Builder</a>
+    
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" class="back-to-top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+  </div>
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
