@@ -13,19 +13,19 @@
     </image>
     
     <item>
-      <title>Advantages of Sequential Hypothesis Testing: 2. Flexiablity and Safety</title>
-      <link>https://shinjaehyeok.github.io/post/statistics/sequential_test_safety/stcd-tutorial/</link>
+      <title>Advantages of Sequential Hypothesis Testing: 2. Flexibility and Safety</title>
+      <link>https://shinjaehyeok.github.io/post/statistics/sequential_test_safety/sequential_test_flexibility_safety/</link>
       <pubDate>Sun, 05 Jun 2022 00:00:00 +0000</pubDate>
-      <guid>https://shinjaehyeok.github.io/post/statistics/sequential_test_safety/stcd-tutorial/</guid>
+      <guid>https://shinjaehyeok.github.io/post/statistics/sequential_test_safety/sequential_test_flexibility_safety/</guid>
       <description>
 &lt;script src=&#34;https://shinjaehyeok.github.io/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
 
 
-&lt;p&gt;In this follow-up post, we explain another advantage of sequential hypothesis testings: Flexibility and safety. Please visit the previous &lt;a href=&#34;https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/&#34;&gt;post&lt;/a&gt; for an introduction of Wald’s sequential probability ratio test (&lt;a href=&#34;https://en.wikipedia.org/wiki/Sequential_probability_ratio_test&#34;&gt;SPRT&lt;/a&gt;) and a discussion of its sample efficiency.&lt;/p&gt;
+&lt;p&gt;In this follow-up post, we explain another advantage of sequential hypothesis testing: Flexibility and safety. Please visit the previous &lt;a href=&#34;https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/&#34;&gt;post&lt;/a&gt; for an introduction to Wald’s sequential probability ratio test (&lt;a href=&#34;https://en.wikipedia.org/wiki/Sequential_probability_ratio_test&#34;&gt;SPRT&lt;/a&gt;) and a discussion of its sample efficiency.&lt;/p&gt;
 &lt;div id=&#34;can-we-early-stop-the-testing-if-the-p-value-already-reached-below-alpha&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Can we early stop the testing if the p-value already reached below &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt;?&lt;/h2&gt;
 &lt;p&gt;Again, let’s start with a simple coin toss example where we observe a sequence of independent observations &lt;span class=&#34;math inline&#34;&gt;\(X_1, X_2, \dots \in \{0,1\}\)&lt;/span&gt; from a Bernoulli distribution &lt;span class=&#34;math inline&#34;&gt;\(B(p)\)&lt;/span&gt; with &lt;span class=&#34;math inline&#34;&gt;\(p \in (0,1)\)&lt;/span&gt;. We are interested in testing whether the underlying coin is pair (&lt;span class=&#34;math inline&#34;&gt;\(H_0: p = 0.5\)&lt;/span&gt;) or biased toward to head (&lt;span class=&#34;math inline&#34;&gt;\(H_1: p &amp;gt; 0.5\)&lt;/span&gt;).&lt;/p&gt;
-&lt;p&gt;From the previous &lt;a href=&#34;https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/&#34;&gt;post&lt;/a&gt;, we know that the binomial test is the best fixed-sample size test. Formally, let’s set up the binomial test of level &lt;span class=&#34;math inline&#34;&gt;\(\alpha = 0.05\)&lt;/span&gt; with the minimum power of &lt;span class=&#34;math inline&#34;&gt;\(\beta = 0.95\)&lt;/span&gt; at &lt;span class=&#34;math inline&#34;&gt;\(p = 0.6\)&lt;/span&gt;. In this case, the minimum sample size is given by the following R script.&lt;/p&gt;
+&lt;p&gt;From the previous &lt;a href=&#34;https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/&#34;&gt;post&lt;/a&gt;, we know that the binomial test is the best fixed sample size test. Formally, let’s set up the binomial test of level &lt;span class=&#34;math inline&#34;&gt;\(\alpha = 0.05\)&lt;/span&gt; with the minimum power of &lt;span class=&#34;math inline&#34;&gt;\(\beta = 0.95\)&lt;/span&gt; at &lt;span class=&#34;math inline&#34;&gt;\(p = 0.6\)&lt;/span&gt;. In this case, the minimum sample size is given by the following R script.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(1)
 printf &amp;lt;- function(...) invisible(print(sprintf(...)))
 n_to_power &amp;lt;- function(n, p0, p1, alpha) {
@@ -51,7 +51,7 @@ n &amp;lt;- power_to_n(beta, p0 , p1 , alpha)
 printf(&amp;quot;%i is the minimum sample size to achieve test level %.2f and power %.2f at p= %.1f against the null p=%.2f.&amp;quot;, 
        n, alpha, beta, p1, p0)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## [1] &amp;quot;280 is the minimum sample size to achieve test level 0.05 and power 0.95 at p= 0.6 against the null p=0.50.&amp;quot;&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In the standard fixed sample size setting, we compute the p-value once collecting all 280 samples. Then, if p-value is less than the test level &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt;, we reject the null hypothesis. In this case, we can control the type-1 error below &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt; and achieve the minimum power &lt;span class=&#34;math inline&#34;&gt;\(\beta\)&lt;/span&gt; under the alternative (&lt;span class=&#34;math inline&#34;&gt;\(p = 0.6\)&lt;/span&gt;), as the following simulation demonstrates.&lt;/p&gt;
+&lt;p&gt;In the standard fixed sample size setting, we compute the p-value once collecting all 280 samples. Then, if the p-value is less than the test level &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt;, we reject the null hypothesis. In this case, we can control the type-1 error below &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt; and achieve the minimum power &lt;span class=&#34;math inline&#34;&gt;\(\beta\)&lt;/span&gt; under the alternative (&lt;span class=&#34;math inline&#34;&gt;\(p = 0.6\)&lt;/span&gt;), as the following simulation demonstrates.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;binom_p_value &amp;lt;- function(s, n, p0) {
    return(pbinom(s-1, n, p0, lower.tail = FALSE))
 }
@@ -70,7 +70,7 @@ printf(&amp;quot;Type-1 error of the binomial test is %.2f.&amp;quot;, type_1_er
 pwr &amp;lt;- run_binom_simul(p_true = p1, n, p0, alpha, max_iter)
 printf(&amp;quot;Power of the binomial test at p=%.1f is %.2f.&amp;quot;, p1, pwr)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Power of the binomial test at p=0.6 is 0.95.&amp;quot;&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;What if we observe the coin toss one-by-one and we compute the p-value at each time whenever a new coin toss happens? In the previous &lt;a href=&#34;https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/&#34;&gt;post&lt;/a&gt;, we noticed that Wald’s &lt;a href=&#34;https://en.wikipedia.org/wiki/Sequential_probability_ratio_test&#34;&gt;sequential probability ratio test (SPRT)&lt;/a&gt; can achieve a high sample efficiency by adaptively stopping the test procedure. Why not we do the same trick to the binomial test? Can we early stop the testing if the p-value already reached below &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt;? Let’s run a simulation to check whether this early stopping still results in a type-1 error below the test level &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;What if we observe the coin toss one by one and we compute the p-value at each time whenever a new coin toss happens? In the previous &lt;a href=&#34;https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/&#34;&gt;post&lt;/a&gt;, we noticed that Wald’s &lt;a href=&#34;https://en.wikipedia.org/wiki/Sequential_probability_ratio_test&#34;&gt;sequential probability ratio test (SPRT)&lt;/a&gt; can achieve a high sample efficiency by adaptively stopping the test procedure. Why not do the same trick to the binomial test? Can we early stop the testing if the p-value already reached below &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt;? Let’s run a simulation to check whether this early stopping still results in a type-1 error below the test level &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt;.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;run_binom_early_stop &amp;lt;- function(p_true, n, p0, alpha) {
   s &amp;lt;- 0
   for (i in 1:n) {
@@ -101,7 +101,7 @@ abline(h = alpha, col = 2)&lt;/code&gt;&lt;/pre&gt;
 &lt;div id=&#34;can-we-continue-to-collect-more-samples-if-the-p-value-at-the-end-is-slightly-above-alpha&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Can we continue to collect more samples if the p-value at the end is slightly above &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt;?&lt;/h2&gt;
 &lt;p&gt;Okay, we learned that we should not early stop and wait to collect all samples of the pre-calculated size. But what if the p-value is slightly above &lt;span class=&#34;math inline&#34;&gt;\(\alpha = 0.05\)&lt;/span&gt; - let’s say &lt;span class=&#34;math inline&#34;&gt;\(p = 0.15\)&lt;/span&gt;. Maybe, if we would have collected a bit more samples then the p-value might possibly be less than &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt; and we could reject the null. Can we continue to collect more samples to see whether the p-value becomes less than &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt; or goes away from it?&lt;/p&gt;
-&lt;p&gt;Let’s run a simple simulation to answer the question. For each run, we first collect the minimum sample size &lt;span class=&#34;math inline&#34;&gt;\(n\)&lt;/span&gt; computed to achieve the minimum power &lt;span class=&#34;math inline&#34;&gt;\(\beta = 0.95\)&lt;/span&gt;. Then, compute p-value based on the collected &lt;span class=&#34;math inline&#34;&gt;\(n\)&lt;/span&gt; samples. If the p-value is less than &lt;span class=&#34;math inline&#34;&gt;\(0.2\)&lt;/span&gt; then we collect another &lt;span class=&#34;math inline&#34;&gt;\(n\)&lt;/span&gt; samples and re-compute the p-value based on &lt;span class=&#34;math inline&#34;&gt;\(2n\)&lt;/span&gt; samples. Finally, we reject the null if the final p-value is less than or equal to the test level &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;Let’s run a simple simulation to answer the question. For each run, we first collect the minimum sample size &lt;span class=&#34;math inline&#34;&gt;\(n\)&lt;/span&gt; computed to achieve the minimum power &lt;span class=&#34;math inline&#34;&gt;\(\beta = 0.95\)&lt;/span&gt;. Then, compute the p-value based on the collected &lt;span class=&#34;math inline&#34;&gt;\(n\)&lt;/span&gt; samples. If the p-value is less than &lt;span class=&#34;math inline&#34;&gt;\(0.2\)&lt;/span&gt; then we collect another &lt;span class=&#34;math inline&#34;&gt;\(n\)&lt;/span&gt; samples and re-compute the p-value based on &lt;span class=&#34;math inline&#34;&gt;\(2n\)&lt;/span&gt; samples. Finally, we reject the null if the final p-value is less than or equal to the test level &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt;.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;run_binom_a_bit_more_simul &amp;lt;- function(p_true, n, p0, alpha, max_iter) {
   # We shorten the simulation by using the fact X_1 + ...+X_n ~ Binom(n, p)
   s_vec &amp;lt;- rbinom(max_iter, size = n, prob = p_true)
@@ -149,7 +149,7 @@ printf(&amp;quot;Type-1 error of the binomial test with the additional continous
 &lt;/div&gt;
 &lt;div id=&#34;always-valid-p-values---flexibly-and-safely-early-stop-or-continue-the-test.&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Always-valid p-values - flexibly and safely early stop or continue the test.&lt;/h2&gt;
-&lt;p&gt;So far, we have observed how the early stop or continual test results in the type-1 error inflation for fixed-sample size tests. The root cause of this inflation is that the p-value from a fixed-sample size test is valid only at the pre-specified fixed sample size. In other words, let &lt;span class=&#34;math inline&#34;&gt;\(p_n\)&lt;/span&gt; be the p-value of &lt;span class=&#34;math inline&#34;&gt;\(n\)&lt;/span&gt; samples. Then we have
+&lt;p&gt;So far, we have observed how the early stop or continual test results in the type-1 error inflation for fixed sample size tests. The root cause of this inflation is that the p-value from a fixed sample size test is valid only at the pre-specified fixed sample size. In other words, let &lt;span class=&#34;math inline&#34;&gt;\(p_n\)&lt;/span&gt; be the p-value of &lt;span class=&#34;math inline&#34;&gt;\(n\)&lt;/span&gt; samples. Then we have
 &lt;span class=&#34;math display&#34;&gt;\[
 P_{H_0}\left(p_n \leq \alpha\right) \leq \alpha, ~~\forall n.
 \]&lt;/span&gt;
@@ -157,7 +157,7 @@ However, to early stop or continue the test without the type-1 error inflation, 
 &lt;span class=&#34;math display&#34;&gt;\[
 P_{H_0}\left(\exists n: p_n \leq \alpha\right) \leq \alpha.
 \]&lt;/span&gt;
-Note that fixed-sample based p-values does not necessarily satisfies the above strong inequality.&lt;a href=&#34;#fn1&#34; class=&#34;footnote-ref&#34; id=&#34;fnref1&#34;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+Note that fixed sample based p-values do not necessarily satisfy the above strong inequality.&lt;a href=&#34;#fn1&#34; class=&#34;footnote-ref&#34; id=&#34;fnref1&#34;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;If a random sequence &lt;span class=&#34;math inline&#34;&gt;\(\{p_n\}_{n \geq 1}\)&lt;/span&gt; satisfies the above stronger inequality then it is called “always-valid p-value”. Every sequential hypothesis test has the corresponding always-valid p-value. Therefore, we can flexibly and safely early stop or continue the test.&lt;/p&gt;
 &lt;p&gt;As a concrete example, let’s compute the always-valid p-value of the Wald’s SPRT. Recall that for our Bernoulli example with &lt;span class=&#34;math inline&#34;&gt;\(H_0: p = p_0\)&lt;/span&gt; vs &lt;span class=&#34;math inline&#34;&gt;\(H_1: p = p_1\)&lt;/span&gt;, the Wald’s SPRT is a sequential hypothesis testing procedures defined as follows.
 * Set &lt;span class=&#34;math inline&#34;&gt;\(S_0 := 0\)&lt;/span&gt; and for each observation &lt;span class=&#34;math inline&#34;&gt;\(X_n\)&lt;/span&gt;, compute the probability ratio &lt;span class=&#34;math inline&#34;&gt;\(\Lambda_n\)&lt;/span&gt; by
@@ -216,7 +216,7 @@ abline(h = alpha, col = 2)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;https://shinjaehyeok.github.io/post/statistics/sequential_test_safety/2.statistical_test_files/figure-html/sprt_p_value_path_null-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;div id=&#34;conclusion&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Conclusion&lt;/h3&gt;
-&lt;p&gt;Fixed-sample size tests can suffer from the type-1 error inflation if the test is not stopped at the pre-specified time. In contrast, sequential hypothesis tests have a great flexibility that allows researchers can early stop or continue the experiment without inflating type-1 error.&lt;/p&gt;
+&lt;p&gt;Fixed sample size tests can suffer from type-1 error inflation if the test is not stopped at the pre-specified time. In contrast, sequential hypothesis tests have great flexibility that allows researchers to early stop or continue the experiment without inflating type-1 error.&lt;/p&gt;
 &lt;!--
 ## 1. Fixed sample size
 
@@ -232,7 +232,7 @@ In industrial settings, data are often collected by sensors or logs from which w
 &lt;div class=&#34;footnotes&#34;&gt;
 &lt;hr /&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn1&#34;&gt;&lt;p&gt;In fact, in most standard fixed-sample tests, we have &lt;span class=&#34;math inline&#34;&gt;\(P_{H_0}\left(\exists n: p_n \leq \alpha\right) = 1\)&lt;/span&gt;.&lt;a href=&#34;#fnref1&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li id=&#34;fn1&#34;&gt;&lt;p&gt;In fact, in most standard fixed sample tests, we have &lt;span class=&#34;math inline&#34;&gt;\(P_{H_0}\left(\exists n: p_n \leq \alpha\right) = 1\)&lt;/span&gt;.&lt;a href=&#34;#fnref1&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
 </description>
@@ -240,9 +240,9 @@ In industrial settings, data are often collected by sensors or logs from which w
     
     <item>
       <title>Advantages of Sequential Hypothesis Testing: 1. Sample efficiency</title>
-      <link>https://shinjaehyeok.github.io/post/statistics/sequential_test_efficiency/stcd-tutorial/</link>
+      <link>https://shinjaehyeok.github.io/post/statistics/sequential_test_efficiency/sequential_test_sample_efficiency/</link>
       <pubDate>Fri, 03 Jun 2022 00:00:00 +0000</pubDate>
-      <guid>https://shinjaehyeok.github.io/post/statistics/sequential_test_efficiency/stcd-tutorial/</guid>
+      <guid>https://shinjaehyeok.github.io/post/statistics/sequential_test_efficiency/sequential_test_sample_efficiency/</guid>
       <description>
 &lt;script src=&#34;https://shinjaehyeok.github.io/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
 

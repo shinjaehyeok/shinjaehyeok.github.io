@@ -1,0 +1,1352 @@
+<!DOCTYPE html><html lang="en-us" >
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.8.0">
+
+  
+
+  
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Jaehyeok Shin">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="In this follow-up post, we explain another advantage of sequential hypothesis testing: Flexibility and safety. Please visit the previous post for an introduction to Wald’s">
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://shinjaehyeok.github.io/post/statistics/sequential_test_safety/sequential_test_flexibility_safety/">
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+  
+  <script src="/js/mathjax-config.js"></script>
+  
+
+  
+  
+  
+  
+    
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha256-FMvZuGapsJLjouA6k7Eo2lusoAX9i0ShlWFG6qt7SLc=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css" integrity="sha256-SHMGCYmST46SoyGgo4YR/9AlK1vf3ff84Aq9yK4hdqM=" crossorigin="anonymous">
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+    
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap">
+    
+  
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.css">
+
+  
+
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-144639945-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+      dataLayer.push(arguments);
+  }
+
+  function trackOutboundLink(url, target) {
+    gtag('event', 'click', {
+         'event_category': 'outbound',
+         'event_label': url,
+         'transport_type': 'beacon',
+         'event_callback': function () {
+           if (target !== '_blank') {
+             document.location = url;
+           }
+         }
+    });
+    console.debug("Outbound link clicked: " + url);
+  }
+
+  function onClickCallback(event) {
+    if ((event.target.tagName !== 'A') || (event.target.host === window.location.host)) {
+      return;
+    }
+    trackOutboundLink(event.target, event.target.getAttribute('target'));  
+  }
+
+  gtag('js', new Date());
+  gtag('config', 'UA-144639945-1', {});
+
+  
+  document.addEventListener('click', onClickCallback, false);
+</script>
+
+
+  
+
+
+  
+  
+
+  
+
+  <link rel="manifest" href="/index.webmanifest">
+  <link rel="icon" type="image/png" href="/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_32x32_fill_lanczos_center_3.png">
+  <link rel="apple-touch-icon" type="image/png" href="/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_192x192_fill_lanczos_center_3.png">
+
+  <link rel="canonical" href="https://shinjaehyeok.github.io/post/statistics/sequential_test_safety/sequential_test_flexibility_safety/">
+
+  
+  
+  
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary">
+  
+  <meta property="twitter:site" content="@Project20s">
+  <meta property="twitter:creator" content="@Project20s">
+  
+  <meta property="og:site_name" content="Jae&#39;s Blog">
+  <meta property="og:url" content="https://shinjaehyeok.github.io/post/statistics/sequential_test_safety/sequential_test_flexibility_safety/">
+  <meta property="og:title" content="Advantages of Sequential Hypothesis Testing: 2. Flexibility and Safety | Jae&#39;s Blog">
+  <meta property="og:description" content="In this follow-up post, we explain another advantage of sequential hypothesis testing: Flexibility and safety. Please visit the previous post for an introduction to Wald’s"><meta property="og:image" content="https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_3.png">
+  <meta property="twitter:image" content="https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_3.png"><meta property="og:locale" content="en-us">
+  
+    
+      <meta property="article:published_time" content="2022-06-05T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2022-06-05T00:00:00&#43;00:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://shinjaehyeok.github.io/post/statistics/sequential_test_safety/sequential_test_flexibility_safety/"
+  },
+  "headline": "Advantages of Sequential Hypothesis Testing: 2. Flexibility and Safety",
+  
+  "datePublished": "2022-06-05T00:00:00Z",
+  "dateModified": "2022-06-05T00:00:00Z",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Jaehyeok Shin"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Jae's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_192x192_fill_lanczos_center_3.png"
+    }
+  },
+  "description": "In this follow-up post, we explain another advantage of sequential hypothesis testing: Flexibility and safety. Please visit the previous post for an introduction to Wald’s"
+}
+</script>
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>Advantages of Sequential Hypothesis Testing: 2. Flexibility and Safety | Jae&#39;s Blog</title>
+
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class=" ">
+
+  
+  
+  
+    <script>window.staDarkLightChooser = true;</script>
+  
+  
+    <script>const isSiteThemeDark = false;</script>
+  
+  
+  <script src="/js/load-theme.js"></script>
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">Jae&#39;s Blog</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">Jae&#39;s Blog</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      
+      <li class="nav-item dropdown theme-dropdown">
+        <a href="#" class="nav-link js-theme-selector" data-toggle="dropdown" aria-haspopup="true">
+          <i class="fas fa-palette" aria-hidden="true"></i>
+        </a>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item js-set-theme-light">
+            <span>Light</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-dark">
+            <span>Dark</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-auto">
+            <span>Automatic</span>
+          </a>
+        </div>
+      </li>
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+
+  <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Advantages of Sequential Hypothesis Testing: 2. Flexibility and Safety</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    Jun 5, 2022
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    5 min read
+  </span>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/statistics/sequential_test_safety/sequential_test_flexibility_safety/#disqus_thread"></a>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/category/statistics/">Statistics</a></span>
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>In this follow-up post, we explain another advantage of sequential hypothesis testing: Flexibility and safety. Please visit the previous <a href="https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/">post</a> for an introduction to Wald’s sequential probability ratio test (<a href="https://en.wikipedia.org/wiki/Sequential_probability_ratio_test">SPRT</a>) and a discussion of its sample efficiency.</p>
+<div id="can-we-early-stop-the-testing-if-the-p-value-already-reached-below-alpha" class="section level2">
+<h2>Can we early stop the testing if the p-value already reached below <span class="math inline">\(\alpha\)</span>?</h2>
+<p>Again, let’s start with a simple coin toss example where we observe a sequence of independent observations <span class="math inline">\(X_1, X_2, \dots \in \{0,1\}\)</span> from a Bernoulli distribution <span class="math inline">\(B(p)\)</span> with <span class="math inline">\(p \in (0,1)\)</span>. We are interested in testing whether the underlying coin is pair (<span class="math inline">\(H_0: p = 0.5\)</span>) or biased toward to head (<span class="math inline">\(H_1: p &gt; 0.5\)</span>).</p>
+<p>From the previous <a href="https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/">post</a>, we know that the binomial test is the best fixed sample size test. Formally, let’s set up the binomial test of level <span class="math inline">\(\alpha = 0.05\)</span> with the minimum power of <span class="math inline">\(\beta = 0.95\)</span> at <span class="math inline">\(p = 0.6\)</span>. In this case, the minimum sample size is given by the following R script.</p>
+<pre class="r"><code>set.seed(1)
+printf &lt;- function(...) invisible(print(sprintf(...)))
+n_to_power &lt;- function(n, p0, p1, alpha) {
+  n &lt;- ceiling(n)
+  thres &lt;- qbinom(alpha, n, p0, lower.tail = FALSE) # Reject null if s &gt; thres
+  pwr &lt;- pbinom(thres, n, p1, lower.tail = FALSE)
+  return(pwr)
+}
+
+power_to_n &lt;- function(beta, p0, p1, alpha) {
+  f &lt;- function(n) {
+    beta - n_to_power(n, p0, p1, alpha)
+  }
+  root &lt;- stats::uniroot(f, c(1, 1e+4), tol = 1e-6)
+  return(ceiling(root$root))
+}
+
+alpha &lt;- 0.05
+beta &lt;- 0.95
+p0 &lt;- 0.5
+p1 &lt;- 0.6
+n &lt;- power_to_n(beta, p0 , p1 , alpha)
+printf(&quot;%i is the minimum sample size to achieve test level %.2f and power %.2f at p= %.1f against the null p=%.2f.&quot;, 
+       n, alpha, beta, p1, p0)</code></pre>
+<pre><code>## [1] &quot;280 is the minimum sample size to achieve test level 0.05 and power 0.95 at p= 0.6 against the null p=0.50.&quot;</code></pre>
+<p>In the standard fixed sample size setting, we compute the p-value once collecting all 280 samples. Then, if the p-value is less than the test level <span class="math inline">\(\alpha\)</span>, we reject the null hypothesis. In this case, we can control the type-1 error below <span class="math inline">\(\alpha\)</span> and achieve the minimum power <span class="math inline">\(\beta\)</span> under the alternative (<span class="math inline">\(p = 0.6\)</span>), as the following simulation demonstrates.</p>
+<pre class="r"><code>binom_p_value &lt;- function(s, n, p0) {
+   return(pbinom(s-1, n, p0, lower.tail = FALSE))
+}
+run_binom_simul &lt;- function(p_true, n, p0, alpha, max_iter) {
+  # We shorten the simulation by using the fact X_1 + ...+X_n ~ Binom(n, p)
+  s_vec &lt;- rbinom(max_iter, size = n, prob = p_true)
+  p_vec &lt;- sapply(s_vec, binom_p_value, n = n, p0 = p0)
+  return(mean(p_vec &lt;= alpha))
+}
+# Under the null
+max_iter &lt;- 1e+4L
+type_1_err &lt;- run_binom_simul(p_true = p0, n, p0, alpha, max_iter)
+printf(&quot;Type-1 error of the binomial test is %.2f.&quot;, type_1_err)</code></pre>
+<pre><code>## [1] &quot;Type-1 error of the binomial test is 0.04.&quot;</code></pre>
+<pre class="r"><code># Under the alternative
+pwr &lt;- run_binom_simul(p_true = p1, n, p0, alpha, max_iter)
+printf(&quot;Power of the binomial test at p=%.1f is %.2f.&quot;, p1, pwr)</code></pre>
+<pre><code>## [1] &quot;Power of the binomial test at p=0.6 is 0.95.&quot;</code></pre>
+<p>What if we observe the coin toss one by one and we compute the p-value at each time whenever a new coin toss happens? In the previous <a href="https://shinjaehyeok.github.io/post/statistics/statistical_test_1/stcd-tutorial/">post</a>, we noticed that Wald’s <a href="https://en.wikipedia.org/wiki/Sequential_probability_ratio_test">sequential probability ratio test (SPRT)</a> can achieve a high sample efficiency by adaptively stopping the test procedure. Why not do the same trick to the binomial test? Can we early stop the testing if the p-value already reached below <span class="math inline">\(\alpha\)</span>? Let’s run a simulation to check whether this early stopping still results in a type-1 error below the test level <span class="math inline">\(\alpha\)</span>.</p>
+<pre class="r"><code>run_binom_early_stop &lt;- function(p_true, n, p0, alpha) {
+  s &lt;- 0
+  for (i in 1:n) {
+    s &lt;- s + rbinom(1, size = 1, prob = p_true)
+    p &lt;-  binom_p_value(s, i, p0)
+    if (p &lt;= alpha) {
+      return(TRUE)
+    }
+  }
+  return(FALSE)
+}
+# Under the null
+early_stopp_type_1_err &lt;- mean(replicate(max_iter,{
+  run_binom_early_stop(p_true = 0.5, n, p0, alpha)
+  }))
+printf(&quot;Type-1 error of the early stopped binomial test is %.2f.&quot;, early_stopp_type_1_err)</code></pre>
+<pre><code>## [1] &quot;Type-1 error of the early stopped binomial test is 0.26.&quot;</code></pre>
+<p>It turns out that the early stopping strategy increased the type 1 error significantly above the target level. This inflation of type-1 error is an example of <a href="https://en.wikipedia.org/wiki/Data_dredging">p-hacking</a>. This issue is getting worse if we run a longer test.</p>
+<pre class="r"><code>set.seed(4)
+s_vec &lt;- cumsum(rbinom(n, size = 1, prob = 0.5))
+f &lt;- function(i) binom_p_value(s_vec[i], i, p0)
+p_vec &lt;- sapply(seq_along(s_vec), f)
+plot(seq_along(p_vec), p_vec, type = &quot;l&quot;, xlab= &quot;n&quot;, ylab =&quot;p-value&quot;)
+abline(h = alpha, col = 2)</code></pre>
+<p><img src="/post/statistics/sequential_test_safety/2.statistical_test_files/figure-html/binom_p_value_path-1.png" width="672" />
+<strong>Fig. 1 An example sample path of p-values hitting the threshold <span class="math inline">\(\alpha\)</span> although the underlying samples generated under the null. The red horizontal line corresponds to the test level <span class="math inline">\(\alpha\)</span>. </strong></p>
+</div>
+<div id="can-we-continue-to-collect-more-samples-if-the-p-value-at-the-end-is-slightly-above-alpha" class="section level2">
+<h2>Can we continue to collect more samples if the p-value at the end is slightly above <span class="math inline">\(\alpha\)</span>?</h2>
+<p>Okay, we learned that we should not early stop and wait to collect all samples of the pre-calculated size. But what if the p-value is slightly above <span class="math inline">\(\alpha = 0.05\)</span> - let’s say <span class="math inline">\(p = 0.15\)</span>. Maybe, if we would have collected a bit more samples then the p-value might possibly be less than <span class="math inline">\(\alpha\)</span> and we could reject the null. Can we continue to collect more samples to see whether the p-value becomes less than <span class="math inline">\(\alpha\)</span> or goes away from it?</p>
+<p>Let’s run a simple simulation to answer the question. For each run, we first collect the minimum sample size <span class="math inline">\(n\)</span> computed to achieve the minimum power <span class="math inline">\(\beta = 0.95\)</span>. Then, compute the p-value based on the collected <span class="math inline">\(n\)</span> samples. If the p-value is less than <span class="math inline">\(0.2\)</span> then we collect another <span class="math inline">\(n\)</span> samples and re-compute the p-value based on <span class="math inline">\(2n\)</span> samples. Finally, we reject the null if the final p-value is less than or equal to the test level <span class="math inline">\(\alpha\)</span>.</p>
+<pre class="r"><code>run_binom_a_bit_more_simul &lt;- function(p_true, n, p0, alpha, max_iter) {
+  # We shorten the simulation by using the fact X_1 + ...+X_n ~ Binom(n, p)
+  s_vec &lt;- rbinom(max_iter, size = n, prob = p_true)
+  p_vec &lt;- sapply(s_vec, binom_p_value, n = n, p0 = p0)
+  
+  # If p-value &gt; alpha and &lt; 0.2, collect n more samples
+  above_alpha_ind &lt;- which(p_vec &gt; alpha &amp; p_vec &lt; 0.2)
+  s_vec[above_alpha_ind] &lt;- 
+    s_vec[above_alpha_ind] + rbinom(length(above_alpha_ind), size = n, prob = p_true)
+  p_vec[above_alpha_ind] &lt;- sapply(s_vec[above_alpha_ind], binom_p_value, n = 2*n, p0 = p0)
+  return(mean(p_vec &lt;= alpha))
+}
+a_bit_more_type_1_err &lt;- run_binom_a_bit_more_simul(p_true = p0, n, p0, alpha, max_iter)
+printf(&quot;Type-1 error of the binomial test with the contional continuation is %.3f.&quot;, a_bit_more_type_1_err)</code></pre>
+<pre><code>## [1] &quot;Type-1 error of the binomial test with the contional continuation is 0.063.&quot;</code></pre>
+<p>In this case, the type-1 error increased above the test level <span class="math inline">\(\alpha\)</span> though it is not as dramatic as the early stopping case. If we continuously collect and compute p-values rather than collect a single batch then the inflation of the type-1 error becomes more significant. This type of continuation of the testing procedure is also an example of <a href="https://en.wikipedia.org/wiki/Data_dredging">p-hacking</a>.</p>
+<pre class="r"><code>run_binom_a_bit_more2_run &lt;- function(p_true, n, p0, alpha) {
+  s &lt;- rbinom(1, size = n, prob = p_true)
+  p &lt;-  binom_p_value(s, n, p0)
+  if (p &lt;= alpha) {
+    # If first n samples give p-value less than alpha
+    # Reject the null
+    return(TRUE)
+  } else if (p &gt;= 0.2) {
+    # If first n samples give p-value above 0.2
+    # Fail to reject the null and stop the test
+    return(FALSE)
+  }
+  # Otherwise, continue the test until we collect another n samples.
+  for (i in 1:n) {
+    s &lt;- s + rbinom(1, size = 1, prob = p_true)
+    p &lt;-  binom_p_value(s, i, p0)
+    if (p &lt;= alpha) {
+      return(TRUE)
+    }
+  }
+  return(FALSE)
+}
+# Under the null
+a_bit_more2_type_1_err &lt;- mean(replicate(max_iter,{
+  run_binom_a_bit_more2_run(p_true = 0.5, n, p0, alpha)
+  }))
+printf(&quot;Type-1 error of the binomial test with the additional continous monitoring is %.2f.&quot;, a_bit_more2_type_1_err)</code></pre>
+<pre><code>## [1] &quot;Type-1 error of the binomial test with the additional continous monitoring is 0.18.&quot;</code></pre>
+</div>
+<div id="always-valid-p-values---flexibly-and-safely-early-stop-or-continue-the-test." class="section level2">
+<h2>Always-valid p-values - flexibly and safely early stop or continue the test.</h2>
+<p>So far, we have observed how the early stop or continual test results in the type-1 error inflation for fixed sample size tests. The root cause of this inflation is that the p-value from a fixed sample size test is valid only at the pre-specified fixed sample size. In other words, let <span class="math inline">\(p_n\)</span> be the p-value of <span class="math inline">\(n\)</span> samples. Then we have
+<span class="math display">\[
+P_{H_0}\left(p_n \leq \alpha\right) \leq \alpha, ~~\forall n.
+\]</span>
+However, to early stop or continue the test without the type-1 error inflation, we need the following stronger inequality.
+<span class="math display">\[
+P_{H_0}\left(\exists n: p_n \leq \alpha\right) \leq \alpha.
+\]</span>
+Note that fixed sample based p-values do not necessarily satisfy the above strong inequality.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
+<p>If a random sequence <span class="math inline">\(\{p_n\}_{n \geq 1}\)</span> satisfies the above stronger inequality then it is called “always-valid p-value”. Every sequential hypothesis test has the corresponding always-valid p-value. Therefore, we can flexibly and safely early stop or continue the test.</p>
+<p>As a concrete example, let’s compute the always-valid p-value of the Wald’s SPRT. Recall that for our Bernoulli example with <span class="math inline">\(H_0: p = p_0\)</span> vs <span class="math inline">\(H_1: p = p_1\)</span>, the Wald’s SPRT is a sequential hypothesis testing procedures defined as follows.
+* Set <span class="math inline">\(S_0 := 0\)</span> and for each observation <span class="math inline">\(X_n\)</span>, compute the probability ratio <span class="math inline">\(\Lambda_n\)</span> by
+<span class="math display">\[
+\Lambda_n := \left(\frac{p_1}{p_0}\right)^{X_n}\left(\frac{1-p_1}{1-p_0}\right)^{1-X_n}.
+\]</span></p>
+<ul>
+<li><p>Update <span class="math inline">\(S_n := S_{n-1} + \log \Lambda_n\)</span></p></li>
+<li><p>Make one of three following decisions:</p>
+<ul>
+<li><p>If <span class="math inline">\(S_n \geq b\)</span> then stop and reject the null (since there is only one alternative, it is equivalent to accept the alternative).</p></li>
+<li><p>If <span class="math inline">\(S_n \leq a\)</span> then stop and reject the alternative (or accept the null).</p></li>
+<li><p>Otherwise, continue to the next iteration.</p></li>
+</ul></li>
+</ul>
+<p>Here, we can set <span class="math inline">\(a = \log(1-\beta)\)</span> and <span class="math inline">\(b = \log\frac{1}{\alpha}\)</span>. In this case, we can construct an always-valid p-value by
+<span class="math display">\[
+p_n := \min\left\{1, e^{-S_n}\right\}.
+\]</span>
+We can easily check <span class="math inline">\(p_n \leq \alpha \Leftrightarrow S_n \geq b = \log(1/\alpha)\)</span>. Therefore, in terms of the rejection of the null, tracking <span class="math inline">\(S_n\)</span> with the threshold <span class="math inline">\(\log(1/\alpha)\)</span> of the Wald’s SPRT is equivalent to tracking <span class="math inline">\(p_n\)</span> with the threshold <span class="math inline">\(\alpha\)</span>. From the type-1 error control of the Wald’s SPRT, we can check <span class="math inline">\(p_n\)</span> is an always-valid p-value satisfying the above stronger inequality.</p>
+<p>As a remark, the always-valid p-value above is not uniformly distributed. In fact, we can prove that <span class="math inline">\(p_n \rightarrow 1\)</span> almost surely under the null and <span class="math inline">\(p_n \rightarrow 0\)</span> almost surely under the alternative as <span class="math inline">\(n \to \infty\)</span>. As it is not uniformly distributed, the standard interpretation of the strength of evidence in terms of p-value is not applicable. In fact, though tracking <span class="math inline">\(S_n\)</span> and <span class="math inline">\(p_n\)</span> are equivalent, it is recommended to track <span class="math inline">\(S_n\)</span> directly as <span class="math inline">\(\mathbb{E}S_n = \mathbb{E}[N] \mathrm{KL}(p_1||p_0)\)</span> is the information gain under the alternative.</p>
+<pre class="r"><code>set.seed(1)
+sprt_p_value &lt;- function(p_true, 
+                         p0 = 0.5,
+                         p1 = 0.6,
+                         max_iter = 1e+3L){
+  s &lt;- 0
+  # Set a placeholder only for visualization.
+  # We let the p-value path reaches the maximum to see the convergence
+  p_val_history &lt;- rep(NA, max_iter) 
+  for (n in 1:max_iter) {
+    # Observe a new sample
+    x &lt;- rbinom(1, 1, p_true)
+    # Update S_n
+    s &lt;- s + ifelse(x == 1, log(p1/p0), log((1-p1)/(1-p0)))
+    p_val_history[n] &lt;- min(c(1,exp(-s)))
+  }
+  return(p_val_history)
+}
+
+# Under the null
+null_p_val &lt;- sprt_p_value(p_true = 0.5)
+plot(seq_along(null_p_val), null_p_val, type = &quot;l&quot;,
+     xlab = &quot;n&quot;, ylab = &#39;p-value&#39;,
+     ylim = c(0, 1),
+     main = &quot;Under the null&quot;)
+abline(h = alpha, col = 2)</code></pre>
+<p><img src="/post/statistics/sequential_test_safety/2.statistical_test_files/figure-html/sprt_p_value_path_null-1.png" width="672" /></p>
+<pre class="r"><code># Under the alternative
+alter_p_val &lt;- sprt_p_value(p_true = 0.6)
+plot(seq_along(alter_p_val), alter_p_val, type = &quot;l&quot;,
+     xlab = &quot;n&quot;, ylab = &#39;p-value&#39;,
+     ylim = c(0, 1),
+     main = &quot;Under the alternative&quot;)
+abline(h = alpha, col = 2)</code></pre>
+<p><img src="/post/statistics/sequential_test_safety/2.statistical_test_files/figure-html/sprt_p_value_path_null-2.png" width="672" /></p>
+<div id="conclusion" class="section level3">
+<h3>Conclusion</h3>
+<p>Fixed sample size tests can suffer from type-1 error inflation if the test is not stopped at the pre-specified time. In contrast, sequential hypothesis tests have great flexibility that allows researchers to early stop or continue the experiment without inflating type-1 error.</p>
+<!--
+## 1. Fixed sample size
+
+In the classical setting like scientific researches or survey analyses, it is often expensive to collect observations. Therefore, the sample size is often determined by external factors such as research budget or the number of available respondents at the survey time rather than the power analysis result. Even sometimes, a pre-collected set of samples is given to analysts and analysts themselves have no or very small control on the collected sample size. This is a reason why, in many textbook scenarios like above, samples of a fixed number are given and we are asked to perform fixed sample size tests. 
+
+
+## 2. Sequential observations
+In industrial settings, data are often collected by sensors or logs from which we can access a stream of observations in real time. 
+
+ This is a classical example of statistical hypothesis testing and there are various standard ways to perform a test including Z-test (asymptotic test for a large sample size) and binomial test (exact test for small-to-medium sample  sizes). -->
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>In fact, in most standard fixed sample tests, we have <span class="math inline">\(P_{H_0}\left(\exists n: p_n \leq \alpha\right) = 1\)</span>.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/ab-test/">ab test</a>
+  
+  <a class="badge badge-light" href="/tag/inference/">inference</a>
+  
+  <a class="badge badge-light" href="/tag/sequential-test/">sequential test</a>
+  
+</div>
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://shinjaehyeok.github.io/post/statistics/sequential_test_safety/sequential_test_flexibility_safety/&amp;text=Advantages%20of%20Sequential%20Hypothesis%20Testing:%202.%20Flexibility%20and%20Safety" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://shinjaehyeok.github.io/post/statistics/sequential_test_safety/sequential_test_flexibility_safety/&amp;t=Advantages%20of%20Sequential%20Hypothesis%20Testing:%202.%20Flexibility%20and%20Safety" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Advantages%20of%20Sequential%20Hypothesis%20Testing:%202.%20Flexibility%20and%20Safety&amp;body=https://shinjaehyeok.github.io/post/statistics/sequential_test_safety/sequential_test_flexibility_safety/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https://shinjaehyeok.github.io/post/statistics/sequential_test_safety/sequential_test_flexibility_safety/&amp;title=Advantages%20of%20Sequential%20Hypothesis%20Testing:%202.%20Flexibility%20and%20Safety" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+    
+    
+    
+      
+    
+    
+    
+    <div class="media author-card content-widget-hr">
+      
+        
+        <img class="avatar mr-3 avatar-circle" src="/author/jaehyeok-shin/avatar_hu4bfebfed29c68355e919404572255097_130697_270x270_fill_q90_lanczos_center.jpg" alt="Jaehyeok Shin">
+      
+
+      <div class="media-body">
+        <h5 class="card-title"><a href="https://shinjaehyeok.github.io/">Jaehyeok Shin</a></h5>
+        <h6 class="card-subtitle">Data Scientist</h6>
+        <p class="card-text">Interested in understanding the sequential and adaptive nature of data analysis.</p>
+        <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/Project20s" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=9vx2IdMAAAAJ" target="_blank" rel="noopener">
+        <i class="ai ai-google-scholar"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.linkedin.com/in/jh-shin/" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+      </div>
+    </div>
+  
+
+
+
+
+
+
+
+<section id="comments">
+  
+    
+<div id="disqus_thread"></div>
+<script>
+  let disqus_config = function () {
+    
+    
+    
+  };
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+      return;
+    }
+    var d = document, s = d.createElement('script'); s.async = true;
+    s.src = 'https://' + "shinjaehyeok" + '.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+  
+</section>
+
+
+
+
+
+
+
+
+  
+  
+  <div class="article-widget content-widget-hr">
+    <h3>Related</h3>
+    <ul>
+      
+      <li><a href="/post/statistics/sequential_test_efficiency/sequential_test_sample_efficiency/">Advantages of Sequential Hypothesis Testing: 1. Sample efficiency</a></li>
+      
+    </ul>
+  </div>
+  
+
+
+
+
+
+  </div>
+</article>
+
+      
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js" integrity="sha512-1+qUtKoh9XZW7j+6LhRMAyOrgSQKenQ4mluTR+cvxXjP1Z54RxZuzstR/H9kgPXQsVB8IW7DMDFUJpzLjvhGSQ==" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js" integrity="sha512-7t8APmYpzEsZP7CYoA7RfMPV9Bb+PJHa9x2WiUnDXZx3XHveuyWUtvNOexhkierl5flZ3tr92dP1mMS+SGlD+A==" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/languages/r.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/languages/latex.min.js"></script>
+        
+      
+
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js" integrity="sha256-EErZamuLefUnbMBQbsEqu1USa+btR2oIlCpBJbyD4/g=" crossorigin="anonymous"></script>
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    
+    
+    
+    
+    <script>
+      const search_config = {"indexURI":"/index.json","minLength":1,"threshold":0.3};
+      const i18n = {"no_results":"No results found","placeholder":"Search...","results":"results found"};
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks",
+        'slides' : "Slides"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    <script id="dsq-count-scr" src="https://shinjaehyeok.disqus.com/count.js" async></script>
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.f6ecf7692215f2bc4850b72c8176bfa2.js"></script>
+
+    
+
+
+
+
+
+
+  
+  
+  <div class="container">
+    <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    Copyright 2022 Jaehyeok Shin. All rights reserved.
+  </p>
+
+  
+  
+
+
+
+
+
+
+
+
+ 
+  <script>
+  $(document).ready(function () {
+    window.initializeCodeFolding("show" === "hide");
+  });
+  </script>
+  <script src="/js/codefolding.js"></script>
+
+
+
+  <p class="powered-by">
+    
+    Published with
+    <a href="https://wowchemy.com" target="_blank" rel="noopener">Wowchemy Website Builder</a>
+    
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" class="back-to-top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+  </div>
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
