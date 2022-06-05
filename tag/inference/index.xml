@@ -178,7 +178,6 @@ Note that fixed sample based p-values do not necessarily satisfy the above stron
 p_n := \min\left\{1, e^{-S_n}\right\}.
 \]&lt;/span&gt;
 We can easily check &lt;span class=&#34;math inline&#34;&gt;\(p_n \leq \alpha \Leftrightarrow S_n \geq b = \log(1/\alpha)\)&lt;/span&gt;. Therefore, in terms of the rejection of the null, tracking &lt;span class=&#34;math inline&#34;&gt;\(S_n\)&lt;/span&gt; with the threshold &lt;span class=&#34;math inline&#34;&gt;\(\log(1/\alpha)\)&lt;/span&gt; of the Wald’s SPRT is equivalent to tracking &lt;span class=&#34;math inline&#34;&gt;\(p_n\)&lt;/span&gt; with the threshold &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt;. From the type-1 error control of the Wald’s SPRT, we can check &lt;span class=&#34;math inline&#34;&gt;\(p_n\)&lt;/span&gt; is an always-valid p-value satisfying the above stronger inequality.&lt;/p&gt;
-&lt;p&gt;As a remark, the always-valid p-value above is not uniformly distributed. In fact, we can prove that &lt;span class=&#34;math inline&#34;&gt;\(p_n \rightarrow 1\)&lt;/span&gt; almost surely under the null and &lt;span class=&#34;math inline&#34;&gt;\(p_n \rightarrow 0\)&lt;/span&gt; almost surely under the alternative as &lt;span class=&#34;math inline&#34;&gt;\(n \to \infty\)&lt;/span&gt;. As it is not uniformly distributed, the standard interpretation of the strength of evidence in terms of p-value is not applicable. In fact, though tracking &lt;span class=&#34;math inline&#34;&gt;\(S_n\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(p_n\)&lt;/span&gt; are equivalent, it is recommended to track &lt;span class=&#34;math inline&#34;&gt;\(S_n\)&lt;/span&gt; directly as &lt;span class=&#34;math inline&#34;&gt;\(\mathbb{E}S_n = \mathbb{E}[N] \mathrm{KL}(p_1||p_0)\)&lt;/span&gt; is the information gain under the alternative.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(1)
 sprt_p_value &amp;lt;- function(p_true, 
                          p0 = 0.5,
@@ -187,33 +186,50 @@ sprt_p_value &amp;lt;- function(p_true,
   s &amp;lt;- 0
   # Set a placeholder only for visualization.
   # We let the p-value path reaches the maximum to see the convergence
+  s_history &amp;lt;- rep(NA, max_iter) 
   p_val_history &amp;lt;- rep(NA, max_iter) 
   for (n in 1:max_iter) {
     # Observe a new sample
     x &amp;lt;- rbinom(1, 1, p_true)
     # Update S_n
     s &amp;lt;- s + ifelse(x == 1, log(p1/p0), log((1-p1)/(1-p0)))
+    s_history[n] &amp;lt;- s
     p_val_history[n] &amp;lt;- min(c(1,exp(-s)))
   }
-  return(p_val_history)
+  return(list(s = s_history, p_val = p_val_history))
 }
 
 # Under the null
-null_p_val &amp;lt;- sprt_p_value(p_true = 0.5)
-plot(seq_along(null_p_val), null_p_val, type = &amp;quot;l&amp;quot;,
+null_out &amp;lt;- sprt_p_value(p_true = 0.5)
+plot(seq_along(null_out$p_val), null_out$p_val, type = &amp;quot;l&amp;quot;,
      xlab = &amp;quot;n&amp;quot;, ylab = &amp;#39;p-value&amp;#39;,
      ylim = c(0, 1),
      main = &amp;quot;Under the null&amp;quot;)
 abline(h = alpha, col = 2)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;https://shinjaehyeok.github.io/post/statistics/sequential_test_safety/2.statistical_test_files/figure-html/sprt_p_value_path_null-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Under the alternative
-alter_p_val &amp;lt;- sprt_p_value(p_true = 0.6)
-plot(seq_along(alter_p_val), alter_p_val, type = &amp;quot;l&amp;quot;,
+alter_out &amp;lt;- sprt_p_value(p_true = 0.6)
+plot(seq_along(alter_out$p_val), alter_out$p_val, type = &amp;quot;l&amp;quot;,
      xlab = &amp;quot;n&amp;quot;, ylab = &amp;#39;p-value&amp;#39;,
      ylim = c(0, 1),
      main = &amp;quot;Under the alternative&amp;quot;)
 abline(h = alpha, col = 2)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;https://shinjaehyeok.github.io/post/statistics/sequential_test_safety/2.statistical_test_files/figure-html/sprt_p_value_path_null-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;As a remark, the always-valid p-value above is not uniformly distributed. In fact, we can prove that &lt;span class=&#34;math inline&#34;&gt;\(p_n \rightarrow 1\)&lt;/span&gt; almost surely under the null and &lt;span class=&#34;math inline&#34;&gt;\(p_n \rightarrow 0\)&lt;/span&gt; almost surely under the alternative as &lt;span class=&#34;math inline&#34;&gt;\(n \to \infty\)&lt;/span&gt;. As it is not uniformly distributed, the standard interpretation of the strength of evidence in terms of p-value is not applicable. In fact, though tracking &lt;span class=&#34;math inline&#34;&gt;\(S_n\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(p_n\)&lt;/span&gt; are equivalent, it is recommended to track &lt;span class=&#34;math inline&#34;&gt;\(S_n\)&lt;/span&gt; directly as &lt;span class=&#34;math inline&#34;&gt;\(\mathbb{E}S_n = \mathbb{E}[N] \mathrm{KL}(p_1||p_0)\)&lt;/span&gt; is the information gain under the alternative.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;a &amp;lt;- log(1 - beta)
+b &amp;lt;- log(1 / alpha)
+# Under the null
+plot(seq_along(null_out$s), null_out$s, type = &amp;quot;l&amp;quot;,
+     xlab = &amp;quot;n&amp;quot;, ylab = expression(&amp;#39;S&amp;#39;[&amp;#39;n&amp;#39;]),
+     main = &amp;quot;Under the null&amp;quot;)
+abline(h = b, col = 2)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://shinjaehyeok.github.io/post/statistics/sequential_test_safety/2.statistical_test_files/figure-html/s_value_path-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Under the alternative
+plot(seq_along(alter_out$s), alter_out$s, type = &amp;quot;l&amp;quot;,
+     xlab = &amp;quot;n&amp;quot;, ylab = expression(&amp;#39;S&amp;#39;[&amp;#39;n&amp;#39;]),
+     main = &amp;quot;Under the alternative&amp;quot;)
+abline(h = b, col = 2)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://shinjaehyeok.github.io/post/statistics/sequential_test_safety/2.statistical_test_files/figure-html/s_value_path-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;div id=&#34;conclusion&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Conclusion&lt;/h3&gt;
 &lt;p&gt;Fixed sample size tests can suffer from type-1 error inflation if the test is not stopped at the pre-specified time. In contrast, sequential hypothesis tests have great flexibility that allows researchers to early stop or continue the experiment without inflating type-1 error.&lt;/p&gt;

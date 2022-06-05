@@ -849,7 +849,6 @@ Note that fixed sample based p-values do not necessarily satisfy the above stron
 p_n := \min\left\{1, e^{-S_n}\right\}.
 \]</span>
 We can easily check <span class="math inline">\(p_n \leq \alpha \Leftrightarrow S_n \geq b = \log(1/\alpha)\)</span>. Therefore, in terms of the rejection of the null, tracking <span class="math inline">\(S_n\)</span> with the threshold <span class="math inline">\(\log(1/\alpha)\)</span> of the Wald’s SPRT is equivalent to tracking <span class="math inline">\(p_n\)</span> with the threshold <span class="math inline">\(\alpha\)</span>. From the type-1 error control of the Wald’s SPRT, we can check <span class="math inline">\(p_n\)</span> is an always-valid p-value satisfying the above stronger inequality.</p>
-<p>As a remark, the always-valid p-value above is not uniformly distributed. In fact, we can prove that <span class="math inline">\(p_n \rightarrow 1\)</span> almost surely under the null and <span class="math inline">\(p_n \rightarrow 0\)</span> almost surely under the alternative as <span class="math inline">\(n \to \infty\)</span>. As it is not uniformly distributed, the standard interpretation of the strength of evidence in terms of p-value is not applicable. In fact, though tracking <span class="math inline">\(S_n\)</span> and <span class="math inline">\(p_n\)</span> are equivalent, it is recommended to track <span class="math inline">\(S_n\)</span> directly as <span class="math inline">\(\mathbb{E}S_n = \mathbb{E}[N] \mathrm{KL}(p_1||p_0)\)</span> is the information gain under the alternative.</p>
 <pre class="r"><code>set.seed(1)
 sprt_p_value &lt;- function(p_true, 
                          p0 = 0.5,
@@ -858,33 +857,50 @@ sprt_p_value &lt;- function(p_true,
   s &lt;- 0
   # Set a placeholder only for visualization.
   # We let the p-value path reaches the maximum to see the convergence
+  s_history &lt;- rep(NA, max_iter) 
   p_val_history &lt;- rep(NA, max_iter) 
   for (n in 1:max_iter) {
     # Observe a new sample
     x &lt;- rbinom(1, 1, p_true)
     # Update S_n
     s &lt;- s + ifelse(x == 1, log(p1/p0), log((1-p1)/(1-p0)))
+    s_history[n] &lt;- s
     p_val_history[n] &lt;- min(c(1,exp(-s)))
   }
-  return(p_val_history)
+  return(list(s = s_history, p_val = p_val_history))
 }
 
 # Under the null
-null_p_val &lt;- sprt_p_value(p_true = 0.5)
-plot(seq_along(null_p_val), null_p_val, type = &quot;l&quot;,
+null_out &lt;- sprt_p_value(p_true = 0.5)
+plot(seq_along(null_out$p_val), null_out$p_val, type = &quot;l&quot;,
      xlab = &quot;n&quot;, ylab = &#39;p-value&#39;,
      ylim = c(0, 1),
      main = &quot;Under the null&quot;)
 abline(h = alpha, col = 2)</code></pre>
 <p><img src="/post/statistics/sequential_test_safety/2.statistical_test_files/figure-html/sprt_p_value_path_null-1.png" width="672" /></p>
 <pre class="r"><code># Under the alternative
-alter_p_val &lt;- sprt_p_value(p_true = 0.6)
-plot(seq_along(alter_p_val), alter_p_val, type = &quot;l&quot;,
+alter_out &lt;- sprt_p_value(p_true = 0.6)
+plot(seq_along(alter_out$p_val), alter_out$p_val, type = &quot;l&quot;,
      xlab = &quot;n&quot;, ylab = &#39;p-value&#39;,
      ylim = c(0, 1),
      main = &quot;Under the alternative&quot;)
 abline(h = alpha, col = 2)</code></pre>
 <p><img src="/post/statistics/sequential_test_safety/2.statistical_test_files/figure-html/sprt_p_value_path_null-2.png" width="672" /></p>
+<p>As a remark, the always-valid p-value above is not uniformly distributed. In fact, we can prove that <span class="math inline">\(p_n \rightarrow 1\)</span> almost surely under the null and <span class="math inline">\(p_n \rightarrow 0\)</span> almost surely under the alternative as <span class="math inline">\(n \to \infty\)</span>. As it is not uniformly distributed, the standard interpretation of the strength of evidence in terms of p-value is not applicable. In fact, though tracking <span class="math inline">\(S_n\)</span> and <span class="math inline">\(p_n\)</span> are equivalent, it is recommended to track <span class="math inline">\(S_n\)</span> directly as <span class="math inline">\(\mathbb{E}S_n = \mathbb{E}[N] \mathrm{KL}(p_1||p_0)\)</span> is the information gain under the alternative.</p>
+<pre class="r"><code>a &lt;- log(1 - beta)
+b &lt;- log(1 / alpha)
+# Under the null
+plot(seq_along(null_out$s), null_out$s, type = &quot;l&quot;,
+     xlab = &quot;n&quot;, ylab = expression(&#39;S&#39;[&#39;n&#39;]),
+     main = &quot;Under the null&quot;)
+abline(h = b, col = 2)</code></pre>
+<p><img src="/post/statistics/sequential_test_safety/2.statistical_test_files/figure-html/s_value_path-1.png" width="672" /></p>
+<pre class="r"><code># Under the alternative
+plot(seq_along(alter_out$s), alter_out$s, type = &quot;l&quot;,
+     xlab = &quot;n&quot;, ylab = expression(&#39;S&#39;[&#39;n&#39;]),
+     main = &quot;Under the alternative&quot;)
+abline(h = b, col = 2)</code></pre>
+<p><img src="/post/statistics/sequential_test_safety/2.statistical_test_files/figure-html/s_value_path-2.png" width="672" /></p>
 <div id="conclusion" class="section level3">
 <h3>Conclusion</h3>
 <p>Fixed sample size tests can suffer from type-1 error inflation if the test is not stopped at the pre-specified time. In contrast, sequential hypothesis tests have great flexibility that allows researchers to early stop or continue the experiment without inflating type-1 error.</p>
