@@ -5,12 +5,195 @@
     <link>https://shinjaehyeok.github.io/category/statistics/</link>
       <atom:link href="https://shinjaehyeok.github.io/category/statistics/index.xml" rel="self" type="application/rss+xml" />
     <description>Statistics</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>Copyright 2022 Jaehyeok Shin. All rights reserved.</copyright><lastBuildDate>Sun, 05 Jun 2022 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>Copyright 2022 Jaehyeok Shin. All rights reserved.</copyright><lastBuildDate>Sun, 19 Jun 2022 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_3.png</url>
       <title>Statistics</title>
       <link>https://shinjaehyeok.github.io/category/statistics/</link>
     </image>
+    
+    <item>
+      <title>From Sequential Tests to Change Detections</title>
+      <link>https://shinjaehyeok.github.io/post/statistics/change_detection/from_seq_test_to_change_detection/</link>
+      <pubDate>Sun, 19 Jun 2022 00:00:00 +0000</pubDate>
+      <guid>https://shinjaehyeok.github.io/post/statistics/change_detection/from_seq_test_to_change_detection/</guid>
+      <description>
+
+
+&lt;p&gt;If we know when a potential change might possibly happen in a stochastic process then we can set a sequential test to continuously monitor whether we can tell the change is significant or not. For example, let’s imagine we have been playing a series of coin tosses so far. One day, a player brings a new coin. In this case, we know that “today” is the time when a potential change might possibly happen in the fairness of the coin we play. Hence, we can track coin tosses from “today” and tell whether we are still playing with a fair coin or not.&lt;/p&gt;
+&lt;p&gt;However, what if a player replaced the coin without informing others? The new coin might be still a fair one. But it could be also biased toward head or tail. How can we “detect” a potential change of the underlying stochastic process on the fly without knowing the exact time of the change?&lt;/p&gt;
+&lt;div id=&#34;online-change-detection-problem&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Online change detection problem&lt;/h2&gt;
+&lt;p&gt;The previous example illustrates a sub field of the statistical analysis called “&lt;a href=&#34;https://en.wikipedia.org/wiki/Change_detection&#34;&gt;online change detection problem&lt;/a&gt;”. Formally, suppose we have a stream of independent random observations &lt;span class=&#34;math inline&#34;&gt;\(X_1, X_2, \dots\)&lt;/span&gt;. We know that under the normal condition, each observation follows a “pre-change” distribution &lt;span class=&#34;math inline&#34;&gt;\(P\)&lt;/span&gt;. But if a change happens at an unknown time &lt;span class=&#34;math inline&#34;&gt;\(\nu \geq 0\)&lt;/span&gt; then after the time &lt;span class=&#34;math inline&#34;&gt;\(\nu\)&lt;/span&gt;, each observation in the following sub-sequence &lt;span class=&#34;math inline&#34;&gt;\(X_{\nu+1}, X_{\nu+2}, \dots\)&lt;/span&gt; follows another “post-change” distribution &lt;span class=&#34;math inline&#34;&gt;\(Q\)&lt;/span&gt;. Here &lt;span class=&#34;math inline&#34;&gt;\(\nu = 0\)&lt;/span&gt; implies the change happened at the very beginning so all observations follow the post-change distribution &lt;span class=&#34;math inline&#34;&gt;\(Q\)&lt;/span&gt;. On the other hand, we set &lt;span class=&#34;math inline&#34;&gt;\(\nu = \infty\)&lt;/span&gt; to indicate a change never happens and all observations follow the pre-change distribution &lt;span class=&#34;math inline&#34;&gt;\(P\)&lt;/span&gt;. The coin toss example above can be modeled by &lt;span class=&#34;math inline&#34;&gt;\(P = B(0.5)\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(Q = B(p)\)&lt;/span&gt; for some &lt;span class=&#34;math inline&#34;&gt;\(p \neq 0.5\)&lt;/span&gt;. For a simple presentation, in this post we assume both pre- and post-change distributions &lt;span class=&#34;math inline&#34;&gt;\(P\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(Q\)&lt;/span&gt; are known to us in advance. &lt;a href=&#34;#fn1&#34; class=&#34;footnote-ref&#34; id=&#34;fnref1&#34;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt; Throughout this post, we refer &lt;span class=&#34;math inline&#34;&gt;\(\mathbb{E}_{\nu}\)&lt;/span&gt; to the expectation operator corresponding to the case where the change happened at time &lt;span class=&#34;math inline&#34;&gt;\(\nu \in \{0,1,\dots,\infty\}\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;The standard approach of the online change detection problem is to design a stopping time &lt;span class=&#34;math inline&#34;&gt;\(N\)&lt;/span&gt;. If &lt;span class=&#34;math inline&#34;&gt;\(N &amp;lt; \infty\)&lt;/span&gt; then at the time &lt;span class=&#34;math inline&#34;&gt;\(N\)&lt;/span&gt;, we declare a change happened before &lt;span class=&#34;math inline&#34;&gt;\(N\)&lt;/span&gt;. One commonly used metric of the efficiency of the stopping time &lt;span class=&#34;math inline&#34;&gt;\(N\)&lt;/span&gt; is the worst average detection delay (WAD) conditioned on the detection time being later than the true change point that is defined by
+&lt;span class=&#34;math display&#34;&gt;\[
+\mathcal{J}(N) := \sup_{v\geq 0}\mathbb{E}_\nu \left[N - \nu | N &amp;gt; \nu\right].
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Note that the WAD is lower bounded by &lt;span class=&#34;math inline&#34;&gt;\(1\)&lt;/span&gt; and this lower bound can be easily achieved by setting &lt;span class=&#34;math inline&#34;&gt;\(N = 1\)&lt;/span&gt;. That is, we just declare there was a change as soon as observing a single data point. If there was no change point then we can declare the change after observing another data point and so on.&lt;/p&gt;
+&lt;p&gt;Of course, this type of trivial change detector is far from ideal as it will trigger lots of false alerts at the highest possible frequency. In other words, this trivial change detector has the shortest run length, 1, until triggering a false alert. Therefore, when we design a change detector &lt;span class=&#34;math inline&#34;&gt;\(N\)&lt;/span&gt;, we want the stopping time &lt;span class=&#34;math inline&#34;&gt;\(N\)&lt;/span&gt; to be able to detect the change as quickly as possible while controlling the false alert rate at a pre-defined rate. A commonly used metric for false alert rate is called the average run length (ARL) defined by the expectation of the stopping time of the change detector under the pre-change distribution. Formally, for a fixed constant &lt;span class=&#34;math inline&#34;&gt;\(\alpha \in (0,1)\)&lt;/span&gt;, we call a stopping time &lt;span class=&#34;math inline&#34;&gt;\(N\)&lt;/span&gt; contols the ARL by &lt;span class=&#34;math inline&#34;&gt;\(1/\alpha\)&lt;/span&gt; if
+&lt;span class=&#34;math display&#34;&gt;\[
+\mathbb{E}_{\infty}[N] \geq 1/\alpha.
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;building-a-change-detector-based-on-repeated-sequential-tests&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Building a change detector based on repeated sequential tests&lt;/h2&gt;
+&lt;p&gt;So far, we have discussed how one can formulate the online change detection problem: Find a stopping time &lt;span class=&#34;math inline&#34;&gt;\(N\)&lt;/span&gt; minimizing the worst average detection delay (WAD), &lt;span class=&#34;math inline&#34;&gt;\(\mathcal{J}(N)\)&lt;/span&gt; while controlling average run length (ARL) by &lt;span class=&#34;math inline&#34;&gt;\(1/\alpha\)&lt;/span&gt;, that is, &lt;span class=&#34;math inline&#34;&gt;\(\mathbb{E}_{0}[N] \geq 1/\alpha.\)&lt;/span&gt; But, how we can construct a such stopping time &lt;span class=&#34;math inline&#34;&gt;\(N\)&lt;/span&gt;? The &lt;a href=&#34;https://www.jstor.org/stable/2240115&#34;&gt;Lorden’s lemma&lt;/a&gt; provides a simple way to convert any sequential testing method into an online change detector by proving a fact that repeated sequential tests can be viewed as an online change detection procedure.&lt;a href=&#34;#fn2&#34; class=&#34;footnote-ref&#34; id=&#34;fnref2&#34;&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;lemma&#34;&gt;
+&lt;p&gt;&lt;span id=&#34;lem:unnamed-chunk-1&#34; class=&#34;lemma&#34;&gt;&lt;strong&gt;Lemma 1  (Lorden, G. 1971) &lt;/strong&gt;&lt;/span&gt;Let &lt;span class=&#34;math inline&#34;&gt;\(N\)&lt;/span&gt; be a stopping time of a sequential test controlling type-1 error by &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt; under the pre-change distribution for a fixed &lt;span class=&#34;math inline&#34;&gt;\(\alpha \in (0,1)\)&lt;/span&gt;. That is, &lt;span class=&#34;math inline&#34;&gt;\(\mathbb{P}_{\infty}\left(N &amp;lt; \infty\right) \leq \alpha\)&lt;/span&gt;. Now, let &lt;span class=&#34;math inline&#34;&gt;\(N_k\)&lt;/span&gt; denote the stopping time obtained by applying &lt;span class=&#34;math inline&#34;&gt;\(N\)&lt;/span&gt; to &lt;span class=&#34;math inline&#34;&gt;\(X_{k}, X_{k+1}, \dots\)&lt;/span&gt;, and define another stopping time &lt;span class=&#34;math inline&#34;&gt;\(N^*\)&lt;/span&gt; such that
+&lt;span class=&#34;math display&#34;&gt;\[
+  N^* := \min_{k \geq 1} \left\{N_k + k - 1\right\}.
+\]&lt;/span&gt; Then &lt;span class=&#34;math inline&#34;&gt;\(N^*\)&lt;/span&gt; is a change detector controlling ARL by &lt;span class=&#34;math inline&#34;&gt;\(1/\alpha\)&lt;/span&gt;, that is,
+&lt;span class=&#34;math display&#34;&gt;\[ 
+  \mathbb{E}_{\infty}\left[N^*\right] \geq 1/\alpha.\]&lt;/span&gt;
+Furthermore, the WAD of &lt;span class=&#34;math inline&#34;&gt;\(N^*\)&lt;/span&gt; is upper bouned as
+&lt;span class=&#34;math display&#34;&gt;\[
+  \mathcal{J}(N) := \sup_{v\geq 0}\mathbb{E}_\nu \left[N - \nu | N &amp;gt; \nu\right] \leq \mathbb{E}_{0}N. 
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;As a concrete example, let’s go back to the coin toss example. If we want to test whether a coin is fair (&lt;span class=&#34;math inline&#34;&gt;\(P = B(p),~~p =0.5\)&lt;/span&gt;) or biased toward the head (&lt;span class=&#34;math inline&#34;&gt;\(Q = B(q),~~q &amp;gt;0.5\)&lt;/span&gt;) with a level &lt;span class=&#34;math inline&#34;&gt;\(\alpha \in (0,1)\)&lt;/span&gt; then we can use the Wald’s SPRT, which is given by the following stopping time,
+&lt;span class=&#34;math display&#34;&gt;\[
+N := \inf\left\{n \geq 1: \sum_{i=1}^n \log\Lambda_i \geq \log(1/\alpha)\right\},
+\]&lt;/span&gt;
+where each &lt;span class=&#34;math inline&#34;&gt;\(\Lambda_n\)&lt;/span&gt; is the likelihood ratio of &lt;span class=&#34;math inline&#34;&gt;\(P\)&lt;/span&gt; over &lt;span class=&#34;math inline&#34;&gt;\(Q\)&lt;/span&gt;, which is given by
+&lt;span class=&#34;math display&#34;&gt;\[
+\Lambda_n := \left(\frac{q}{p}\right)^{X_n}\left(\frac{1-q}{1-p}\right)^{1-X_n},
+\]&lt;/span&gt;
+for a sequence of Bernoulli observations &lt;span class=&#34;math inline&#34;&gt;\(X_1, X_2, \dots \in \{0,1\}\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;If the stopping time happen (&lt;span class=&#34;math inline&#34;&gt;\(N &amp;lt; \infty\)&lt;/span&gt;) then we stop and reject the null hypothesis, so we conclude the coin is biased toward the head. This sequential test controls the type-1 error by &lt;span class=&#34;math inline&#34;&gt;\(\alpha\)&lt;/span&gt; as we have &lt;span class=&#34;math inline&#34;&gt;\(P(N &amp;lt; \infty) \leq \alpha\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;Now, by using the Lorden’s lemma, we can convert this sequential test into a change detection procedure &lt;span class=&#34;math inline&#34;&gt;\(N^*\)&lt;/span&gt;, which is given by
+&lt;span class=&#34;math display&#34;&gt;\[\begin{align*}
+ N^* &amp;amp;:= \min_{k \geq 1} \left\{N_k + k - 1\right\} \\
+ &amp;amp; =  \inf\left\{n \geq 1: \max_{k \geq 1}\sum_{i=k}^n \log\Lambda_i \geq \log(1/\alpha)\right\}.
+\end{align*}\]&lt;/span&gt;
+If the stopping time &lt;span class=&#34;math inline&#34;&gt;\(N^*\)&lt;/span&gt; happen (&lt;span class=&#34;math inline&#34;&gt;\(N^* &amp;lt; \infty\)&lt;/span&gt;) then we stop and declare that we detect a change. Note that this change detection procedure is nothing but repeated Wald’s SPRT at each time &lt;span class=&#34;math inline&#34;&gt;\(k\)&lt;/span&gt;. From the Lorden’s lemma, this online change detection procedure controls the ARL by &lt;span class=&#34;math inline&#34;&gt;\(1/\alpha\)&lt;/span&gt;, that is, we have &lt;span class=&#34;math inline&#34;&gt;\(\mathbb{E}_{\infty}[N^*] \geq 1/\alpha\)&lt;/span&gt;. In general, we cannot get the exact ARL control &lt;span class=&#34;math inline&#34;&gt;\(\mathbb{E}_{\infty}[N^*] = 1/\alpha\)&lt;/span&gt; by using the Lorden’s lemma. However, this method often performs almost as good as the optimal one. Especially for this Bernoulli case, if we replace the threshold &lt;span class=&#34;math inline&#34;&gt;\(\log(1/\alpha)\)&lt;/span&gt; with another constant &lt;span class=&#34;math inline&#34;&gt;\(a\)&lt;/span&gt; achieveing the exact ARL control then this procedure recovers the CUSUM procedrue which is known to be optimal procedure in this example.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;implementation&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Implementation&lt;/h2&gt;
+&lt;p&gt;The change detection procedure &lt;span class=&#34;math inline&#34;&gt;\(N^*\)&lt;/span&gt; can be implemented in an online fashion as follows:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Set &lt;span class=&#34;math inline&#34;&gt;\(M_0 := 0\)&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Update &lt;span class=&#34;math inline&#34;&gt;\(M_n := \max\{M_{n-1}, 0\} + \log \Lambda_n\)&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Make one of two following decisions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If &lt;span class=&#34;math inline&#34;&gt;\(M_n \geq \log(1/\alpha)\)&lt;/span&gt; then stop and declare a change happened.&lt;/li&gt;
+&lt;li&gt;Otherwise, continue to the next iteration.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div id=&#34;case-1.-no-change-happens-nu-infty&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Case 1. No change happens (&lt;span class=&#34;math inline&#34;&gt;\(\nu = \infty\)&lt;/span&gt;)&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(1)
+n_max &amp;lt;- 500L
+# This memory is not required but only for the simple visualization.
+m_vec &amp;lt;- numeric(n_max)
+m &amp;lt;- 0
+# Unbiased coin toss example
+p_true &amp;lt;- 0.5
+# Set up the baseline likelihood ratio
+# Pre-change: p = 0.5
+# Post-change: q = 0.6 
+p &amp;lt;- 0.5
+q &amp;lt;- 0.6
+# ARL control at 1000
+alpha &amp;lt;- 1e-3 
+n_star &amp;lt;- Inf
+not_yet_detected &amp;lt;- TRUE
+for (i in 1:n_max) {
+  # Observe a new coin toss
+  x &amp;lt;- rbinom(1, 1, prob = p_true)
+  # Update the change statistic
+  m &amp;lt;- max(m, 0) + ifelse(x == 1, log(q/p), log((1-q)/(1-p)))
+  # Check whether the stopping time happens
+  if (m &amp;gt; log(1/alpha) &amp;amp; not_yet_detected) {
+    n_star &amp;lt;- i
+    not_yet_detected &amp;lt;- FALSE
+    # For the normal implementation, we can stop at the stopping time
+    # break
+  }
+  # Save the statistic for visualization
+  m_vec[i] &amp;lt;- m
+}
+plot(1:n_max, m_vec, type = &amp;quot;l&amp;quot;, xlab = &amp;quot;n&amp;quot;, ylab = expression(&amp;#39;M&amp;#39;[&amp;#39;n&amp;#39;]),
+     ylim = c(0, 20))
+abline(h = log(1/alpha), col = 2)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://shinjaehyeok.github.io/post/statistics/change_detection/1.from_sequential_test_to_change_detection_files/figure-html/binomial_cusum_eg1-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;if (!is.infinite(n_star)) {
+  abline(v = n_star, col = 2)
+  print(paste0(&amp;quot;Change detected at &amp;quot;, n_star))
+} else {
+  print(&amp;quot;No change detected&amp;quot;)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;No change detected&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In the first example, we keep using the fair coin and there is no change point (&lt;span class=&#34;math inline&#34;&gt;\(\nu = \infty\)&lt;/span&gt;).
+In this case, the change detection statistic &lt;span class=&#34;math inline&#34;&gt;\(M_n\)&lt;/span&gt; stays below the detection line &lt;span class=&#34;math inline&#34;&gt;\(y = \log(1/\alpha)\)&lt;/span&gt;, and thus we are correctly not detecting a change (&lt;span class=&#34;math inline&#34;&gt;\(N^* = \infty\)&lt;/span&gt;).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;case-2.-change-happens-at-nu-200&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Case 2. Change happens at &lt;span class=&#34;math inline&#34;&gt;\(\nu = 200\)&lt;/span&gt;&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(1)
+n_max &amp;lt;- 500L
+# This memory is not required but only for the simple visualization.
+m_vec &amp;lt;- numeric(n_max)
+m &amp;lt;- 0
+# Biased coin toss example
+p_pre &amp;lt;- 0.5
+p_post &amp;lt;- 0.6
+nu &amp;lt;- 200
+# Set up the baseline likelihood ratio
+# Pre-change: p = 0.5
+# Post-change: q = 0.6 
+p &amp;lt;- 0.5
+q &amp;lt;- 0.6
+# ARL control at 1000
+alpha &amp;lt;- 1e-3 
+n_star &amp;lt;- Inf
+not_yet_detected &amp;lt;- TRUE
+for (i in 1:n_max) {
+  # Observe a new coin toss
+  if (i &amp;lt; nu) {
+    x &amp;lt;- rbinom(1, 1, prob = p_pre)
+  } else {
+    x &amp;lt;- rbinom(1, 1, prob = p_post)
+  }
+  # Update the change statistic
+  m &amp;lt;- max(m, 0) + ifelse(x == 1, log(q/p), log((1-q)/(1-p)))
+  # Check whether the stopping time happens
+  if (m &amp;gt; log(1/alpha) &amp;amp; not_yet_detected) {
+    n_star &amp;lt;- i
+    not_yet_detected &amp;lt;- FALSE
+    # For the normal implemenation, we can stop at the stopping time
+    # break
+  }
+  # Save the statistic for visualization
+  m_vec[i] &amp;lt;- m
+}
+plot(1:n_max, m_vec, type = &amp;quot;l&amp;quot;, xlab = &amp;quot;n&amp;quot;, ylab = expression(&amp;#39;M&amp;#39;[&amp;#39;n&amp;#39;]),
+     ylim = c(0, 20))
+abline(h = log(1/alpha), col = 2)
+abline(v = nu, col = 1)
+if (!is.infinite(n_star)) {
+  abline(v = n_star, col = 2)
+  print(paste0(&amp;quot;Change detected at &amp;quot;, n_star))
+} else {
+  print(&amp;quot;No change detected&amp;quot;)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://shinjaehyeok.github.io/post/statistics/change_detection/1.from_sequential_test_to_change_detection_files/figure-html/binomial_cusum_eg2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Change detected at 288&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In the second example, we started with a fair coin but later switched to a biased coin (&lt;span class=&#34;math inline&#34;&gt;\(q = 0.6\)&lt;/span&gt;) at &lt;span class=&#34;math inline&#34;&gt;\(n = 200\)&lt;/span&gt;. Therefore the change point is &lt;span class=&#34;math inline&#34;&gt;\(\nu = 200\)&lt;/span&gt;.
+In this case, the change detection statistic &lt;span class=&#34;math inline&#34;&gt;\(M_n\)&lt;/span&gt; stays below the detection line &lt;span class=&#34;math inline&#34;&gt;\(y = \log(1/\alpha)\)&lt;/span&gt; before the change point &lt;span class=&#34;math inline&#34;&gt;\(n = 200\)&lt;/span&gt; and starts to increase and across the detection line at &lt;span class=&#34;math inline&#34;&gt;\(n = 288\)&lt;/span&gt;. Therefore, we are correctly detecting a change with a detection delay &lt;span class=&#34;math inline&#34;&gt;\(N^* - \nu = 88\)&lt;/span&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;conclusion&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;The Lorden’s lemma tells us that repeated sequential tests can be used as a change detection procedure. Therefore, whenever we can do a sequential test, we can do also a change detection procedure, which is useful to monitor a silent change in the underlying distribution.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn1&#34;&gt;&lt;p&gt;In many real applications, the pre-change distribution &lt;span class=&#34;math inline&#34;&gt;\(P\)&lt;/span&gt; is often known or can be estimated accurately based on previous sample history under the normal condition. However, the post-change distribution is often unknown. Designing an online change detector that is efficient over a large class of “potential” post-change distributions is still an active research area. See, e.g., &lt;a href=&#34;https://arxiv.org/pdf/2203.03532.pdf&#34;&gt;arXiv&lt;/a&gt; and the reference therein.&lt;a href=&#34;#fnref1&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li id=&#34;fn2&#34;&gt;&lt;p&gt;Original Lorden’s lemma has a stronger upper bound on WAD but in this post, I simplified it a bit.&lt;a href=&#34;#fnref2&#34; class=&#34;footnote-back&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Advantages of Sequential Hypothesis Testing: 2. Flexibility and Safety</title>
