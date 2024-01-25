@@ -787,7 +787,7 @@ sequential_simulator &lt;- function(n, sig_x, sig_y, group_size = 20) {
 <pre class="r"><code>set.seed(100)
 alpha &lt;- 0.05
 n_fixed &lt;- 200
-b &lt;- 5000
+b &lt;- 1000
 sig_x &lt;- 1/2
 sig_y &lt;- sig_x
 group_size &lt;- 20
@@ -816,8 +816,8 @@ curve(dt(x, df = group_size - 1),
       col=&quot;darkred&quot;, lwd=2, add=TRUE, yaxt=&quot;n&quot;)</code></pre>
 <p><img src="/post/statistics/sequential_test_for_ratio_of_means/sequential_test_for_ratio_of_means_files/figure-html/fixed%20sample-2.png" width="672" />
 In this simulation study, we generate two independent and identical groups of samples from the log normal distribution, logNormal(0, 1/2^2) of the size 200.
-We repeat this simulation run for 5000 times.</p>
-<p>Above, we plot histograms of simulated log ratios and their bias-corrected estimates normalized by the grouped Jackknife variance estimates with the group size of 20. freedom blue line corresponds to the density of the standard normal distribution and the red line is for the t-distribution with 19 degree of freedom. We can see the log ratio and its bias-corrected estimates are well-approximated by Normal and t-distributions.</p>
+We repeat this simulation run for 1000 times.</p>
+<p>Above, we plot histograms of simulated log ratios and their bias-corrected estimates normalized by the grouped Jackknife variance estimates with the group size of 20. The blue line corresponds to the density of the standard normal distribution and the red line is for the t-distribution with 19 degree of freedom. We can see the log ratio and its bias-corrected estimates are well-approximated by normal and t-distributions.</p>
 </div>
 <div id="t-test-for-a-fixed-sample-size" class="section level1">
 <h1>T-test for a fixed sample size</h1>
@@ -834,8 +834,8 @@ t_test_result &lt;- t_test(b_vec, s_vec)
 print(&quot;Type-1 error is&quot;)</code></pre>
 <pre><code>## [1] &quot;Type-1 error is&quot;</code></pre>
 <pre class="r"><code>print(mean(t_test_result))</code></pre>
-<pre><code>## [1] 0.0516</code></pre>
-<p>Here, we run fixed sample size t-test of level 0.05 for 5000 times. As expected, t-test with Jackknife estimates controls the type-1 error at the target level.</p>
+<pre><code>## [1] 0.058</code></pre>
+<p>Here, we run fixed sample size t-test of level 0.05 for 1000 times. As expected, t-test with Jackknife estimates controls the type-1 error at the target level within the simulation error bound.</p>
 <div id="t-test-cannot-be-used-for-a-sequential-setup." class="section level2">
 <h2>T-test cannot be used for a sequential setup.</h2>
 <pre class="r"><code>n &lt;- 500 
@@ -854,8 +854,8 @@ seq_t_test_result &lt;- sapply(1:b, seq_t_test_for_each_run, alpha = alpha)
 print(&quot;Type-1 error is&quot;)</code></pre>
 <pre><code>## [1] &quot;Type-1 error is&quot;</code></pre>
 <pre class="r"><code>print(mean(seq_t_test_result))</code></pre>
-<pre><code>## [1] 0.6186</code></pre>
-<p>As same as the usual t-test, if we run t-test sequentially whenever a new data comes, type-1 error of the test significantly inflated and no longer control the error at the target level. Usually, sequential test is designed to run indefinitely and, from the law of the iterated logarithm, we know the type-1 error will go up to 1 eventually. For a sake of demonstration, we only run t-test sequentially up to 500 samples. However, at n = 500, the type-1 error already reached at 0.6186, which is significantly higher than the target level 0.05.</p>
+<pre><code>## [1] 0.635</code></pre>
+<p>As same as the usual t-test, if we run t-test sequentially whenever a new data comes, type-1 error of the test significantly will be inflated and no longer control the error at the target level. Usually, sequential test is designed to run indefinitely and, from the law of the iterated logarithm, we know the type-1 error will go up to 1 eventually. As a demonstration, we only run the t-test sequentially up to 500 samples. However, at n = 500, the type-1 error already reached at 0.635, which is significantly higher than the target level 0.05.</p>
 </div>
 </div>
 <div id="sequential-normal-test-with-jackknife-variance-estimate." class="section level1">
@@ -863,7 +863,7 @@ print(&quot;Type-1 error is&quot;)</code></pre>
 <pre class="r"><code>library(stcpR6)
 
 log_ratio_lower &lt;- 0.01
-log_ratio_upper &lt;- 0.1
+log_ratio_upper &lt;- 0.2
 
 st_normal &lt;- stcpR6::Stcp$new(
   method = &quot;ST&quot;,
@@ -918,15 +918,14 @@ st_normal_test_result &lt;- sapply(1:b,
 print(&quot;Type-1 error is&quot;)</code></pre>
 <pre><code>## [1] &quot;Type-1 error is&quot;</code></pre>
 <pre class="r"><code>print(mean(st_normal_test_result))</code></pre>
-<pre><code>## [1] 0.0324</code></pre>
-<p>To evaluate the type-1 error of the sequential normal test with variance estimates, we used <a href="https://github.com/shinjaehyeok/stcpR6"><code>stcpR6</code></a> package supporting various sequential testing and change-point detection algorithms. In this simulation, we use the sequential normal test setup designed to detect log ratio of two means with the size between [0.01, 0.1] effectively under the alternative.</p>
+<pre><code>## [1] 0.049</code></pre>
+<p>To evaluate the type-1 error of the sequential normal test with variance estimates, we used <a href="https://github.com/shinjaehyeok/stcpR6"><code>stcpR6</code></a> package supporting various sequential testing and change-point detection algorithms. In this simulation, we use the sequential normal test setup designed to detect log ratio of two means with the size between [0.01, 0.2] effectively under the alternative.</p>
 <p>Originally, this sequential test object is designed to take the sample mean and the reciprocal of its true variance at each time to decide whether it should reject the null or not. Instead, in this simulation, we put the bias-corrected estimate and the reciprocal of the estimated variance as naive proxies.</p>
-<p>Unlike the t-test example above, this sequential normal test with Jackknife variance estimate results in the type-1 error of 0.032, which is under the target level even after 500 samples. It would be interesting to see whether the type-1 error keep remaining below the target level as the number of sample size increase but for the sake of time, we only run the simulation up to 500 samples.</p>
+<p>Unlike the t-test example above, this sequential normal test with Jackknife variance estimate results in the type-1 error of 0.049, which is under the target level within the simulation error bound after 500 samples. It would be interesting to see whether the type-1 error keep remaining below the target level as the number of sample size increase but for the sake of time, we only run the simulation up to 500 samples.</p>
 </div>
 <div id="comparison-of-powers-of-tests" class="section level1">
 <h1>Comparison of powers of tests</h1>
 <pre class="r"><code>set.seed(100)
-b &lt;- 5000
 sig_x &lt;- 1/2
 sig_y_under_h1 &lt;- 1/10
 
@@ -944,8 +943,8 @@ s_vec_under_h1 &lt;- sqrt(fixed_runs_under_h1[&quot;variance_estimate&quot;,])</
 print(&quot;Power of the t-test is&quot;)</code></pre>
 <pre><code>## [1] &quot;Power of the t-test is&quot;</code></pre>
 <pre class="r"><code>print(mean(t_test_result_under_h1))</code></pre>
-<pre><code>## [1] 0.8558</code></pre>
-<p>Now, it is natural to ask whether the sequential normal test is sample-efficient under alternatives. As a reference, we simulate the power of the fixed sample size t-test. For the alternative scenario, We picked logNormal(0, 1/2^2) and logNormal(0, 1/3^2) distributions and compared log ratio of two means. The true log ratio of two means is given by -0.069. With the fixed sample size of 200, the power of the fixed sample t-test is given by 0.856.</p>
+<pre><code>## [1] 0.846</code></pre>
+<p>Now, it is natural to ask whether the sequential normal test is sample-efficient under alternatives. As a reference, we simulate the power of the fixed sample size t-test. For the alternative scenario, We picked logNormal(0, 1/2^2) and logNormal(0, 1/10^2) distributions and compared log ratio of two means. The true log ratio of two means is given by -0.12. With the fixed sample size of 200, the power of the fixed sample t-test is given by 0.846.</p>
 <pre class="r"><code>sequential_runs_under_h1 &lt;- replicate(b, sequential_simulator(n, sig_x, sig_y_under_h1, group_size = group_size))
 
 b_list_under_h1 &lt;- sequential_runs_under_h1[&quot;bias_corrected&quot;,]
@@ -994,7 +993,7 @@ st_normal_test_for_each_run_under_h1 &lt;- function(ind, alpha = 0.05) {
   stopped_time &lt;- which(abs(st_normal$getStoppedTime() - n_cumsum) &lt; 1e-8)
     
   return(c(
-    stopped_time = ifelse(length(stopped_time) == 0, n, max(stopped_time)),
+    stopped_time = ifelse(length(stopped_time) == 0, n, max(stopped_time) + group_size),
     is_stopped = st_normal$isStopped()
     )
   )
@@ -1009,12 +1008,12 @@ is_stopped &lt;- st_normal_test_result_under_h1[&quot;is_stopped&quot;, ]
 print(&quot;Power of the test and average stopped time are&quot;)</code></pre>
 <pre><code>## [1] &quot;Power of the test and average stopped time are&quot;</code></pre>
 <pre class="r"><code>print(c(mean(is_stopped), mean(stopped_time)))</code></pre>
-<pre><code>## [1]   0.9772 195.0054</code></pre>
-<p>For the sake of simple simulation, we run the each simulation only up to 500 samples as same as the previous type-1 error simulation case. Then, we measure both the power of the sequential normal test up to the horizon 500 and the average of the stopped time. From the simulation, we observed that the sequential normal test achieved a higher power 0.98 while the average of the stopped time 195.01 is lower than the fixed sample size 200 of the previous t-test simulation.</p>
+<pre><code>## [1]   0.985 181.394</code></pre>
+<p>For the sake of simple simulation, we run the each simulation only up to 500 samples as same as the previous type-1 error simulation case. Then, we measure both the power of the sequential normal test up to the horizon 500 and the average of the stopped time. From the simulation, we observed that the sequential normal test achieved a 16.43% higher power 0.98 while the average of the stopped time 181.39 is -9.3 % lower then the fixed sample size 200 of the previous t-test simulation.</p>
 </div>
 <div id="conclusion" class="section level1">
 <h1>Conclusion</h1>
-<p>In this post, we reviewed the validity and effectiveness of the fixed sample size t-test for testing log ratio of two means via grouped Jackknife estimates. Then we explored whether we can use the sequential normal test with grouped Jackknife estimates to build a valid and effective sequential testing process. Although there is no formal proof of the validity, the simulation showed, at this the logNormal two sample testing case, the sequential normal test resulted in a valid type-1 error control and yielded a high power and sample efficiency under the alternative.</p>
+<p>In this post, we reviewed the validity and effectiveness of the fixed sample size t-test for testing log ratio of two means via grouped Jackknife estimates. Then we explored whether we can use the sequential normal test with grouped Jackknife estimates to build a valid and effective sequential testing process. Although there is no formal proof of the validity, the simulation showed, at least for this logNormal two sample testing case, the sequential normal test resulted in a valid type-1 error control and yielded a high power and sample efficiency under the alternative.</p>
 </div>
 
     </div>
