@@ -5,12 +5,348 @@
     <link>https://shinjaehyeok.github.io/tag/inference/</link>
       <atom:link href="https://shinjaehyeok.github.io/tag/inference/index.xml" rel="self" type="application/rss+xml" />
     <description>inference</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>Copyright 2023 Jaehyeok Shin. All rights reserved.</copyright><lastBuildDate>Sat, 22 Oct 2022 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>Copyright 2024 Jaehyeok Shin. All rights reserved.</copyright><lastBuildDate>Wed, 24 Jan 2024 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://shinjaehyeok.github.io/images/icon_huc50b28ae5ce84fcc767e7691e9c0c0ae_20181_512x512_fill_lanczos_center_3.png</url>
       <title>inference</title>
       <link>https://shinjaehyeok.github.io/tag/inference/</link>
     </image>
+    
+    <item>
+      <title>Sequential test for ratio of two means</title>
+      <link>https://shinjaehyeok.github.io/post/statistics/sequential_test_for_ratio_of_means/sequential_test_for_ratio_of_means/</link>
+      <pubDate>Wed, 24 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://shinjaehyeok.github.io/post/statistics/sequential_test_for_ratio_of_means/sequential_test_for_ratio_of_means/</guid>
+      <description>
+
+
+&lt;p&gt;When comparing means of two non-negative random variables, we are often interested in the ratio of two means since the ratio does not depend on the scale of underlying distributions. A typical statistical test for the ratio of two means is based on either the ratio of two sample means or its logarithmic value.&lt;/p&gt;
+&lt;p&gt;For the fixed sample size case, by the delta method, the log ratio of two sample means can be approximated by a normal distribution. Therefore, we can build an asymptotically valid z-test or t-test for a large enough fixed sample size. Since the log ratio can be approximated by a normal distribution, it is natural to ask whether the sequential normal test can be applied to the sequence of logs of ratios too.&lt;/p&gt;
+&lt;p&gt;From the author’s best knowledge, the validity of the normal approximation in the sequential testing setup is not yet fully understood. As a practitioner, in this post, we simulate the type-1 error of the sequential normal test to examine whether we may practically use the sequential normal test to continuously monitor the ratio of two means.&lt;/p&gt;
+&lt;p&gt;Specifically, we will use a naive plug-in method of the following steps:&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;Estimate the variance of the log ratio of two sample means via the grouped jackknife method.&lt;/li&gt;
+&lt;li&gt;Naively treat the log ratio of sample means as an observed sample mean and apply a normal sequential test by plugging-in the variance estimate from the previous step.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Before diving into the sequential test simulation, let’s first review the fixed sample size case.&lt;/p&gt;
+&lt;div id=&#34;asymptotic-distribution-of-log-ratio-of-two-sample-means&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Asymptotic distribution of log ratio of two sample means&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;group_jackknife_variance_estimator &amp;lt;- function(x_vec, y_vec, group_size = 20) {
+  group_sum_helper &amp;lt;- function(vec, group_ind) {
+    sum(vec[seq_along(vec) %% group_size == group_ind])
+  }
+  x_grouped_sum &amp;lt;- sapply(seq(0, group_size - 1), group_sum_helper, vec = x_vec)
+  y_grouped_sum &amp;lt;- sapply(seq(0, group_size - 1), group_sum_helper, vec = y_vec)
+  
+  x_sum &amp;lt;- sum(x_vec)
+  y_sum &amp;lt;- sum(y_vec)
+  
+  log_total_ratio &amp;lt;- log(y_sum / x_sum)
+  
+  loo_ratio_vec &amp;lt;- (y_sum - y_grouped_sum) / (x_sum - x_grouped_sum)
+  loo_log_ratio_vec &amp;lt;- log(loo_ratio_vec)
+
+  return(var(group_size * log_total_ratio - (group_size-1) * loo_log_ratio_vec) / (group_size))
+}
+
+group_jackknife_bias_corrected_estimator &amp;lt;- function(x_vec, y_vec, group_size = 20) {
+  group_sum_helper &amp;lt;- function(vec, group_ind) {
+    sum(vec[seq_along(vec) %% group_size == group_ind])
+  }
+  x_grouped_sum &amp;lt;- sapply(seq(0, group_size - 1), group_sum_helper, vec = x_vec)
+  y_grouped_sum &amp;lt;- sapply(seq(0, group_size - 1), group_sum_helper, vec = y_vec)
+  
+  x_sum &amp;lt;- sum(x_vec)
+  y_sum &amp;lt;- sum(y_vec)
+  
+  log_total_ratio &amp;lt;- log(y_sum / x_sum)
+  
+  loo_ratio_vec &amp;lt;- (y_sum - y_grouped_sum) / (x_sum - x_grouped_sum)
+  loo_log_ratio_vec &amp;lt;- log(loo_ratio_vec)
+
+  return(group_size * log_total_ratio - (group_size - 1) * mean(loo_log_ratio_vec))
+}
+
+fixed_size_simulator &amp;lt;- function(n, sig_x, sig_y, group_size = 20) {
+  # We use log normal distribution logNormal(0, sig^2) for each group.
+  x_vec &amp;lt;- exp(rnorm(n, 0, sig_x))
+  y_vec &amp;lt;- exp(rnorm(n, 0, sig_y))
+  
+  log_sample_ratio &amp;lt;- log(sum(y_vec) / sum(x_vec))
+  bias_corrected &amp;lt;- group_jackknife_bias_corrected_estimator(x_vec, y_vec, group_size)
+  variance_estimate &amp;lt;- group_jackknife_variance_estimator(x_vec, y_vec, group_size)
+  
+  out &amp;lt;- c(
+    log_sample_ratio = log_sample_ratio,
+    bias_corrected = bias_corrected,
+    variance_estimate = variance_estimate
+  )
+  
+  return(out)
+}
+
+sequential_simulator &amp;lt;- function(n, sig_x, sig_y, group_size = 20) {
+  # We use log normal distribution logNormal(0, sig^2) for each group.
+  x_vec &amp;lt;- exp(rnorm(n, 0, sig_x))
+  y_vec &amp;lt;- exp(rnorm(n, 0, sig_y))
+  
+  # Compute a sequence of logs of ratios of sample means and their variances.
+  log_sample_ratio_vec &amp;lt;- log(cumsum(y_vec) / cumsum(x_vec))
+  variance_estimator &amp;lt;- function(i) {
+    return(group_jackknife_variance_estimator(x_vec[1:i], y_vec[1:i], group_size))
+  }
+  
+  variance_estimate_vec &amp;lt;- sapply(seq_along(x_vec), variance_estimator)
+  
+  
+  bias_corrected_estimator &amp;lt;- function(i) {
+    return( group_jackknife_bias_corrected_estimator(x_vec[1:i], y_vec[1:i], group_size))
+  }
+  
+  bias_corrected_vec &amp;lt;- sapply(seq_along(x_vec), bias_corrected_estimator)
+  
+  out &amp;lt;- data.frame(
+    log_sample_ratio = log_sample_ratio_vec,
+    bias_corrected = bias_corrected_vec,
+    variance_estimate = variance_estimate_vec
+  )
+  
+  return(out)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(100)
+alpha &amp;lt;- 0.05
+n_fixed &amp;lt;- 200
+b &amp;lt;- 5000
+sig_x &amp;lt;- 1/2
+sig_y &amp;lt;- sig_x
+group_size &amp;lt;- 20
+
+fixed_runs &amp;lt;- replicate(b, fixed_size_simulator(n_fixed, sig_x, sig_y, group_size = group_size))
+m_vec &amp;lt;- fixed_runs[&amp;quot;log_sample_ratio&amp;quot;, ]
+b_vec &amp;lt;- fixed_runs[&amp;quot;bias_corrected&amp;quot;,]
+s_vec &amp;lt;- sqrt(fixed_runs[&amp;quot;variance_estimate&amp;quot;,])
+
+hist(m_vec / s_vec, breaks = 20, prob=TRUE,
+     main = &amp;quot;Distribution of log ratio of sample means&amp;quot;,
+     xlab = &amp;quot;log ratio of sample mean&amp;quot;,
+     ylim = c(0,0.4), xlim = c(-4,4))
+curve(dnorm(x, mean=0, sd=1), 
+      col=&amp;quot;darkblue&amp;quot;, lwd=2, add=TRUE, yaxt=&amp;quot;n&amp;quot;)
+curve(dt(x, df = group_size - 1), 
+      col=&amp;quot;darkred&amp;quot;, lwd=2, add=TRUE, yaxt=&amp;quot;n&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://shinjaehyeok.github.io/post/statistics/sequential_test_for_ratio_of_means/sequential_test_for_ratio_of_means_files/figure-html/fixed%20sample-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;hist(b_vec / s_vec, breaks = 20, prob=TRUE,
+     main = &amp;quot;Distribution of bias-corrected estimates&amp;quot;,
+     xlab = &amp;quot; bias-corrected estimates&amp;quot;,
+     ylim = c(0,0.4), xlim = c(-4,4))
+curve(dnorm(x, mean=0, sd=1), 
+      col=&amp;quot;darkblue&amp;quot;, lwd=2, add=TRUE, yaxt=&amp;quot;n&amp;quot;)
+curve(dt(x, df = group_size - 1), 
+      col=&amp;quot;darkred&amp;quot;, lwd=2, add=TRUE, yaxt=&amp;quot;n&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://shinjaehyeok.github.io/post/statistics/sequential_test_for_ratio_of_means/sequential_test_for_ratio_of_means_files/figure-html/fixed%20sample-2.png&#34; width=&#34;672&#34; /&gt;
+In this simulation study, we generate two independent and identical groups of samples from the log normal distribution, logNormal(0, 1/2^2) of the size 200.
+We repeat this simulation run for 5000 times.&lt;/p&gt;
+&lt;p&gt;Above, we plot histograms of simulated log ratios and their bias-corrected estimates normalized by the grouped Jackknife variance estimates with the group size of 20. freedom blue line corresponds to the density of the standard normal distribution and the red line is for the t-distribution with 19 degree of freedom. We can see the log ratio and its bias-corrected estimates are well-approximated by Normal and t-distributions.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;t-test-for-a-fixed-sample-size&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;T-test for a fixed sample size&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;t_alpha_over_2 &amp;lt;- qt(1-alpha / 2, df = group_size - 1)
+
+t_test &amp;lt;- function(m, s, alpha = 0.05){
+  t_value &amp;lt;- m/s
+  is_rejected &amp;lt;- abs(t_value) &amp;gt; t_alpha_over_2
+  return(ifelse(is.na(is_rejected), FALSE, is_rejected))
+}
+
+t_test_result &amp;lt;- t_test(b_vec, s_vec)
+
+print(&amp;quot;Type-1 error is&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Type-1 error is&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;print(mean(t_test_result))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.0516&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Here, we run fixed sample size t-test of level 0.05 for 5000 times. As expected, t-test with Jackknife estimates controls the type-1 error at the target level.&lt;/p&gt;
+&lt;div id=&#34;t-test-cannot-be-used-for-a-sequential-setup.&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;T-test cannot be used for a sequential setup.&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;n &amp;lt;- 500 
+sequential_runs &amp;lt;- replicate(b, sequential_simulator(n, sig_x, sig_y, group_size = group_size))
+
+m_list &amp;lt;- sequential_runs[&amp;quot;log_sample_ratio&amp;quot;,]
+b_list &amp;lt;- sequential_runs[&amp;quot;bias_corrected&amp;quot;,]
+s_list &amp;lt;- lapply(sequential_runs[&amp;quot;variance_estimate&amp;quot;,], sqrt)
+
+seq_t_test_for_each_run &amp;lt;- function(ind, alpha = 0.05) {
+  return(any(t_test(b_list[[ind]], s_list[[ind]], alpha)))
+}
+
+seq_t_test_result &amp;lt;- sapply(1:b, seq_t_test_for_each_run, alpha = alpha)
+
+print(&amp;quot;Type-1 error is&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Type-1 error is&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;print(mean(seq_t_test_result))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.6186&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;As same as the usual t-test, if we run t-test sequentially whenever a new data comes, type-1 error of the test significantly inflated and no longer control the error at the target level. Usually, sequential test is designed to run indefinitely and, from the law of the iterated logarithm, we know the type-1 error will go up to 1 eventually. For a sake of demonstration, we only run t-test sequentially up to 500 samples. However, at n = 500, the type-1 error already reached at 0.6186, which is significantly higher than the target level 0.05.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;sequential-normal-test-with-jackknife-variance-estimate.&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Sequential normal test with Jackknife variance estimate.&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(stcpR6)
+
+log_ratio_lower &amp;lt;- 0.01
+log_ratio_upper &amp;lt;- 0.1
+
+st_normal &amp;lt;- stcpR6::Stcp$new(
+  method = &amp;quot;ST&amp;quot;,
+  family = &amp;quot;Normal&amp;quot;,
+  alternative = &amp;quot;two.sided&amp;quot;,
+  threshold = log(1/alpha), # level alpha test
+  m_pre = 0,  # Null: log ratio = 0
+  delta_lower = log_ratio_lower, # Lower bound of the size of log ratio
+  delta_upper = log_ratio_upper  # Upper bound of the size of log ratio
+)
+
+# Note the upper and low bounds do not affect the validity of the testing procedure.
+# It only affects the sample efficiency under the alternative.
+
+st_normal_test_for_each_run &amp;lt;- function(ind, alpha = 0.05) {
+ 
+  # We start the test after group_size samples.
+  
+  # 1/variance estimates.
+  n_cumsum &amp;lt;- (1/s_list[[ind]]^2)[-seq(1,group_size)]
+  # Get an incremental 1/variance estimate of each time by taking the diff
+  n_vec &amp;lt;- c(n_cumsum[1], n_cumsum[-1] - n_cumsum[-length(n_cumsum)])
+  # Set 0 if we have no meaningful variance estimate.
+  n_vec[is.nan(n_vec)|is.na(n_vec)] &amp;lt;- 0
+
+  # Get cumulative sum process by multiplying bias-corrected estimates and 1/variances.    
+  s_cumsum &amp;lt;- b_list[[ind]][-seq(1,group_size)] * n_cumsum
+  # Get an incremental sum process.
+  s_vec &amp;lt;- c(s_cumsum[1], s_cumsum[-1] - s_cumsum[-length(s_cumsum)])
+  # Compute the normalized incremental process.
+  b_vec &amp;lt;- s_vec / n_vec
+  # Set 0 if we have no meaningful estimate.
+  b_vec[is.nan(b_vec)|is.na(b_vec)] &amp;lt;- 0
+ 
+  # Initialize stcp object to start sequential test
+  st_normal$reset()
+  # Run the sequential test by naively treating
+  # the normalized incremental process as sample mean
+  # and the 1/variance process as the true 1/variance process.
+  st_normal$updateLogValuesUntilStopByAvgs(
+    x_bars = b_vec,
+    ns = n_vec
+  )
+    
+  return(st_normal$isStopped())
+}
+
+st_normal_test_result &amp;lt;- sapply(1:b, 
+                                st_normal_test_for_each_run,
+                                alpha)
+
+print(&amp;quot;Type-1 error is&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Type-1 error is&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;print(mean(st_normal_test_result))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.0324&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;To evaluate the type-1 error of the sequential normal test with variance estimates, we used &lt;a href=&#34;https://github.com/shinjaehyeok/stcpR6&#34;&gt;&lt;code&gt;stcpR6&lt;/code&gt;&lt;/a&gt; package supporting various sequential testing and change-point detection algorithms. In this simulation, we use the sequential normal test setup designed to detect log ratio of two means with the size between [0.01, 0.1] effectively under the alternative.&lt;/p&gt;
+&lt;p&gt;Originally, this sequential test object is designed to take the sample mean and the reciprocal of its true variance at each time to decide whether it should reject the null or not. Instead, in this simulation, we put the bias-corrected estimate and the reciprocal of the estimated variance as naive proxies.&lt;/p&gt;
+&lt;p&gt;Unlike the t-test example above, this sequential normal test with Jackknife variance estimate results in the type-1 error of 0.032, which is under the target level even after 500 samples. It would be interesting to see whether the type-1 error keep remaining below the target level as the number of sample size increase but for the sake of time, we only run the simulation up to 500 samples.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;comparison-of-powers-of-tests&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Comparison of powers of tests&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(100)
+b &amp;lt;- 5000
+sig_x &amp;lt;- 1/2
+sig_y_under_h1 &amp;lt;- 1/10
+
+fixed_runs_under_h1 &amp;lt;- replicate(b, fixed_size_simulator(
+  n_fixed, 
+  sig_x, 
+  sig_y_under_h1, 
+  group_size))
+
+b_vec_under_h1 &amp;lt;- fixed_runs_under_h1[&amp;quot;bias_corrected&amp;quot;,]
+s_vec_under_h1 &amp;lt;- sqrt(fixed_runs_under_h1[&amp;quot;variance_estimate&amp;quot;,])&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;So far, we study the validity of t-test and sequential normal test for log ratio of two means via simulations. Especially, we checked that the sequential normal test with Jackknife bias-corrected estimates and variance estimates seems to control the type-1 error, at least in this specific simulation setup.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;t_test_result_under_h1 &amp;lt;- t_test(b_vec_under_h1, s_vec_under_h1)
+
+print(&amp;quot;Power of the t-test is&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Power of the t-test is&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;print(mean(t_test_result_under_h1))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.8558&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now, it is natural to ask whether the sequential normal test is sample-efficient under alternatives. As a reference, we simulate the power of the fixed sample size t-test. For the alternative scenario, We picked logNormal(0, 1/2^2) and logNormal(0, 1/3^2) distributions and compared log ratio of two means. The true log ratio of two means is given by -0.069. With the fixed sample size of 200, the power of the fixed sample t-test is given by 0.856.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sequential_runs_under_h1 &amp;lt;- replicate(b, sequential_simulator(n, sig_x, sig_y_under_h1, group_size = group_size))
+
+b_list_under_h1 &amp;lt;- sequential_runs_under_h1[&amp;quot;bias_corrected&amp;quot;,]
+s_list_under_h1 &amp;lt;- lapply(sequential_runs_under_h1[&amp;quot;variance_estimate&amp;quot;,], sqrt)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;For the sequential normal case, ideally, we need to run the each simulation until the null hypothesis is rejected since the sequential test is designed to be a power of 1 test, and its efficiency is measured by the expected stopping time under the alternative.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;st_normal &amp;lt;- stcpR6::Stcp$new(
+  method = &amp;quot;ST&amp;quot;,
+  family = &amp;quot;Normal&amp;quot;,
+  alternative = &amp;quot;two.sided&amp;quot;,
+  threshold = log(1/alpha), # level alpha test
+  m_pre = 0,  # Null: log ratio = 0
+  delta_lower = log_ratio_lower, # Lower bound of the size of log ratio
+  delta_upper = log_ratio_upper  # Upper bound of the size of log ratio
+)
+
+st_normal_test_for_each_run_under_h1 &amp;lt;- function(ind, alpha = 0.05) {
+ 
+  # We start the test after group_size samples.
+  
+  # 1/variance estimates.
+  n_cumsum &amp;lt;- (1/s_list_under_h1[[ind]]^2)[-seq(1,group_size)]
+  # Get an incremental 1/variance estimate of each time by taking the diff
+  n_vec &amp;lt;- c(n_cumsum[1], n_cumsum[-1] - n_cumsum[-length(n_cumsum)])
+  # Set 0 if we have no meaningful variance estimate.
+  n_vec[is.nan(n_vec)|is.na(n_vec)] &amp;lt;- 0
+
+  # Get cumulative sum process by multiplying bias-corrected estimates and 1/variances.    
+  s_cumsum &amp;lt;- b_list_under_h1[[ind]][-seq(1,group_size)] * n_cumsum
+  # Get an incremental sum process.
+  s_vec &amp;lt;- c(s_cumsum[1], s_cumsum[-1] - s_cumsum[-length(s_cumsum)])
+  # Compute the normalized incremental process.
+  b_vec &amp;lt;- s_vec / n_vec
+  # Set 0 if we have no meaningful estimate.
+  b_vec[is.nan(b_vec)|is.na(b_vec)] &amp;lt;- 0
+ 
+  # Initialize stcp object to start sequential test
+  st_normal$reset()
+  # Run the sequential test by naively treating
+  # the normalized incremental process as sample mean
+  # and the 1/variance process as the true 1/variance process.
+  st_normal$updateLogValuesUntilStopByAvgs(
+    x_bars = b_vec,
+    ns = n_vec
+  )
+  
+  stopped_time &amp;lt;- which(abs(st_normal$getStoppedTime() - n_cumsum) &amp;lt; 1e-8)
+    
+  return(c(
+    stopped_time = ifelse(length(stopped_time) == 0, n, max(stopped_time)),
+    is_stopped = st_normal$isStopped()
+    )
+  )
+}
+
+
+st_normal_test_result_under_h1  &amp;lt;- sapply(1:b, 
+                                          st_normal_test_for_each_run_under_h1, 
+                                          alpha)
+stopped_time &amp;lt;- st_normal_test_result_under_h1[&amp;quot;stopped_time&amp;quot;, ]
+is_stopped &amp;lt;- st_normal_test_result_under_h1[&amp;quot;is_stopped&amp;quot;, ]
+print(&amp;quot;Power of the test and average stopped time are&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Power of the test and average stopped time are&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;print(c(mean(is_stopped), mean(stopped_time)))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1]   0.9772 195.0054&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;For the sake of simple simulation, we run the each simulation only up to 500 samples as same as the previous type-1 error simulation case. Then, we measure both the power of the sequential normal test up to the horizon 500 and the average of the stopped time. From the simulation, we observed that the sequential normal test achieved a higher power 0.98 while the average of the stopped time 195.01 is lower than the fixed sample size 200 of the previous t-test simulation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;conclusion&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Conclusion&lt;/h1&gt;
+&lt;p&gt;In this post, we reviewed the validity and effectiveness of the fixed sample size t-test for testing log ratio of two means via grouped Jackknife estimates. Then we explored whether we can use the sequential normal test with grouped Jackknife estimates to build a valid and effective sequential testing process. Although there is no formal proof of the validity, the simulation showed, at this the logNormal two sample testing case, the sequential normal test resulted in a valid type-1 error control and yielded a high power and sample efficiency under the alternative.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>From Sequential Tests to Change Detections</title>

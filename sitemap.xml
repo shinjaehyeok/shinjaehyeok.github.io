@@ -2,8 +2,32 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://shinjaehyeok.github.io/tag/ab-test/</loc>
+    <lastmod>2024-01-24T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://shinjaehyeok.github.io/categories/</loc>
-    <lastmod>2022-10-22T00:00:00+00:00</lastmod>
+    <lastmod>2024-01-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://shinjaehyeok.github.io/tag/inference/</loc>
+    <lastmod>2024-01-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://shinjaehyeok.github.io/</loc>
+    <lastmod>2024-01-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://shinjaehyeok.github.io/post/</loc>
+    <lastmod>2024-01-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://shinjaehyeok.github.io/tag/sequential-test/</loc>
+    <lastmod>2024-01-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://shinjaehyeok.github.io/post/statistics/sequential_test_for_ratio_of_means/sequential_test_for_ratio_of_means/</loc>
+    <lastmod>2024-01-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://shinjaehyeok.github.io/category/statistics/</loc>
+    <lastmod>2024-01-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://shinjaehyeok.github.io/tags/</loc>
+    <lastmod>2024-01-24T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://shinjaehyeok.github.io/tag/change-detection/</loc>
     <lastmod>2022-10-22T00:00:00+00:00</lastmod>
@@ -13,27 +37,6 @@
   </url><url>
     <loc>https://shinjaehyeok.github.io/post/statistics/change_detection/from_seq_test_to_change_detection/</loc>
     <lastmod>2022-10-22T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://shinjaehyeok.github.io/tag/inference/</loc>
-    <lastmod>2022-10-22T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://shinjaehyeok.github.io/</loc>
-    <lastmod>2022-10-22T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://shinjaehyeok.github.io/post/</loc>
-    <lastmod>2022-10-22T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://shinjaehyeok.github.io/tag/sequential-test/</loc>
-    <lastmod>2022-10-22T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://shinjaehyeok.github.io/category/statistics/</loc>
-    <lastmod>2022-10-22T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://shinjaehyeok.github.io/tags/</loc>
-    <lastmod>2022-10-22T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://shinjaehyeok.github.io/tag/ab-test/</loc>
-    <lastmod>2022-06-05T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://shinjaehyeok.github.io/post/statistics/sequential_test_safety/sequential_test_flexibility_safety/</loc>
     <lastmod>2022-06-05T00:00:00+00:00</lastmod>
